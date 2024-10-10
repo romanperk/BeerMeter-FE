@@ -1,17 +1,17 @@
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { Routes, Route } from 'react-router-dom';
 import Home from './pages/Home';
 import BeerList from './pages/BeerList';
 import Auth from './pages/Auth';
+import NotFoundPage from './pages/NotFound';
 
 const AppRoutes = () => {
   return (
-    <Router>
-      <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/beerlist" element={<BeerList />} />
-        <Route path="/auth" element={<Auth />} />
-      </Routes>
-    </Router>
+    <Routes>
+      <Route path="/:uid/home" element={<Home />} />
+      <Route path="/:uid/beerlist" element={<BeerList />} />
+      <Route path="/auth" element={<Auth />} />
+      <Route path="*" element={<NotFoundPage />} />
+    </Routes>
   );
 };
 

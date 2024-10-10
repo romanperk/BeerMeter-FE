@@ -7,8 +7,13 @@ import {
 } from 'firebase/auth';
 import { auth } from '../services/firebase';
 import { Button, TextField, Typography, Container, Box } from '@mui/material';
+import { useDispatch } from 'react-redux';
+import { login } from '../redux/auth/slice';
+import { useNavigate } from 'react-router-dom';
 
 const Auth = () => {
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
   const [email, setEmail] = useState<string>('');
   const [password, setPassword] = useState<string>('');
   const [isLogin, setIsLogin] = useState<boolean>(true);
@@ -25,9 +30,10 @@ const Auth = () => {
         userCredential = await createUserWithEmailAndPassword(auth, email, password);
         alert('Signed up successfully');
       }
-      // Extract user ID
+
       const userId = userCredential.user.uid;
-      console.log('User ID:', userId); // Do something with the user ID
+      dispatch(login(userId));
+      navigate(`/${userId}/home`);
     } catch (error: any) {
       setError(`Authentication failed. Check your credentials. '${error.message}'`);
     }
@@ -39,7 +45,8 @@ const Auth = () => {
       const userCredential = await signInWithPopup(auth, provider);
       alert('Logged in with Google successfully');
       const userId = userCredential.user.uid;
-      console.log('User ID:', userId); // Do something with the user ID
+      dispatch(login(userId));
+      navigate(`/${userId}/home`);
     } catch (error: any) {
       setError(`Google sign-in failed: '${error.message}'`);
     }

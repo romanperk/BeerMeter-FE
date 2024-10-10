@@ -3,39 +3,39 @@ import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import SportsBarRoundedIcon from '@mui/icons-material/SportsBarRounded';
-import {
-  Avatar,
-  Box,
-  Divider,
-  Drawer,
-  IconButton,
-  List,
-  ListItem,
-  ListItemButton,
-  ListItemIcon,
-  ListItemText,
-  Menu,
-  MenuItem,
-  Tooltip,
-  useColorScheme,
-} from '@mui/material';
+import { Avatar, Box, IconButton, Menu, MenuItem, Tooltip, useColorScheme } from '@mui/material';
 import { useState } from 'react';
-import InboxIcon from '@mui/icons-material/MoveToInbox';
-import MailIcon from '@mui/icons-material/Mail';
 import MenuIcon from '@mui/icons-material/Menu';
 import DarkModeIcon from '@mui/icons-material/DarkMode';
 import LightModeIcon from '@mui/icons-material/LightMode';
-import { Home } from '@mui/icons-material';
-
-const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];
+import { useDispatch } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
+import { signOut } from 'firebase/auth';
+import { logout } from '../redux/auth/slice';
+import { auth } from '../services/firebase';
+import CustomDrawer from './Drawer';
 
 function CustomAppBar() {
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
   const [anchorElUser, setAnchorElUser] = useState<null | HTMLElement>(null);
   const [open, setOpen] = useState(false);
   const { mode, setMode } = useColorScheme();
   if (!mode) {
     return null;
   }
+
+  const handleLogout = async () => {
+    try {
+      await signOut(auth);
+      dispatch(logout());
+      navigate('/auth');
+      alert('Logged out successfully');
+    } catch (error: any) {
+      console.error('Error logging out:', error.message);
+      alert('Failed to log out');
+    }
+  };
 
   const toggleTheme = () => {
     setMode(mode === 'light' ? 'dark' : 'light');
@@ -52,43 +52,6 @@ function CustomAppBar() {
   const handleCloseUserMenu = () => {
     setAnchorElUser(null);
   };
-
-  const DrawerList = (
-    <Box sx={{ width: 250 }} role="presentation" onClick={toggleDrawer(false)}>
-      <List>
-        {['Home', 'Lists', 'Drinks', 'Food'].map((text, index) => (
-          <ListItem key={text} disablePadding>
-            <ListItemButton>
-              <ListItemIcon>{index % 2 === 0 ? <Home /> : <MailIcon />}</ListItemIcon>
-              <ListItemText primary={text} />
-            </ListItemButton>
-          </ListItem>
-        ))}
-      </List>
-      <Divider />
-      <List>
-        {['History', 'Favorite places'].map((text, index) => (
-          <ListItem key={text} disablePadding>
-            <ListItemButton>
-              <ListItemIcon>{index % 2 === 0 ? <InboxIcon /> : <MailIcon />}</ListItemIcon>
-              <ListItemText primary={text} />
-            </ListItemButton>
-          </ListItem>
-        ))}
-      </List>
-      <Divider />
-      <List>
-        {['Drinking buddies', 'General info'].map((text, index) => (
-          <ListItem key={text} disablePadding>
-            <ListItemButton>
-              <ListItemIcon>{index % 2 === 0 ? <InboxIcon /> : <MailIcon />}</ListItemIcon>
-              <ListItemText primary={text} />
-            </ListItemButton>
-          </ListItem>
-        ))}
-      </List>
-    </Box>
-  );
 
   return (
     <AppBar position="static">
@@ -109,9 +72,7 @@ function CustomAppBar() {
             >
               <MenuIcon />
             </IconButton>
-            <Drawer open={open} onClose={toggleDrawer(false)}>
-              {DrawerList}
-            </Drawer>
+            <CustomDrawer open={open} onClose={toggleDrawer(false)} />
           </Box>
           <SportsBarRoundedIcon />
           <Typography
@@ -153,7 +114,7 @@ function CustomAppBar() {
           <Box sx={{ flexGrow: 0 }}>
             <Tooltip title="Open settings">
               <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                <Avatar alt="Remy Sharp" src="/static/images/avatar/2.jpg" />
+                <Avatar alt="Roman Perk" />
               </IconButton>
             </Tooltip>
             <Menu
@@ -172,11 +133,9 @@ function CustomAppBar() {
               open={Boolean(anchorElUser)}
               onClose={handleCloseUserMenu}
             >
-              {settings.map((setting) => (
-                <MenuItem key={setting} onClick={handleCloseUserMenu}>
-                  <Typography sx={{ textAlign: 'center' }}>{setting}</Typography>
-                </MenuItem>
-              ))}
+              <MenuItem onClick={handleLogout}>
+                <Typography sx={{ textAlign: 'center' }}>Log out</Typography>
+              </MenuItem>
             </Menu>
           </Box>
         </Toolbar>
