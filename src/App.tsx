@@ -1,10 +1,13 @@
-import React from 'react';
-import CustomAppBar from './components/AppBar';
+import React, { useEffect, useState } from 'react';
+import CustomAppBar from './components/AppBar/AppBar';
 import { Box, createTheme, ThemeProvider } from '@mui/material';
-import { BrowserRouter } from 'react-router-dom';
+import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import { Provider } from 'react-redux';
-import store from './redux/auth/store';
+import store from './redux/store';
 import AppRoutes from './Routes';
+import { onAuthStateChanged, User } from 'firebase/auth';
+import { auth } from './services/firebase';
+import Auth from './pages/Auth';
 
 const theme = createTheme({
   colorSchemes: {
@@ -13,13 +16,45 @@ const theme = createTheme({
 });
 
 const App: React.FC = () => {
+  const [windowHeight, setWindowHeight] = useState(window.innerHeight);
+  const [user, setUser] = useState<User | null>(null);
+
+  useEffect(() => {
+    const handleResize = () => {
+      setWindowHeight(window.innerHeight);
+    };
+    window.addEventListener('resize', handleResize);
+    return () => {
+      window.removeEventListener('resize', handleResize);
+    };
+  }, []);
+
+  useEffect(() => {
+    const changeAuthState = onAuthStateChanged(auth, (currentUser) => {
+      setUser(currentUser);
+    });
+    return () => changeAuthState();
+  }, []);
+
   return (
     <BrowserRouter>
       <Provider store={store}>
         <ThemeProvider theme={theme}>
-          <CustomAppBar />
-          <Box sx={{ p: 2, height: '100vh', bgcolor: 'background.default', color: 'text.primary' }}>
-            <AppRoutes />
+          <Box
+            sx={{
+              height: `${windowHeight}px`,
+              bgcolor: 'background.default',
+              color: 'text.primary',
+            }}
+          >
+            <CustomAppBar user={user} />
+            {user ? (
+              <AppRoutes />
+            ) : (
+              <Routes>
+                <Route path="*" element={<Auth />} />
+              </Routes>
+            )}
           </Box>
         </ThemeProvider>
       </Provider>

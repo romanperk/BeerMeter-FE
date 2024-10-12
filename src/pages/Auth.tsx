@@ -1,14 +1,9 @@
 import React, { useState } from 'react';
-import {
-  createUserWithEmailAndPassword,
-  signInWithEmailAndPassword,
-  signInWithPopup,
-  GoogleAuthProvider,
-} from 'firebase/auth';
+import { createUserWithEmailAndPassword, signInWithEmailAndPassword, signInWithPopup, GoogleAuthProvider } from 'firebase/auth';
 import { auth } from '../services/firebase';
 import { Button, TextField, Typography, Container, Box } from '@mui/material';
 import { useDispatch } from 'react-redux';
-import { login } from '../redux/auth/slice';
+import { login } from '../redux/auth/authSlice';
 import { useNavigate } from 'react-router-dom';
 
 const Auth = () => {
@@ -25,17 +20,15 @@ const Auth = () => {
       let userCredential;
       if (isLogin) {
         userCredential = await signInWithEmailAndPassword(auth, email, password);
-        alert('Logged in successfully');
       } else {
         userCredential = await createUserWithEmailAndPassword(auth, email, password);
-        alert('Signed up successfully');
       }
 
       const userId = userCredential.user.uid;
       dispatch(login(userId));
-      navigate(`/${userId}/home`);
-    } catch (error: any) {
-      setError(`Authentication failed. Check your credentials. '${error.message}'`);
+      navigate(`/`);
+    } catch {
+      setError(`Authentication failed. Check your credentials.`);
     }
   };
 
@@ -43,12 +36,11 @@ const Auth = () => {
     const provider = new GoogleAuthProvider();
     try {
       const userCredential = await signInWithPopup(auth, provider);
-      alert('Logged in with Google successfully');
       const userId = userCredential.user.uid;
       dispatch(login(userId));
-      navigate(`/${userId}/home`);
-    } catch (error: any) {
-      setError(`Google sign-in failed: '${error.message}'`);
+      navigate(`/`);
+    } catch {
+      setError(`Google sign-in failed`);
     }
   };
 
@@ -69,7 +61,7 @@ const Auth = () => {
           />
           <TextField
             variant="outlined"
-            type="password"
+            type="current-password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
             placeholder="Password"
