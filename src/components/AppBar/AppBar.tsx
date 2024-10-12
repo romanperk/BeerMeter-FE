@@ -6,7 +6,7 @@ import { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { signOut, User } from 'firebase/auth';
-import { logout } from '../../redux/auth/authSlice';
+import { logout } from '../../redux/users/authSlice';
 import { auth } from '../../services/firebase';
 import { AppBarItems } from './AppBarItems';
 
@@ -23,7 +23,6 @@ function CustomAppBar({ user }: CustomAppBarProps) {
   if (!mode) {
     return null;
   }
-  console.log(user);
   const handleLogout = async () => {
     try {
       await signOut(auth);

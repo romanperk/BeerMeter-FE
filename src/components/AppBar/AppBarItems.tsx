@@ -44,7 +44,7 @@ export function AppBarItems({
             {
               mr: 2,
             },
-            open && { display: 'none' },
+            !user && { display: 'none' },
           ]}
         >
           <MenuIcon />
@@ -71,7 +71,7 @@ export function AppBarItems({
         BeerMeter
       </Typography>
       <Box sx={{ flexGrow: 0 }}>
-        <Tooltip title="Change mode">
+        <Tooltip title={mode === 'light' ? 'Change to dark mode' : 'Change to light mode'}>
           <IconButton
             color="inherit"
             aria-label="open drawer"
@@ -81,7 +81,6 @@ export function AppBarItems({
               {
                 mr: 2,
               },
-              open && { display: 'none' },
             ]}
           >
             {mode === 'light' ? <DarkModeIcon /> : <LightModeIcon />}
@@ -91,7 +90,7 @@ export function AppBarItems({
       <Box sx={{ flexGrow: 0 }}>
         <Tooltip title="Open settings">
           <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-            <Avatar alt="Roman Perk" />
+            {user ? <Avatar sx={{ bgcolor: '#2196f3' }}>R</Avatar> : <Avatar />}
           </IconButton>
         </Tooltip>
         <Menu

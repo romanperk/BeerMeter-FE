@@ -1,13 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import CustomAppBar from './components/AppBar/AppBar';
 import { Box, createTheme, ThemeProvider } from '@mui/material';
-import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import { BrowserRouter } from 'react-router-dom';
 import { Provider } from 'react-redux';
 import store from './redux/store';
 import AppRoutes from './Routes';
 import { onAuthStateChanged, User } from 'firebase/auth';
 import { auth } from './services/firebase';
-import Auth from './pages/Auth';
 
 const theme = createTheme({
   colorSchemes: {
@@ -48,13 +47,7 @@ const App: React.FC = () => {
             }}
           >
             <CustomAppBar user={user} />
-            {user ? (
-              <AppRoutes />
-            ) : (
-              <Routes>
-                <Route path="*" element={<Auth />} />
-              </Routes>
-            )}
+            <AppRoutes user={user} />
           </Box>
         </ThemeProvider>
       </Provider>
