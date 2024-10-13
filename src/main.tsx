@@ -3,10 +3,11 @@ import { createRoot } from 'react-dom/client';
 import App from './App.tsx';
 import { Provider } from 'react-redux';
 import store from './redux/store.ts';
-import '../public/translations/i18n.ts';
+import './i18n/i18n.ts';
 import './index.css';
 
-createRoot(document.getElementById('root')!).render(
+const root = createRoot(document.getElementById('root')!);
+root.render(
   <StrictMode>
     <Provider store={store}>
       <App />

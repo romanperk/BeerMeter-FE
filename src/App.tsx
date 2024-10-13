@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from 'react';
-import CustomAppBar from './components/AppBar/AppBar';
+import { useEffect, useState } from 'react';
+import { CustomAppBar } from './containers/AppBar';
 import { Box, createTheme, ThemeProvider } from '@mui/material';
 import { BrowserRouter } from 'react-router-dom';
 import { Provider } from 'react-redux';
@@ -14,19 +14,8 @@ const theme = createTheme({
   },
 });
 
-const App: React.FC = () => {
-  const [windowHeight, setWindowHeight] = useState(window.innerHeight);
+export default function App() {
   const [user, setUser] = useState<User | null>(null);
-
-  useEffect(() => {
-    const handleResize = () => {
-      setWindowHeight(window.innerHeight);
-    };
-    window.addEventListener('resize', handleResize);
-    return () => {
-      window.removeEventListener('resize', handleResize);
-    };
-  }, []);
 
   useEffect(() => {
     const changeAuthState = onAuthStateChanged(auth, (currentUser) => {
@@ -41,18 +30,25 @@ const App: React.FC = () => {
         <ThemeProvider theme={theme}>
           <Box
             sx={{
-              height: `${windowHeight}px`,
+              display: 'flex',
+              flexDirection: 'column',
+              minHeight: '100vh',
               bgcolor: 'background.default',
               color: 'text.primary',
             }}
           >
             <CustomAppBar user={user} />
-            <AppRoutes user={user} />
+            <Box
+              sx={{
+                overflowY: 'auto',
+                padding: 3,
+              }}
+            >
+              <AppRoutes user={user} />
+            </Box>
           </Box>
         </ThemeProvider>
       </Provider>
     </BrowserRouter>
   );
-};
-
-export default App;
+}

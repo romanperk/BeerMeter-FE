@@ -10,7 +10,7 @@ interface CustomListItemProps {
 export function DrawerListItem({ navDestination, icon, text }: CustomListItemProps) {
   const navigate = useNavigate();
   return (
-    <ListItem key={'beerlist'} disablePadding>
+    <ListItem disablePadding>
       <ListItemButton onClick={() => navigate(navDestination)}>
         <ListItemIcon>{icon}</ListItemIcon>
         <ListItemText primary={text} />

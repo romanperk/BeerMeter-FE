@@ -1,36 +1,34 @@
 import { Box, Divider, List } from '@mui/material';
 import HomeIcon from '@mui/icons-material/Home';
-import LiquorIcon from '@mui/icons-material/Liquor';
-import LunchDiningIcon from '@mui/icons-material/LunchDining';
 import FormatListBulletedIcon from '@mui/icons-material/FormatListBulleted';
 import HistoryIcon from '@mui/icons-material/History';
 import FmdGoodIcon from '@mui/icons-material/FmdGood';
 import GroupIcon from '@mui/icons-material/Group';
 import InfoIcon from '@mui/icons-material/Info';
 import { DrawerListItem } from './DrawerListItem';
+import { TFunction } from 'i18next';
 
 interface DrawerListProps {
   onClose: () => void;
+  t: TFunction<'translation', undefined>;
 }
 
-export function DrawerOptions({ onClose }: DrawerListProps) {
+export function DrawerOptions({ onClose, t }: DrawerListProps) {
   return (
     <Box sx={{ width: 250 }} role="presentation" onClick={onClose}>
       <List>
-        <DrawerListItem navDestination="/" icon={<HomeIcon />} text="Home" />
-        <DrawerListItem navDestination="/beerlist" icon={<FormatListBulletedIcon />} text="Beerlist" />
-        <DrawerListItem navDestination="/beverage" icon={<LiquorIcon />} text="Beverage" />
-        <DrawerListItem navDestination="/food" icon={<LunchDiningIcon />} text="Food" />
+        <DrawerListItem navDestination="/" icon={<HomeIcon />} text={t('home')} />
+        <DrawerListItem navDestination="/lists" icon={<FormatListBulletedIcon />} text={t('lists')} />
       </List>
       <Divider />
       <List>
-        <DrawerListItem navDestination="/history" icon={<HistoryIcon />} text="History" />
-        <DrawerListItem navDestination="/favoritePlaces" icon={<FmdGoodIcon />} text="Favorite places" />
+        <DrawerListItem navDestination="/history" icon={<HistoryIcon />} text={t('history')} />
+        <DrawerListItem navDestination="/favoritePlaces" icon={<FmdGoodIcon />} text={t('favPlaces')} />
       </List>
       <Divider />
       <List>
-        <DrawerListItem navDestination="/drinkingBuddies" icon={<GroupIcon />} text="Drinking buddies" />
-        <DrawerListItem navDestination="/generalInfo" icon={<InfoIcon />} text="General info" />
+        <DrawerListItem navDestination="/drinkingBuddies" icon={<GroupIcon />} text={t('drBuddies')} />
+        <DrawerListItem navDestination="/generalInfo" icon={<InfoIcon />} text={t('genInfo')} />
       </List>
     </Box>
   );

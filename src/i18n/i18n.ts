@@ -1,25 +1,15 @@
 import i18n from 'i18next';
 import { initReactI18next } from 'react-i18next';
 import LanguageDetector from 'i18next-browser-languagedetector';
+import cs from './cs.json';
+import en from './en.json';
 
 const resources = {
   en: {
-    translation: {
-      appName: 'BeerMeter',
-      welcome: 'Welcome to BeerMeter',
-      logout: 'Log out',
-      login: 'Login',
-      changeLanguage: 'Change language',
-    },
+    translation: en,
   },
   cs: {
-    translation: {
-      appName: 'PivkoMetr',
-      welcome: 'Vítej v Pivkometru',
-      logout: 'Odhlásit se',
-      login: 'Přihlásit se',
-      changeLanguage: 'Změnit jazyk',
-    },
+    translation: cs,
   },
 };
 
