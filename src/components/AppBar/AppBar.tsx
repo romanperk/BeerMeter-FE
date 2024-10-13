@@ -20,9 +20,11 @@ function CustomAppBar({ user }: CustomAppBarProps) {
   const [anchorElUser, setAnchorElUser] = useState<null | HTMLElement>(null);
   const [open, setOpen] = useState(false);
   const { mode, setMode } = useColorScheme();
+
   if (!mode) {
     return null;
   }
+
   const handleLogout = async () => {
     try {
       await signOut(auth);

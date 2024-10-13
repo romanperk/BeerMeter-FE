@@ -4,8 +4,11 @@ import MenuIcon from '@mui/icons-material/Menu';
 import DarkModeIcon from '@mui/icons-material/DarkMode';
 import LightModeIcon from '@mui/icons-material/LightMode';
 import SportsBarRoundedIcon from '@mui/icons-material/SportsBarRounded';
+import LanguageIcon from '@mui/icons-material/Language';
 import { User } from 'firebase/auth';
 import { NavigateFunction } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
+import { useState } from 'react';
 
 interface AppBarOptionsProps {
   toggleDrawer: (newOpen: boolean) => () => void;
@@ -32,6 +35,24 @@ export function AppBarItems({
   handleLogout,
   navigate,
 }: AppBarOptionsProps) {
+  const { t, i18n } = useTranslation();
+  const [language, setLanguage] = useState(i18n.language);
+  const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
+
+  const changeLanguage = (lng: string) => {
+    i18n.changeLanguage(lng);
+    setLanguage(lng);
+    handleCloseMenu();
+  };
+
+  const handleOpenMenu = (event: React.MouseEvent<HTMLElement>) => {
+    setAnchorEl(event.currentTarget);
+  };
+
+  const handleCloseMenu = () => {
+    setAnchorEl(null);
+  };
+
   return (
     <>
       <Box sx={{ flexGrow: 0 }}>
@@ -68,7 +89,7 @@ export function AppBarItems({
           flexGrow: 1,
         }}
       >
-        BeerMeter
+        {t('appName')}
       </Typography>
       <Box sx={{ flexGrow: 0 }}>
         <Tooltip title={mode === 'light' ? 'Change to dark mode' : 'Change to light mode'}>
@@ -86,6 +107,30 @@ export function AppBarItems({
             {mode === 'light' ? <DarkModeIcon /> : <LightModeIcon />}
           </IconButton>
         </Tooltip>
+      </Box>
+      <Box sx={{ flexGrow: 0 }}>
+        <Tooltip title={t('changeLanguage')}>
+          <IconButton
+            color="inherit"
+            aria-label="change language"
+            onClick={handleOpenMenu}
+            sx={[
+              {
+                mr: 2,
+              },
+            ]}
+          >
+            <LanguageIcon />
+          </IconButton>
+        </Tooltip>
+        <Menu anchorEl={anchorEl} open={Boolean(anchorEl)} onClose={handleCloseMenu}>
+          <MenuItem selected={language === 'en'} onClick={() => changeLanguage('en')}>
+            English
+          </MenuItem>
+          <MenuItem selected={language === 'cs'} onClick={() => changeLanguage('cs')}>
+            Czech
+          </MenuItem>
+        </Menu>
       </Box>
       <Box sx={{ flexGrow: 0 }}>
         <Tooltip title="Open settings">
