@@ -37,7 +37,15 @@
   "login": "Login",
   "changeLanguage": "Change language",
   "userEditProfile": "Edit profile",
+  "userMyProfile": "My profile",
   "userFirstName": "First name",
   "userLastName": "Last name",
-  "userSaveChangesButton": "SAVE CHANGES"
+  "userSaveChangesButton": "Save",
+  "userCancelChangesButton": "Cancel",
+  "userFavDrink": "Favorite type of drink",
+  "userMemberSince": "BeerMeter member since:",
+  "userFriendsButton": "Friends",
+  "userSelectBeer": "Beer",
+  "userSelectDrinks": "Drinks",
+  "userSelectShots": "Shots"
 }

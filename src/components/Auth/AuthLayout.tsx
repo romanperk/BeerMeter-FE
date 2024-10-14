@@ -81,6 +81,7 @@ export function AuthLayout({
               label={t('authPassword')}
               type={showPassword ? 'text' : 'password'}
               value={password}
+              autoComplete="current-password"
               onChange={(e) => setPassword(e.target.value)}
               endAdornment={
                 <InputAdornment position="end">

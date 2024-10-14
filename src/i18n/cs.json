@@ -36,8 +36,16 @@
   "logout": "Odhlásit se",
   "login": "Přihlásit se",
   "changeLanguage": "Změnit jazyk",
+  "userMyProfile": "Můj profil",
   "userEditProfile": "Upravit profil",
   "userFirstName": "Jméno",
   "userLastName": "Příjmení",
-  "userSaveChangesButton": "ULOŽIT ÚPRAVY"
+  "userSaveChangesButton": "Uložit",
+  "userCancelChangesButton": "Zrušit",
+  "userFavDrink": "Oblíbený druh nápoje",
+  "userMemberSince": "Člen PivkoMetru od:",
+  "userFriendsButton": "kamarádi",
+  "userSelectBeer": "Pivo",
+  "userSelectDrinks": "Drinky",
+  "userSelectShots": "Panáky"
 }

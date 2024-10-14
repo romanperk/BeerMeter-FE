@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { CustomAppBar } from './containers/AppBar';
-import { Box, createTheme, ThemeProvider } from '@mui/material';
+import { Box, createTheme, ThemeProvider, CircularProgress, Typography } from '@mui/material';
 import { BrowserRouter } from 'react-router-dom';
 import { Provider } from 'react-redux';
 import store from './redux/store';
@@ -16,13 +16,36 @@ const theme = createTheme({
 
 export default function App() {
   const [user, setUser] = useState<User | null>(null);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const changeAuthState = onAuthStateChanged(auth, (currentUser) => {
       setUser(currentUser);
+      setLoading(false);
     });
     return () => changeAuthState();
   }, []);
+
+  if (loading) {
+    return (
+      <ThemeProvider theme={theme}>
+        <Box
+          sx={{
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center',
+            height: '100vh',
+            bgcolor: 'background.default',
+          }}
+        >
+          <CircularProgress />
+          <Typography variant="h6" sx={{ ml: 2, color: 'text.primary' }}>
+            Loading...
+          </Typography>
+        </Box>
+      </ThemeProvider>
+    );
+  }
 
   return (
     <BrowserRouter>

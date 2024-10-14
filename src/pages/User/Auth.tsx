@@ -7,7 +7,7 @@ import {
 } from 'firebase/auth';
 import { auth } from '../../services/firebase';
 import { useDispatch } from 'react-redux';
-import { login } from '../../redux/users/authSlice';
+import { login, setFirstSignIn } from '../../redux/users/userSlice';
 import { useNavigate } from 'react-router-dom';
 import { AuthLayout } from '../../components/Auth/AuthLayout';
 import { useTranslation } from 'react-i18next';
@@ -42,8 +42,8 @@ const Auth = () => {
         userCredential = await createUserWithEmailAndPassword(auth, email, password);
       }
 
-      const userId = userCredential.user.uid;
-      dispatch(login(userId));
+      dispatch(login(email));
+      dispatch(setFirstSignIn(userCredential.user.metadata.creationTime!));
       navigate(`/`);
     } catch {
       setError(`Authentication failed. Check your credentials.`);
@@ -54,8 +54,9 @@ const Auth = () => {
     const provider = new GoogleAuthProvider();
     try {
       const userCredential = await signInWithPopup(auth, provider);
-      const userId = userCredential.user.uid;
-      dispatch(login(userId));
+
+      dispatch(login(userCredential.user.email!));
+      dispatch(setFirstSignIn(userCredential.user.metadata.creationTime!));
       navigate(`/`);
     } catch {
       setError(`Google sign-in failed`);

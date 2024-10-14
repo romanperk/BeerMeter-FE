@@ -12,7 +12,7 @@ import { AppBarAppName } from '../components/AppBar/AppBarAppName';
 import { AppBarTheme } from '../components/AppBar/AppBarTheme';
 import { AppBarLang } from '../components/AppBar/AppBarLang';
 import { auth } from '../services/firebase';
-import { logout } from '../redux/users/authSlice';
+import { logout } from '../redux/users/userSlice';
 import { useDispatch } from 'react-redux';
 import { AppBarUserMenu } from '../components/AppBar/AppBarUserMenu';
 

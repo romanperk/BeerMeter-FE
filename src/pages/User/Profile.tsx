@@ -1,16 +1,26 @@
 import React, { useState, useEffect } from 'react';
-import { TextField, Button, Box, Typography } from '@mui/material';
+import { SelectChangeEvent } from '@mui/material';
 import { useDispatch, useSelector } from 'react-redux';
-import { RootState } from '../../redux/store';
-import { updateUser } from '../../redux/users/authSlice';
+import { updateFavDrink, updateFirstName, updateLastName } from '../../redux/users/userSlice';
 import { useTranslation } from 'react-i18next';
+import { EditProfileModal } from '../../components/Profile/EditProfileModal';
+import { getUser } from '../../redux/users/userSelectors';
+import { useNavigate } from 'react-router-dom';
+import { ProfileLayout } from '../../components/Profile/ProfileLayout';
 
 function Profile() {
+  const navigate = useNavigate();
   const dispatch = useDispatch();
   const { t } = useTranslation();
-  const user = useSelector((state: RootState) => state.auth.user);
+  const user = useSelector(getUser);
+  const [open, setOpen] = useState(false);
   const [firstName, setFirstName] = useState(user?.firstName || '');
   const [lastName, setLastName] = useState(user?.lastName || '');
+  const [favDrink, setFavDrink] = useState('');
+
+  const handleChange = (event: SelectChangeEvent) => {
+    setFavDrink(event.target.value as string);
+  };
 
   useEffect(() => {
     if (user) {
@@ -21,46 +31,28 @@ function Profile() {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    dispatch(updateUser({ firstName: firstName, lastName: lastName }));
+    dispatch(updateFirstName(firstName));
+    dispatch(updateLastName(lastName));
+    dispatch(updateFavDrink(favDrink));
+    setOpen(false);
   };
 
   return (
-    <Box
-      sx={{
-        textAlign: 'center',
-        mt: 5,
-      }}
-    >
-      <Typography variant="h4" gutterBottom>
-        {t('userEditProfile')}
-      </Typography>
-
-      <form onSubmit={handleSubmit}>
-        <Box mb={3}>
-          <TextField
-            fullWidth
-            label={t('userFirstName')}
-            value={firstName}
-            onChange={(e) => setFirstName(e.target.value)}
-          />
-        </Box>
-
-        <Box mb={3}>
-          <TextField
-            fullWidth
-            label={t('userLastName')}
-            value={lastName}
-            onChange={(e) => setLastName(e.target.value)}
-          />
-        </Box>
-
-        <Box textAlign="center">
-          <Button type="submit" variant="contained" color="primary">
-            {t('userSaveChangesButton')}
-          </Button>
-        </Box>
-      </form>
-    </Box>
+    <>
+      <ProfileLayout t={t} navigate={navigate} setOpen={setOpen} user={user} />
+      <EditProfileModal
+        t={t}
+        favDrink={favDrink}
+        handleChange={handleChange}
+        open={open}
+        handleClose={() => setOpen(false)}
+        firstName={firstName}
+        lastName={lastName}
+        setFirstName={setFirstName}
+        setLastName={setLastName}
+        handleSubmit={handleSubmit}
+      />
+    </>
   );
 }
 
