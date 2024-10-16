@@ -5,16 +5,14 @@ import { UseFormRegister } from 'react-hook-form';
 interface FavTypeSelectProps {
   t: TFunction<'translation', undefined>;
   register: UseFormRegister<{ firstName: string; lastName: string; favDrink: string }>;
-  favDrink: string;
 }
 
-export function FavTypeSelect({ t, register, favDrink }: FavTypeSelectProps) {
+export function FavTypeSelect({ t, register }: FavTypeSelectProps) {
   return (
     <FormControl fullWidth>
       <InputLabel id="select-type-label">{t('userFavDrink')}</InputLabel>
       <Select
         id="select-favorite-drink"
-        value={favDrink}
         label={t('userFavDrink')}
         {...register('favDrink')}
         labelId="select-type-label"

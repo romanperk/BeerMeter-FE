@@ -7,7 +7,6 @@ import { FavTypeSelect } from './FavTypeSelect';
 interface EditProfileModalProps {
   t: TFunction<'translation', undefined>;
   open: boolean;
-  favDrink: string;
   handleClose: () => void;
   handleSubmit: (e: React.FormEvent) => void;
   register: UseFormRegister<{
@@ -17,14 +16,7 @@ interface EditProfileModalProps {
   }>;
 }
 
-export function EditProfileModal({
-  t,
-  open,
-  favDrink,
-  handleClose,
-  handleSubmit,
-  register,
-}: EditProfileModalProps) {
+export function EditProfileModal({ t, open, handleClose, handleSubmit, register }: EditProfileModalProps) {
   return (
     <Modal open={open} onClose={handleClose}>
       <Box sx={modalStyle}>
@@ -48,7 +40,7 @@ export function EditProfileModal({
               required
               {...register('lastName')}
             />
-            <FavTypeSelect t={t} favDrink={favDrink} register={register} />
+            <FavTypeSelect t={t} register={register} />
 
             <Stack spacing={2} direction="row" sx={{ pt: 1 }}>
               <Button

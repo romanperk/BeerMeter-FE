@@ -16,37 +16,28 @@ import {
 import { Visibility, VisibilityOff } from '@mui/icons-material';
 import { TFunction } from 'i18next';
 import { useNavigate } from 'react-router-dom';
+import { useFormContext } from 'react-hook-form';
 
 interface AuthPageProps {
   t: TFunction<'translation', undefined>;
-  email: string;
-  setEmail: React.Dispatch<React.SetStateAction<string>>;
-  password: string;
-  setPassword: React.Dispatch<React.SetStateAction<string>>;
-  error: string;
-  handleAuth: (e: React.FormEvent<HTMLFormElement>) => Promise<void>;
-  handleGoogleSignIn: () => Promise<void>;
+  handleEmailSignUp: (e: React.FormEvent<HTMLFormElement>) => Promise<void>;
+  handleGoogleSignUp: () => Promise<void>;
   showPassword: boolean;
   handleClickShowPassword: () => void;
-  handleMouseDownPassword: (event: React.MouseEvent<HTMLButtonElement>) => void;
-  handleMouseUpPassword: (event: React.MouseEvent<HTMLButtonElement>) => void;
+  preventShow: (event: React.MouseEvent<HTMLButtonElement>) => void;
 }
 
 export function SignUpLayout({
   t,
-  email,
-  setEmail,
-  password,
-  setPassword,
-  error,
-  handleAuth,
-  handleGoogleSignIn,
+  handleEmailSignUp,
+  handleGoogleSignUp,
   showPassword,
   handleClickShowPassword,
-  handleMouseDownPassword,
-  handleMouseUpPassword,
+  preventShow,
 }: AuthPageProps) {
+  const { register } = useFormContext();
   const navigate = useNavigate();
+
   return (
     <Container component="main" maxWidth="xs">
       <CssBaseline />
@@ -59,18 +50,16 @@ export function SignUpLayout({
         }}
       >
         <Typography variant="h4">{t('authSignUp')}</Typography>
-        <Box component="form" onSubmit={handleAuth} noValidate sx={{ mt: 1 }}>
+        <Box component="form" onSubmit={handleEmailSignUp} noValidate sx={{ mt: 1 }}>
           <TextField
             margin="normal"
             required
             fullWidth
             id="email"
             label={t('authEmailAddress')}
-            name="email"
             autoComplete="email"
             autoFocus
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
+            {...register('email', { required: 'Email is required' })}
           />
           <FormControl variant="outlined" fullWidth required>
             <InputLabel htmlFor="password">{t('authPassword')}</InputLabel>
@@ -78,16 +67,15 @@ export function SignUpLayout({
               id="password"
               label={t('authPassword')}
               type={showPassword ? 'text' : 'password'}
-              value={password}
+              {...register('password', { required: 'Password is required' })}
               autoComplete="current-password"
-              onChange={(e) => setPassword(e.target.value)}
               endAdornment={
                 <InputAdornment position="end">
                   <IconButton
                     aria-label="toggle password visibility"
                     onClick={handleClickShowPassword}
-                    onMouseDown={handleMouseDownPassword}
-                    onMouseUp={handleMouseUpPassword}
+                    onMouseDown={preventShow}
+                    onMouseUp={preventShow}
                     edge="end"
                   >
                     {showPassword ? <VisibilityOff /> : <Visibility />}
@@ -96,11 +84,6 @@ export function SignUpLayout({
               }
             />
           </FormControl>
-          {error && (
-            <Typography color="error" sx={{ mt: 2, mb: 2 }}>
-              {error}
-            </Typography>
-          )}
           <Button type="submit" fullWidth variant="contained" sx={{ mt: 2 }}>
             {t('authSignUpButton')}
           </Button>
@@ -112,7 +95,7 @@ export function SignUpLayout({
             variant="outlined"
             startIcon={<GoogleIcon />}
             sx={{ mb: 2 }}
-            onClick={handleGoogleSignIn}
+            onClick={handleGoogleSignUp}
           >
             {t('authSignUpGoogleButton')}
           </Button>

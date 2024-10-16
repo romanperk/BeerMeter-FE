@@ -4,19 +4,6 @@ import { useGetUserQuery } from '../redux/users/userRtk';
 
 const auth = getAuth();
 
-const getCurrentUserUid = (): Promise<string | null> => {
-  return new Promise((resolve) => {
-    const unsubscribe = onAuthStateChanged(auth, (user) => {
-      if (user) {
-        resolve(user.uid);
-      } else {
-        resolve(null);
-      }
-      unsubscribe();
-    });
-  });
-};
-
 export const useFetchUser = () => {
   const [uid, setUid] = useState<string | null>(null);
 
@@ -31,12 +18,15 @@ export const useFetchUser = () => {
   });
 
   useEffect(() => {
-    const fetchUid = async () => {
-      const currentUid = await getCurrentUserUid();
-      setUid(currentUid);
-    };
+    const unsubscribe = onAuthStateChanged(auth, (user) => {
+      if (user) {
+        setUid(user.uid);
+      } else {
+        setUid(null);
+      }
+    });
 
-    fetchUid();
+    return () => unsubscribe();
   }, []);
 
   return { user, error, isLoading, refetchUser };

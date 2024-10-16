@@ -133,4 +133,21 @@ router.delete('/deleteUser/:email', async (req, res) => {
   }
 });
 
+// Delete all users
+router.delete('/deleteUsers', async (req, res) => {
+  try {
+    const result = await pool.query('DELETE FROM users');
+
+    // Check the number of deleted rows
+    if (result.rowCount === 0) {
+      return res.status(404).json({ message: 'No users found to delete' });
+    }
+
+    res.status(200).json({ message: `${result.rowCount} users deleted successfully` });
+  } catch (error) {
+    console.error('Error deleting users:', error);
+    res.status(500).json({ message: 'Internal server error' });
+  }
+});
+
 module.exports = router;

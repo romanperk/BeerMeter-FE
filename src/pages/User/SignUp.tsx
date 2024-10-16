@@ -1,40 +1,38 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { createUserWithEmailAndPassword, signInWithPopup, GoogleAuthProvider } from 'firebase/auth';
 import { auth } from '../../services/firebase';
 import { useTranslation } from 'react-i18next';
 import { SignUpLayout } from '../../components/Auth/SignUpLayout';
 import { SignUpTwoStep } from '../../containers/SignUpTwoStep';
-// import { SelectChangeEvent } from '@mui/material';
 import { useCreateUserMutation } from '../../redux/users/userRtk';
+import { useForm, FormProvider } from 'react-hook-form';
+
+export interface SignUpFormData {
+  firstName: string;
+  lastName: string;
+  favDrink: string;
+}
 
 const SignUp = () => {
   const { t } = useTranslation();
-  const [email, setEmail] = useState<string>('');
-  const [password, setPassword] = useState<string>('');
-  const [firstName, setFirstName] = useState<string>('');
-  const [lastName, setLastName] = useState<string>('');
-  const [error, setError] = useState<string>('');
   const [showPassword, setShowPassword] = useState(false);
   const [step, setStep] = useState(1);
-  // const [favDrink, setFavDrink] = useState('');
   const [createUser] = useCreateUserMutation();
 
-  // const handleChange = (event: SelectChangeEvent) => {
-  //   setFavDrink(event.target.value as string);
-  // };
+  const methods = useForm({
+    defaultValues: {
+      email: '',
+      password: '',
+      favDrink: 'Beer',
+    },
+  });
+
+  const { handleSubmit } = methods;
 
   const handleClickShowPassword = () => setShowPassword((show) => !show);
 
-  const handleMouseDownPassword = (event: React.MouseEvent<HTMLButtonElement>) => {
-    event.preventDefault();
-  };
-
-  const handleMouseUpPassword = (event: React.MouseEvent<HTMLButtonElement>) => {
-    event.preventDefault();
-  };
-
-  const handleAuth = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
+  const handleEmailSignUp = async (data: any) => {
+    const { email, password } = data;
     try {
       const userCredential = await createUserWithEmailAndPassword(auth, email, password);
       await createUser({
@@ -43,11 +41,11 @@ const SignUp = () => {
       }).unwrap();
       setStep(2);
     } catch {
-      setError(`Authentication failed. Check your credentials.`);
+      // Snackbar error
     }
   };
 
-  const handleGoogleSignIn = async () => {
+  const handleGoogleSignUp = async () => {
     const provider = new GoogleAuthProvider();
     try {
       const userCredential = await signInWithPopup(auth, provider);
@@ -57,41 +55,26 @@ const SignUp = () => {
       }).unwrap();
       setStep(2);
     } catch {
-      setError(`Google sign-in failed`);
+      // Snackbar error
     }
   };
 
   return (
-    <>
+    <FormProvider {...methods}>
       {step === 1 && (
         <SignUpLayout
           t={t}
           showPassword={showPassword}
           handleClickShowPassword={handleClickShowPassword}
-          handleMouseDownPassword={handleMouseDownPassword}
-          handleMouseUpPassword={handleMouseUpPassword}
-          email={email}
-          setEmail={setEmail}
-          password={password}
-          setPassword={setPassword}
-          error={error}
-          handleAuth={handleAuth}
-          handleGoogleSignIn={handleGoogleSignIn}
+          preventShow={(event) => {
+            event.preventDefault();
+          }}
+          handleEmailSignUp={handleSubmit(handleEmailSignUp)}
+          handleGoogleSignUp={handleGoogleSignUp}
         />
       )}
-      {step === 2 && (
-        <SignUpTwoStep
-          t={t}
-          error={error}
-          // favDrink={favDrink}
-          // handleChange={handleChange}
-          firstName={firstName}
-          setFirstName={setFirstName}
-          lastName={lastName}
-          setLastName={setLastName}
-        />
-      )}
-    </>
+      {step === 2 && <SignUpTwoStep t={t} />}
+    </FormProvider>
   );
 };
 

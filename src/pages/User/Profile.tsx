@@ -51,7 +51,6 @@ function Profile() {
             handleClose={() => setOpen(false)}
             handleSubmit={handleSubmit(onSubmit)}
             register={register}
-            favDrink={user?.favDrink || ''}
           />
         </>
       )}
