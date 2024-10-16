@@ -3,7 +3,7 @@ import Toolbar from '@mui/material/Toolbar';
 import Container from '@mui/material/Container';
 import { useColorScheme } from '@mui/material';
 import SportsBarRoundedIcon from '@mui/icons-material/SportsBarRounded';
-import { signOut } from 'firebase/auth';
+import { signOut, User } from 'firebase/auth';
 import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { useState } from 'react';
@@ -15,15 +15,16 @@ import { auth } from '../services/firebase';
 import { logout } from '../redux/users/authSlice';
 import { useDispatch } from 'react-redux';
 import { AppBarUserMenu } from '../components/AppBar/AppBarUserMenu';
-import { IUser } from '../redux/users/authSlice';
+import { useFetchUser } from '../helpers/fetchUser';
 
 interface CustomAppBarProps {
-  user: IUser | undefined;
+  authState: User | null;
 }
 
-export function CustomAppBar({ user }: CustomAppBarProps) {
+export function CustomAppBar({ authState }: CustomAppBarProps) {
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const { user: loadedUser } = useFetchUser();
   const { t, i18n } = useTranslation();
   const { mode, setMode } = useColorScheme();
   const [language, setLanguage] = useState(i18n.language);
@@ -77,7 +78,7 @@ export function CustomAppBar({ user }: CustomAppBarProps) {
     <AppBar position="static">
       <Container maxWidth={false}>
         <Toolbar disableGutters>
-          <AppBarDrawer t={t} user={user} open={drawerOpen} toggleDrawer={toggleDrawer} />
+          <AppBarDrawer t={t} authState={authState} open={drawerOpen} toggleDrawer={toggleDrawer} />
           <SportsBarRoundedIcon />
           <AppBarAppName t={t} />
           <AppBarTheme mode={mode} toggleTheme={toggleTheme} t={t} />
@@ -91,7 +92,8 @@ export function CustomAppBar({ user }: CustomAppBarProps) {
           />
           <AppBarUserMenu
             t={t}
-            user={user}
+            authState={authState}
+            user={loadedUser}
             anchorEl={anchorElUser}
             handleOpen={handleOpenUserMenu}
             handleLogout={handleLogout}

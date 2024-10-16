@@ -1,54 +1,60 @@
-import React, { useState, useEffect } from 'react';
-import { SelectChangeEvent } from '@mui/material';
+import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { EditProfileModal } from '../../components/Profile/EditProfileModal';
 import { useNavigate } from 'react-router-dom';
 import { ProfileLayout } from '../../components/Profile/ProfileLayout';
-import { useGetUserQuery } from '../../redux/users/userRtk';
-import { useSelector } from 'react-redux';
-import { getUserUid } from '../../redux/users/userSelectors';
+import { useUpdateUserMutation } from '../../redux/users/userRtk';
+import { useFetchUser } from '../../helpers/fetchUser';
+import { useForm } from 'react-hook-form';
 
 function Profile() {
   const navigate = useNavigate();
   const { t } = useTranslation();
-  const uid = useSelector(getUserUid);
-  const { data: user } = useGetUserQuery(uid!);
+  const { user, isLoading, refetchUser } = useFetchUser();
+  const [updateUser] = useUpdateUserMutation();
   const [open, setOpen] = useState(false);
-  const [firstName, setFirstName] = useState(user?.firstName || '');
-  const [lastName, setLastName] = useState(user?.lastName || '');
-  const [favDrink, setFavDrink] = useState('');
 
-  const handleChange = (event: SelectChangeEvent) => {
-    setFavDrink(event.target.value as string);
-  };
+  const { register, handleSubmit } = useForm({
+    defaultValues: {
+      firstName: user?.firstName || '',
+      lastName: user?.lastName || '',
+      favDrink: user?.favDrink || '',
+    },
+  });
 
-  useEffect(() => {
-    if (user) {
-      setFirstName(user.firstName || '');
-      setLastName(user.lastName || '');
+  const onSubmit = (data: any) => {
+    const uid = user?.uid;
+    if (!uid) {
+      console.error('User UID is required');
+      return;
     }
-  }, [user]);
-
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    setOpen(false);
+    try {
+      updateUser({
+        uid,
+        ...data,
+      }).unwrap();
+      setOpen(false);
+      refetchUser();
+    } catch (error) {
+      console.error('Failed to update user: ', error);
+    }
   };
 
   return (
     <>
-      <ProfileLayout t={t} navigate={navigate} setOpen={setOpen} user={user || undefined} />
-      <EditProfileModal
-        t={t}
-        favDrink={favDrink}
-        handleChange={handleChange}
-        open={open}
-        handleClose={() => setOpen(false)}
-        firstName={firstName}
-        lastName={lastName}
-        setFirstName={setFirstName}
-        setLastName={setLastName}
-        handleSubmit={handleSubmit}
-      />
+      {!isLoading && (
+        <>
+          <ProfileLayout t={t} navigate={navigate} setOpen={setOpen} user={user || undefined} />
+          <EditProfileModal
+            t={t}
+            open={open}
+            handleClose={() => setOpen(false)}
+            handleSubmit={handleSubmit(onSubmit)}
+            register={register}
+            favDrink={user?.favDrink || ''}
+          />
+        </>
+      )}
     </>
   );
 }

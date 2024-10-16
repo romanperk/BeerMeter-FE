@@ -2,16 +2,16 @@ import { Box, Drawer, IconButton } from '@mui/material';
 import MenuIcon from '@mui/icons-material/Menu';
 import { DrawerOptions } from '../Drawer/DrawerOptions';
 import { TFunction } from 'i18next';
-import { IUser } from '../../redux/users/authSlice';
+import { User } from 'firebase/auth';
 
 interface AppBarDrawerProps {
   toggleDrawer: (newOpen: boolean) => () => void;
   open: boolean;
-  user: IUser | undefined;
+  authState: User | null;
   t: TFunction<'translation', undefined>;
 }
 
-export function AppBarDrawer({ user, toggleDrawer, open, t }: AppBarDrawerProps) {
+export function AppBarDrawer({ authState, toggleDrawer, open, t }: AppBarDrawerProps) {
   return (
     <Box sx={{ flexGrow: 0 }}>
       <IconButton
@@ -23,7 +23,7 @@ export function AppBarDrawer({ user, toggleDrawer, open, t }: AppBarDrawerProps)
           {
             mr: 2,
           },
-          !user && { display: 'none' },
+          !authState && { display: 'none' },
         ]}
       >
         <MenuIcon />

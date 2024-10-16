@@ -1,9 +1,11 @@
 import { Avatar, Box, IconButton, Menu, MenuItem, Tooltip, Typography } from '@mui/material';
 import { TFunction } from 'i18next';
 import { IUser } from '../../redux/users/authSlice';
+import { User } from 'firebase/auth';
 
 interface AppBarUserMenu {
   t: TFunction<'translation', undefined>;
+  authState: User | null;
   anchorEl: HTMLElement | null;
   user: IUser | undefined;
   handleOpen: (event: React.MouseEvent<HTMLElement>) => void;
@@ -14,6 +16,7 @@ interface AppBarUserMenu {
 
 export function AppBarUserMenu({
   t,
+  authState,
   user,
   handleOpen,
   anchorEl,
@@ -25,7 +28,11 @@ export function AppBarUserMenu({
     <Box sx={{ flexGrow: 0 }}>
       <Tooltip title={t('openSettings')}>
         <IconButton onClick={handleOpen} sx={{ p: 0 }}>
-          {user ? <Avatar sx={{ bgcolor: '#2196f3' }}>R</Avatar> : <Avatar />}
+          {authState ? (
+            <Avatar sx={{ bgcolor: '#2196f3' }}>{user?.firstName?.charAt(0) || ''}</Avatar>
+          ) : (
+            <Avatar />
+          )}
         </IconButton>
       </Tooltip>
       <Menu

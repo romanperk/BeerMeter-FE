@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import { signInWithEmailAndPassword, signInWithPopup, GoogleAuthProvider } from 'firebase/auth';
-import { getUser } from '../../services/users/userFunctions';
 import { auth } from '../../services/firebase';
 import { useDispatch } from 'react-redux';
 import { login } from '../../redux/users/authSlice';
@@ -37,7 +36,6 @@ const Login = () => {
           email: userCredential.user.email,
         })
       );
-      await getUser(email);
       navigate(`/`);
     } catch {
       setError(`Authentication failed. Check your credentials.`);
@@ -48,14 +46,12 @@ const Login = () => {
     const provider = new GoogleAuthProvider();
     try {
       const userCredential = await signInWithPopup(auth, provider);
-      const email = userCredential.user.email!;
       dispatch(
         login({
           uid: userCredential.user.uid,
           email: userCredential.user.email,
         })
       );
-      await getUser(email);
       navigate(`/`);
     } catch {
       setError(`Google sign-in failed`);

@@ -12,7 +12,7 @@ export interface IUser {
   firstName?: string | null;
   lastName?: string | null;
   email?: string | null;
-  firstSignIn?: string | null;
+  createdAt?: string | null;
   favDrink?: string | null;
 }
 
@@ -43,7 +43,7 @@ const authSlice = createSlice({
       state.isLoggedIn = true;
     },
     logout: (state) => {
-      state.user = null;
+      state.user = undefined;
     },
   },
 });

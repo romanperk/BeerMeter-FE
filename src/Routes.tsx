@@ -10,10 +10,10 @@ import { DrinkingBuddies } from './pages/Drawer/DrinkingBuddies';
 import { GeneralInfo } from './pages/Drawer/GeneralInfo';
 import Profile from './pages/User/Profile';
 import NotLoggedIn from './pages/NotFound/NotLoggedIn';
-import { IUser } from './redux/users/authSlice';
+import { User } from 'firebase/auth';
 
 interface AppRoutesProps {
-  user: IUser | undefined;
+  user: User | null;
 }
 
 const AppRoutes = ({ user }: AppRoutesProps) => {

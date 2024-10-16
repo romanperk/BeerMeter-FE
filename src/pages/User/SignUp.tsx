@@ -1,15 +1,13 @@
 import React, { useState } from 'react';
 import { createUserWithEmailAndPassword, signInWithPopup, GoogleAuthProvider } from 'firebase/auth';
-import { createUser, updateUserInfo } from '../../services/users/userFunctions';
 import { auth } from '../../services/firebase';
 import { useTranslation } from 'react-i18next';
 import { SignUpLayout } from '../../components/Auth/SignUpLayout';
 import { SignUpTwoStep } from '../../containers/SignUpTwoStep';
-import { useNavigate } from 'react-router-dom';
-import { SelectChangeEvent } from '@mui/material';
+// import { SelectChangeEvent } from '@mui/material';
+import { useCreateUserMutation } from '../../redux/users/userRtk';
 
 const SignUp = () => {
-  const navigate = useNavigate();
   const { t } = useTranslation();
   const [email, setEmail] = useState<string>('');
   const [password, setPassword] = useState<string>('');
@@ -18,11 +16,12 @@ const SignUp = () => {
   const [error, setError] = useState<string>('');
   const [showPassword, setShowPassword] = useState(false);
   const [step, setStep] = useState(1);
-  const [favDrink, setFavDrink] = useState('');
+  // const [favDrink, setFavDrink] = useState('');
+  const [createUser] = useCreateUserMutation();
 
-  const handleChange = (event: SelectChangeEvent) => {
-    setFavDrink(event.target.value as string);
-  };
+  // const handleChange = (event: SelectChangeEvent) => {
+  //   setFavDrink(event.target.value as string);
+  // };
 
   const handleClickShowPassword = () => setShowPassword((show) => !show);
 
@@ -37,8 +36,11 @@ const SignUp = () => {
   const handleAuth = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     try {
-      await createUserWithEmailAndPassword(auth, email, password);
-      await createUser(email);
+      const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+      await createUser({
+        email: userCredential.user.email!,
+        uid: userCredential.user.uid,
+      }).unwrap();
       setStep(2);
     } catch {
       setError(`Authentication failed. Check your credentials.`);
@@ -49,18 +51,14 @@ const SignUp = () => {
     const provider = new GoogleAuthProvider();
     try {
       const userCredential = await signInWithPopup(auth, provider);
-      const email = userCredential.user.email!;
-      await createUser(email);
+      await createUser({
+        email: userCredential.user.email!,
+        uid: userCredential.user.uid,
+      }).unwrap();
       setStep(2);
     } catch {
       setError(`Google sign-in failed`);
     }
-  };
-
-  const handleSetUp = async (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-    await updateUserInfo(email, firstName, lastName, favDrink);
-    navigate('/');
   };
 
   return (
@@ -85,9 +83,8 @@ const SignUp = () => {
         <SignUpTwoStep
           t={t}
           error={error}
-          favDrink={favDrink}
-          handleChange={handleChange}
-          handleSetUp={handleSetUp}
+          // favDrink={favDrink}
+          // handleChange={handleChange}
           firstName={firstName}
           setFirstName={setFirstName}
           lastName={lastName}

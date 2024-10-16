@@ -1,5 +1,6 @@
 const express = require('express');
 const pool = require('../database');
+const toCamelCase = require('../helpers/toCamelCase');
 const router = express.Router();
 
 // Create a new user
@@ -11,7 +12,7 @@ router.post('/createUser', async (req, res) => {
       email,
       uid,
     ]);
-    res.status(201).json(result.rows[0]);
+    res.status(201).json(toCamelCase(result.rows[0]));
   } catch (error) {
     console.error('Error inserting user:', error);
     res.status(500).json({ message: 'Error creating user' });
@@ -27,7 +28,7 @@ router.get('/', async (req, res) => {
       return res.status(404).json({ message: 'No users in database' });
     }
 
-    res.status(200).json(result.rows);
+    res.status(200).json(toCamelCase(result.rows));
   } catch (error) {
     console.error('Error fetching users', error);
     res.status(500).json({ message: 'Error fetching users' });
@@ -45,7 +46,7 @@ router.get('/getUser/:uid', async (req, res) => {
       return res.status(404).json({ message: 'User not found' });
     }
 
-    res.status(200).json(result.rows[0]);
+    res.status(200).json(toCamelCase(result.rows[0]));
   } catch (error) {
     console.error('Error fetching user:', error);
     res.status(500).json({ message: 'Error fetching user' });
@@ -63,7 +64,7 @@ router.get('/getUser/:email', async (req, res) => {
       return res.status(404).json({ message: 'User not found' });
     }
 
-    res.status(200).json(result.rows[0]);
+    res.status(200).json(toCamelCase(result.rows[0]));
   } catch (error) {
     console.error('Error fetching user:', error);
     res.status(500).json({ message: 'Error fetching user' });
@@ -85,7 +86,7 @@ router.put('/updateUserEmail/:email', async (req, res) => {
       return res.status(404).json({ message: 'User not found' });
     }
 
-    res.status(200).json(result.rows[0]);
+    res.status(200).json(toCamelCase(result.rows[0]));
   } catch (error) {
     console.error('Error updating user:', error);
     res.status(500).json({ message: 'Error updating user' });
@@ -93,21 +94,21 @@ router.put('/updateUserEmail/:email', async (req, res) => {
 });
 
 // Update users info
-router.put('/updateUserInfo/:email', async (req, res) => {
-  const { email } = req.params;
+router.put('/updateUserInfo/:uid', async (req, res) => {
+  const { uid } = req.params;
   const { firstName, lastName, favDrink } = req.body;
 
   try {
     const result = await pool.query(
-      'UPDATE users SET first_name = $1, last_name = $2, fav_drink = $3 WHERE email = $4 RETURNING *',
-      [firstName, lastName, favDrink, email]
+      'UPDATE users SET first_name = $1, last_name = $2, fav_drink = $3 WHERE uid = $4 RETURNING *',
+      [firstName, lastName, favDrink, uid]
     );
 
     if (result.rows.length === 0) {
       return res.status(404).json({ message: 'User not found' });
     }
 
-    res.status(200).json(result.rows[0]);
+    res.status(200).json(toCamelCase(result.rows[0]));
   } catch (error) {
     console.error('Error updating user:', error);
     res.status(500).json({ message: 'Error updating user' });
