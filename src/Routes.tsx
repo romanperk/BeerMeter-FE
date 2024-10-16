@@ -1,18 +1,19 @@
 import { Routes, Route } from 'react-router-dom';
 import Home from './pages/Drawer/Home';
 import { Lists } from './pages/Drawer/Lists';
-import Auth from './pages/User/Auth';
+import Login from './pages/User/Login';
+import SignUp from './pages/User/SignUp';
 import NotFoundPage from './pages/NotFound/NotFound';
 import { History } from './pages/Drawer/History';
 import { FavoritePlaces } from './pages/Drawer/FavoritePlaces';
 import { DrinkingBuddies } from './pages/Drawer/DrinkingBuddies';
 import { GeneralInfo } from './pages/Drawer/GeneralInfo';
 import Profile from './pages/User/Profile';
-import { User } from 'firebase/auth';
 import NotLoggedIn from './pages/NotFound/NotLoggedIn';
+import { IUser } from './redux/users/authSlice';
 
 interface AppRoutesProps {
-  user: User | null;
+  user: IUser | undefined;
 }
 
 const AppRoutes = ({ user }: AppRoutesProps) => {
@@ -22,7 +23,7 @@ const AppRoutes = ({ user }: AppRoutesProps) => {
         <>
           <Route path="/" element={<Home />} />
           <Route path="/lists" element={<Lists />} />
-          <Route path="/auth" element={<Auth />} />
+          <Route path="/signup" element={<SignUp />} />
           <Route path="/history" element={<History />} />
           <Route path="/favoritePlaces" element={<FavoritePlaces />} />
           <Route path="/drinkingBuddies" element={<DrinkingBuddies />} />
@@ -32,7 +33,8 @@ const AppRoutes = ({ user }: AppRoutesProps) => {
         </>
       ) : (
         <>
-          <Route path="/auth" element={<Auth />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/signup" element={<SignUp />} />
           <Route path="*" element={<NotLoggedIn />} />
         </>
       )}

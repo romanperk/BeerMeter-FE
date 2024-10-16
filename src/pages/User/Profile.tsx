@@ -1,18 +1,18 @@
 import React, { useState, useEffect } from 'react';
 import { SelectChangeEvent } from '@mui/material';
-import { useDispatch, useSelector } from 'react-redux';
-import { updateFavDrink, updateFirstName, updateLastName } from '../../redux/users/userSlice';
 import { useTranslation } from 'react-i18next';
 import { EditProfileModal } from '../../components/Profile/EditProfileModal';
-import { getUser } from '../../redux/users/userSelectors';
 import { useNavigate } from 'react-router-dom';
 import { ProfileLayout } from '../../components/Profile/ProfileLayout';
+import { useGetUserQuery } from '../../redux/users/userRtk';
+import { useSelector } from 'react-redux';
+import { getUserUid } from '../../redux/users/userSelectors';
 
 function Profile() {
   const navigate = useNavigate();
-  const dispatch = useDispatch();
   const { t } = useTranslation();
-  const user = useSelector(getUser);
+  const uid = useSelector(getUserUid);
+  const { data: user } = useGetUserQuery(uid!);
   const [open, setOpen] = useState(false);
   const [firstName, setFirstName] = useState(user?.firstName || '');
   const [lastName, setLastName] = useState(user?.lastName || '');
@@ -31,15 +31,12 @@ function Profile() {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    dispatch(updateFirstName(firstName));
-    dispatch(updateLastName(lastName));
-    dispatch(updateFavDrink(favDrink));
     setOpen(false);
   };
 
   return (
     <>
-      <ProfileLayout t={t} navigate={navigate} setOpen={setOpen} user={user} />
+      <ProfileLayout t={t} navigate={navigate} setOpen={setOpen} user={user || undefined} />
       <EditProfileModal
         t={t}
         favDrink={favDrink}

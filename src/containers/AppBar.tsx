@@ -3,7 +3,7 @@ import Toolbar from '@mui/material/Toolbar';
 import Container from '@mui/material/Container';
 import { useColorScheme } from '@mui/material';
 import SportsBarRoundedIcon from '@mui/icons-material/SportsBarRounded';
-import { signOut, User } from 'firebase/auth';
+import { signOut } from 'firebase/auth';
 import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { useState } from 'react';
@@ -12,12 +12,13 @@ import { AppBarAppName } from '../components/AppBar/AppBarAppName';
 import { AppBarTheme } from '../components/AppBar/AppBarTheme';
 import { AppBarLang } from '../components/AppBar/AppBarLang';
 import { auth } from '../services/firebase';
-import { logout } from '../redux/users/userSlice';
+import { logout } from '../redux/users/authSlice';
 import { useDispatch } from 'react-redux';
 import { AppBarUserMenu } from '../components/AppBar/AppBarUserMenu';
+import { IUser } from '../redux/users/authSlice';
 
 interface CustomAppBarProps {
-  user: User | null;
+  user: IUser | undefined;
 }
 
 export function CustomAppBar({ user }: CustomAppBarProps) {
@@ -65,7 +66,7 @@ export function CustomAppBar({ user }: CustomAppBarProps) {
     try {
       await signOut(auth);
       dispatch(logout());
-      navigate('/auth');
+      navigate('/login');
       setAnchorElUser(null);
     } catch (error: any) {
       console.error('Error logging out:', error.message);

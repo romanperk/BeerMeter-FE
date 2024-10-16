@@ -1,24 +1,19 @@
 import React, { useState } from 'react';
-import {
-  createUserWithEmailAndPassword,
-  signInWithEmailAndPassword,
-  signInWithPopup,
-  GoogleAuthProvider,
-} from 'firebase/auth';
+import { signInWithEmailAndPassword, signInWithPopup, GoogleAuthProvider } from 'firebase/auth';
+import { getUser } from '../../services/users/userFunctions';
 import { auth } from '../../services/firebase';
 import { useDispatch } from 'react-redux';
-import { login, setFirstSignIn } from '../../redux/users/userSlice';
+import { login } from '../../redux/users/authSlice';
 import { useNavigate } from 'react-router-dom';
-import { AuthLayout } from '../../components/Auth/AuthLayout';
+import { LoginLayout } from '../../components/Auth/LoginLayout';
 import { useTranslation } from 'react-i18next';
 
-const Auth = () => {
+const Login = () => {
   const { t } = useTranslation();
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const [email, setEmail] = useState<string>('');
   const [password, setPassword] = useState<string>('');
-  const [isLogin, setIsLogin] = useState<boolean>(true);
   const [error, setError] = useState<string>('');
   const [showPassword, setShowPassword] = useState(false);
 
@@ -35,15 +30,14 @@ const Auth = () => {
   const handleAuth = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     try {
-      let userCredential;
-      if (isLogin) {
-        userCredential = await signInWithEmailAndPassword(auth, email, password);
-      } else {
-        userCredential = await createUserWithEmailAndPassword(auth, email, password);
-      }
-
-      dispatch(login(email));
-      dispatch(setFirstSignIn(userCredential.user.metadata.creationTime!));
+      const userCredential = await signInWithEmailAndPassword(auth, email, password);
+      dispatch(
+        login({
+          uid: userCredential.user.uid,
+          email: userCredential.user.email,
+        })
+      );
+      await getUser(email);
       navigate(`/`);
     } catch {
       setError(`Authentication failed. Check your credentials.`);
@@ -54,9 +48,14 @@ const Auth = () => {
     const provider = new GoogleAuthProvider();
     try {
       const userCredential = await signInWithPopup(auth, provider);
-
-      dispatch(login(userCredential.user.email!));
-      dispatch(setFirstSignIn(userCredential.user.metadata.creationTime!));
+      const email = userCredential.user.email!;
+      dispatch(
+        login({
+          uid: userCredential.user.uid,
+          email: userCredential.user.email,
+        })
+      );
+      await getUser(email);
       navigate(`/`);
     } catch {
       setError(`Google sign-in failed`);
@@ -64,7 +63,7 @@ const Auth = () => {
   };
 
   return (
-    <AuthLayout
+    <LoginLayout
       t={t}
       showPassword={showPassword}
       handleClickShowPassword={handleClickShowPassword}
@@ -74,8 +73,6 @@ const Auth = () => {
       setEmail={setEmail}
       password={password}
       setPassword={setPassword}
-      setIsLogin={setIsLogin}
-      isLogin={isLogin}
       error={error}
       handleAuth={handleAuth}
       handleGoogleSignIn={handleGoogleSignIn}
@@ -83,4 +80,4 @@ const Auth = () => {
   );
 };
 
-export default Auth;
+export default Login;

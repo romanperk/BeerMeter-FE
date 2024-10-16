@@ -1,11 +1,11 @@
 import { Avatar, Box, IconButton, Menu, MenuItem, Tooltip, Typography } from '@mui/material';
-import { User } from 'firebase/auth';
 import { TFunction } from 'i18next';
+import { IUser } from '../../redux/users/authSlice';
 
 interface AppBarUserMenu {
   t: TFunction<'translation', undefined>;
   anchorEl: HTMLElement | null;
-  user: User | null;
+  user: IUser | undefined;
   handleOpen: (event: React.MouseEvent<HTMLElement>) => void;
   handleClose: () => void;
   handleNavigateUser: (path: string) => void;
@@ -54,7 +54,7 @@ export function AppBarUserMenu({
             </MenuItem>,
           ]
         ) : (
-          <MenuItem onClick={() => handleNavigateUser('/auth')}>
+          <MenuItem onClick={() => handleNavigateUser('/login')}>
             <Typography sx={{ textAlign: 'center' }}>{t('appBarLogIn')}</Typography>
           </MenuItem>
         )}

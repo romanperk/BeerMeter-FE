@@ -5,8 +5,11 @@ import { BrowserRouter } from 'react-router-dom';
 import { Provider } from 'react-redux';
 import store from './redux/store';
 import AppRoutes from './Routes';
-import { onAuthStateChanged, User } from 'firebase/auth';
+import { onAuthStateChanged } from 'firebase/auth';
 import { auth } from './services/firebase';
+import { useGetUserQuery } from './redux/users/userRtk';
+import { useSelector } from 'react-redux';
+import { getUserUid } from './redux/users/userSelectors';
 
 const theme = createTheme({
   colorSchemes: {
@@ -15,12 +18,12 @@ const theme = createTheme({
 });
 
 export default function App() {
-  const [user, setUser] = useState<User | null>(null);
+  const uid = useSelector(getUserUid);
+  const { data: user } = useGetUserQuery(uid!);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const changeAuthState = onAuthStateChanged(auth, (currentUser) => {
-      setUser(currentUser);
+    const changeAuthState = onAuthStateChanged(auth, () => {
       setLoading(false);
     });
     return () => changeAuthState();

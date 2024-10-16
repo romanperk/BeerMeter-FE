@@ -1,18 +1,7 @@
-import {
-  Box,
-  Button,
-  FormControl,
-  InputLabel,
-  MenuItem,
-  Modal,
-  Select,
-  SelectChangeEvent,
-  Stack,
-  TextField,
-  Typography,
-} from '@mui/material';
+import { Box, Button, Modal, SelectChangeEvent, Stack, TextField, Typography } from '@mui/material';
 import { TFunction } from 'i18next';
 import { modalStyle } from '../../styles/modalStyle';
+import { FavTypeSelect } from './FavTypeSelect';
 
 interface EditProfileModalProps {
   handleSubmit: (e: React.FormEvent) => void;
@@ -64,21 +53,7 @@ export function EditProfileModal({
               onChange={(e) => setLastName(e.target.value)}
               required
             />
-
-            <FormControl>
-              <InputLabel id="select-type-label">{t('userFavDrink')}</InputLabel>
-              <Select
-                id="select-favorite-drink"
-                value={favDrink}
-                label={t('userFavDrink')}
-                onChange={handleChange}
-                labelId="select-type-label"
-              >
-                <MenuItem value={'Beer'}>{t('userSelectBeer')}</MenuItem>
-                <MenuItem value={'Drinks'}>{t('userSelectDrinks')}</MenuItem>
-                <MenuItem value={'Shots'}>{t('userSelectShots')}</MenuItem>
-              </Select>
-            </FormControl>
+            <FavTypeSelect t={t} favDrink={favDrink} handleChange={handleChange} />
 
             <Stack spacing={2} direction="row" sx={{ pt: 1 }}>
               <Button

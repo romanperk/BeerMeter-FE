@@ -1,13 +1,13 @@
 import { Box, Drawer, IconButton } from '@mui/material';
 import MenuIcon from '@mui/icons-material/Menu';
-import { User } from 'firebase/auth';
 import { DrawerOptions } from '../Drawer/DrawerOptions';
 import { TFunction } from 'i18next';
+import { IUser } from '../../redux/users/authSlice';
 
 interface AppBarDrawerProps {
   toggleDrawer: (newOpen: boolean) => () => void;
   open: boolean;
-  user: User | null;
+  user: IUser | undefined;
   t: TFunction<'translation', undefined>;
 }
 

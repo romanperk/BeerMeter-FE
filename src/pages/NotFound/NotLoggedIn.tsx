@@ -12,7 +12,7 @@ const NotLoggedIn: React.FC = () => {
       <Typography variant="body1" sx={{ mt: 2 }}>
         {t('pageNotFoundText2')}
       </Typography>
-      <Button variant="contained" onClick={() => navigate('/auth')} sx={{ mt: 3 }}>
+      <Button variant="contained" onClick={() => navigate('/login')} sx={{ mt: 3 }}>
         {t('pageNotFoundGoLoginButton')}
       </Button>
     </Box>

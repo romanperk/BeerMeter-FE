@@ -15,6 +15,7 @@ import {
 } from '@mui/material';
 import { Visibility, VisibilityOff } from '@mui/icons-material';
 import { TFunction } from 'i18next';
+import { useNavigate } from 'react-router-dom';
 
 interface AuthPageProps {
   t: TFunction<'translation', undefined>;
@@ -22,9 +23,7 @@ interface AuthPageProps {
   setEmail: React.Dispatch<React.SetStateAction<string>>;
   password: string;
   setPassword: React.Dispatch<React.SetStateAction<string>>;
-  setIsLogin: React.Dispatch<React.SetStateAction<boolean>>;
   error: string;
-  isLogin: boolean;
   handleAuth: (e: React.FormEvent<HTMLFormElement>) => Promise<void>;
   handleGoogleSignIn: () => Promise<void>;
   showPassword: boolean;
@@ -33,15 +32,13 @@ interface AuthPageProps {
   handleMouseUpPassword: (event: React.MouseEvent<HTMLButtonElement>) => void;
 }
 
-export function AuthLayout({
+export function SignUpLayout({
   t,
   email,
   setEmail,
   password,
   setPassword,
-  setIsLogin,
   error,
-  isLogin,
   handleAuth,
   handleGoogleSignIn,
   showPassword,
@@ -49,6 +46,7 @@ export function AuthLayout({
   handleMouseDownPassword,
   handleMouseUpPassword,
 }: AuthPageProps) {
+  const navigate = useNavigate();
   return (
     <Container component="main" maxWidth="xs">
       <CssBaseline />
@@ -60,7 +58,7 @@ export function AuthLayout({
           alignItems: 'center',
         }}
       >
-        <Typography variant="h4">{isLogin ? t('authWelcomeBack') : t('authSignUp')}</Typography>
+        <Typography variant="h4">{t('authSignUp')}</Typography>
         <Box component="form" onSubmit={handleAuth} noValidate sx={{ mt: 1 }}>
           <TextField
             margin="normal"
@@ -104,7 +102,7 @@ export function AuthLayout({
             </Typography>
           )}
           <Button type="submit" fullWidth variant="contained" sx={{ mt: 2 }}>
-            {isLogin ? t('authLoginButton') : t('authSignUpButton')}
+            {t('authSignUpButton')}
           </Button>
 
           <Divider sx={{ mt: 3, mb: 3 }}>{t('authOr')}</Divider>
@@ -116,12 +114,12 @@ export function AuthLayout({
             sx={{ mb: 2 }}
             onClick={handleGoogleSignIn}
           >
-            {t('authLoginGoogleButton')}
+            {t('authSignUpGoogleButton')}
           </Button>
         </Box>
 
-        <Button variant="text" onClick={() => setIsLogin(!isLogin)}>
-          {isLogin ? t('authCreateAccountButton') : t('authHaveAccountButton')}
+        <Button variant="text" onClick={() => navigate('/login')}>
+          {t('authHaveAccountButton')}
         </Button>
       </Box>
     </Container>
