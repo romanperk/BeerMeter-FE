@@ -62,6 +62,14 @@ export const SnackbarProvider: React.FC<{ children: ReactNode }> = ({ children }
         onClose={handleClose}
         TransitionComponent={SlideTransition}
         autoHideDuration={3000}
+        sx={{
+          margin: {
+            xs: '40px',
+            sm: '24px',
+            md: '16px',
+            lg: '8px',
+          },
+        }}
       >
         <Alert
           variant="filled"
