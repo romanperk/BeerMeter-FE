@@ -1,6 +1,6 @@
 import { Typography } from '@mui/material';
 import { TFunction } from 'i18next';
-import { useBreakpoints } from '../../helpers/useBreakpoints';
+import { useBreakpoints } from '../../helpers/functions/useBreakpoints';
 
 interface AppBarAppNameProps {
   t: TFunction<'translation', undefined>;

@@ -23,7 +23,6 @@ interface AuthPageProps {
   setEmail: React.Dispatch<React.SetStateAction<string>>;
   password: string;
   setPassword: React.Dispatch<React.SetStateAction<string>>;
-  error: string;
   handleAuth: (e: React.FormEvent<HTMLFormElement>) => Promise<void>;
   handleGoogleSignIn: () => Promise<void>;
   showPassword: boolean;
@@ -38,7 +37,6 @@ export function LoginLayout({
   setEmail,
   password,
   setPassword,
-  error,
   handleAuth,
   handleGoogleSignIn,
   showPassword,
@@ -96,11 +94,6 @@ export function LoginLayout({
               }
             />
           </FormControl>
-          {error && (
-            <Typography color="error" sx={{ mt: 2, mb: 2 }}>
-              {error}
-            </Typography>
-          )}
           <Button type="submit" fullWidth variant="contained" sx={{ mt: 2 }}>
             {t('authLoginButton')}
           </Button>

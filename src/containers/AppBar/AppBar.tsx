@@ -7,15 +7,16 @@ import { signOut, User } from 'firebase/auth';
 import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { useState } from 'react';
-import { AppBarDrawer } from '../components/AppBar/AppBarDrawer';
-import { AppBarAppName } from '../components/AppBar/AppBarAppName';
-import { AppBarTheme } from '../components/AppBar/AppBarTheme';
-import { AppBarLang } from '../components/AppBar/AppBarLang';
-import { auth } from '../services/firebase';
-import { logout } from '../redux/users/authSlice';
+import { AppBarDrawer } from './AppBarDrawer';
+import { AppBarAppName } from './AppBarAppName';
+import { AppBarTheme } from './AppBarTheme';
+import { AppBarLang } from './AppBarLang';
+import { auth } from '../../services/firebase';
+import { logout } from '../../redux/users/authSlice';
 import { useDispatch } from 'react-redux';
-import { AppBarUserMenu } from '../components/AppBar/AppBarUserMenu';
-import { useFetchUser } from '../helpers/fetchUser';
+import { AppBarUserMenu } from './AppBarUserMenu';
+import { useFetchUser } from '../../helpers/functions/fetchUser';
+import { useShowSnackbar } from '../../helpers/functions/showSnackBar';
 
 interface CustomAppBarProps {
   authState: User | null;
@@ -24,6 +25,7 @@ interface CustomAppBarProps {
 export function CustomAppBar({ authState }: CustomAppBarProps) {
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const { showSnackBarSuccess } = useShowSnackbar();
   const { user: loadedUser } = useFetchUser();
   const { t, i18n } = useTranslation();
   const { mode, setMode } = useColorScheme();
@@ -69,6 +71,7 @@ export function CustomAppBar({ authState }: CustomAppBarProps) {
       dispatch(logout());
       navigate('/login');
       setAnchorElUser(null);
+      showSnackBarSuccess(t('authLogOutSuccess'));
     } catch (error: any) {
       console.error('Error logging out:', error.message);
     }

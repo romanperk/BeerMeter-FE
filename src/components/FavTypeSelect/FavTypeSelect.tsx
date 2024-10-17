@@ -17,6 +17,7 @@ export function FavTypeSelect({ t, register }: FavTypeSelectProps) {
         {...register('favDrink')}
         labelId="select-type-label"
         fullWidth
+        required
       >
         <MenuItem value="Beer">{t('userSelectBeer')}</MenuItem>
         <MenuItem value="Drinks">{t('userSelectDrinks')}</MenuItem>

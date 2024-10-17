@@ -1,6 +1,6 @@
 import { getAuth, onAuthStateChanged } from 'firebase/auth';
 import { useEffect, useState } from 'react';
-import { useGetUserQuery } from '../redux/users/userRtk';
+import { useGetUserQuery } from '../../redux/users/userRtk';
 
 const auth = getAuth();
 

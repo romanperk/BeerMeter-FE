@@ -51,7 +51,7 @@ export function AppBarUserMenu({
         open={Boolean(anchorEl)}
         onClose={handleClose}
       >
-        {user ? (
+        {authState ? (
           [
             <MenuItem key="profile" onClick={() => handleNavigateUser('/profile')}>
               <Typography sx={{ textAlign: 'center' }}>{t('profile')}</Typography>

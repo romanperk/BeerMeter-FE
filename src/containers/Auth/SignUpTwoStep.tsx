@@ -1,13 +1,13 @@
 import { Button, TextField, Typography, Container, Box, CssBaseline } from '@mui/material';
 import { TFunction } from 'i18next';
-import { FavTypeSelect } from '../components/Profile/FavTypeSelect';
+import { FavTypeSelect } from '../../components/FavTypeSelect/FavTypeSelect';
 import { useNavigate } from 'react-router-dom';
-import { useUpdateUserMutation } from '../redux/users/userRtk';
-import { useFetchUser } from '../helpers/fetchUser';
+import { useUpdateUserMutation } from '../../redux/users/userRtk';
+import { useFetchUser } from '../../helpers/functions/fetchUser';
 import { useFormContext } from 'react-hook-form';
-import { SignUpFormData } from '../pages/User/SignUp';
+import { SignUpFormData } from '../../pages/User/SignUp';
 import { useDispatch } from 'react-redux';
-import { login } from '../redux/users/authSlice';
+import { login } from '../../redux/users/authSlice';
 
 interface AuthPageProps {
   t: TFunction<'translation', undefined>;

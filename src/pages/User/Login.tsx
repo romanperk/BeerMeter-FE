@@ -4,16 +4,17 @@ import { auth } from '../../services/firebase';
 import { useDispatch } from 'react-redux';
 import { login } from '../../redux/users/authSlice';
 import { useNavigate } from 'react-router-dom';
-import { LoginLayout } from '../../components/Auth/LoginLayout';
+import { LoginLayout } from '../../containers/Auth/LoginLayout';
 import { useTranslation } from 'react-i18next';
+import { useShowSnackbar } from '../../helpers/functions/showSnackBar';
 
 const Login = () => {
   const { t } = useTranslation();
+  const { showSnackBarError, showSnackBarSuccess } = useShowSnackbar();
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const [email, setEmail] = useState<string>('');
   const [password, setPassword] = useState<string>('');
-  const [error, setError] = useState<string>('');
   const [showPassword, setShowPassword] = useState(false);
 
   const handleClickShowPassword = () => setShowPassword((show) => !show);
@@ -37,8 +38,9 @@ const Login = () => {
         })
       );
       navigate(`/`);
+      showSnackBarSuccess(t('authSnackBarSuccess'));
     } catch {
-      setError(`Authentication failed. Check your credentials.`);
+      showSnackBarError(t('authSnackBarError'));
     }
   };
 
@@ -53,8 +55,9 @@ const Login = () => {
         })
       );
       navigate(`/`);
+      showSnackBarSuccess(t('authSnackBarSuccess'));
     } catch {
-      setError(`Google sign-in failed`);
+      showSnackBarError(t('authSnackBarError'));
     }
   };
 
@@ -69,7 +72,6 @@ const Login = () => {
       setEmail={setEmail}
       password={password}
       setPassword={setPassword}
-      error={error}
       handleAuth={handleAuth}
       handleGoogleSignIn={handleGoogleSignIn}
     />

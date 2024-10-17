@@ -1,14 +1,16 @@
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { EditProfileModal } from '../../components/Profile/EditProfileModal';
+import { EditProfileModal } from '../../containers/Profile/EditProfileModal';
 import { useNavigate } from 'react-router-dom';
-import { ProfileLayout } from '../../components/Profile/ProfileLayout';
+import { ProfileLayout } from '../../containers/Profile/ProfileLayout';
 import { useUpdateUserMutation } from '../../redux/users/userRtk';
-import { useFetchUser } from '../../helpers/fetchUser';
+import { useFetchUser } from '../../helpers/functions/fetchUser';
 import { useForm } from 'react-hook-form';
+import { useShowSnackbar } from '../../helpers/functions/showSnackBar';
 
 function Profile() {
   const navigate = useNavigate();
+  const { showSnackBarSuccess, showSnackBarError } = useShowSnackbar();
   const { t } = useTranslation();
   const { user, isLoading, refetchUser } = useFetchUser();
   const [updateUser] = useUpdateUserMutation();
@@ -16,9 +18,9 @@ function Profile() {
 
   const { register, handleSubmit } = useForm({
     defaultValues: {
-      firstName: user?.firstName || '',
-      lastName: user?.lastName || '',
-      favDrink: user?.favDrink || '',
+      firstName: '',
+      lastName: '',
+      favDrink: '',
     },
   });
 
@@ -34,9 +36,10 @@ function Profile() {
         ...data,
       }).unwrap();
       setOpen(false);
+      showSnackBarSuccess('User updated');
       refetchUser();
-    } catch (error) {
-      console.error('Failed to update user: ', error);
+    } catch {
+      showSnackBarError('User not updated');
     }
   };
 

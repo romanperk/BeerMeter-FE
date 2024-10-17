@@ -2,8 +2,8 @@ import { useState } from 'react';
 import { createUserWithEmailAndPassword, signInWithPopup, GoogleAuthProvider } from 'firebase/auth';
 import { auth } from '../../services/firebase';
 import { useTranslation } from 'react-i18next';
-import { SignUpLayout } from '../../components/Auth/SignUpLayout';
-import { SignUpTwoStep } from '../../containers/SignUpTwoStep';
+import { SignUpLayout } from '../../containers/Auth/SignUpLayout';
+import { SignUpTwoStep } from '../../containers/Auth/SignUpTwoStep';
 import { useCreateUserMutation } from '../../redux/users/userRtk';
 import { useForm, FormProvider } from 'react-hook-form';
 
@@ -40,8 +40,9 @@ const SignUp = () => {
         uid: userCredential.user.uid,
       }).unwrap();
       setStep(2);
+      // snackBarSuccess
     } catch {
-      // Snackbar error
+      // snackBarError
     }
   };
 
@@ -54,8 +55,9 @@ const SignUp = () => {
         uid: userCredential.user.uid,
       }).unwrap();
       setStep(2);
+      // snackBarSuccess
     } catch {
-      // Snackbar error
+      // snackBarError
     }
   };
 

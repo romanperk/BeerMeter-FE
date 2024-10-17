@@ -13,13 +13,13 @@ import NotLoggedIn from './pages/NotFound/NotLoggedIn';
 import { User } from 'firebase/auth';
 
 interface AppRoutesProps {
-  user: User | null;
+  authState: User | null;
 }
 
-const AppRoutes = ({ user }: AppRoutesProps) => {
+const AppRoutes = ({ authState }: AppRoutesProps) => {
   return (
     <Routes>
-      {user ? (
+      {authState ? (
         <>
           <Route path="/" element={<Home />} />
           <Route path="/lists" element={<Lists />} />

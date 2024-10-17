@@ -1,3 +1,6 @@
+const path = require('path');
+process.chdir(path.join(__dirname));
+
 const express = require('express');
 const bodyParser = require('body-parser');
 const cors = require('cors');

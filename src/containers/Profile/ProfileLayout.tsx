@@ -3,7 +3,7 @@ import { Email, Liquor, Today } from '@mui/icons-material';
 import { IUser } from '../../redux/users/authSlice';
 import { TFunction } from 'i18next';
 import { NavigateFunction } from 'react-router-dom';
-import { formatDate } from '../../helpers/formatDate';
+import { formatDate } from '../../helpers/functions/formatDate';
 
 interface ProfileLayoutProps {
   user: IUser | undefined;

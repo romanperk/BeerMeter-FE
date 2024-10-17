@@ -1,18 +1,11 @@
 import { useEffect, useState } from 'react';
-import { CustomAppBar } from './containers/AppBar';
-import { Box, createTheme, ThemeProvider, CircularProgress, Typography } from '@mui/material';
-import { BrowserRouter } from 'react-router-dom';
-import { Provider } from 'react-redux';
-import store from './redux/store';
+import { CustomAppBar } from './containers/AppBar/AppBar';
+import { Box } from '@mui/material';
 import AppRoutes from './Routes';
 import { onAuthStateChanged, User } from 'firebase/auth';
 import { auth } from './services/firebase';
-
-const theme = createTheme({
-  colorSchemes: {
-    dark: true,
-  },
-});
+import { Providers } from './Providers';
+import { LoadingScreen } from './components/LoadingState/LoadingScreen';
 
 export default function App() {
   const [user, setUser] = useState<User | null>(null);
@@ -26,52 +19,31 @@ export default function App() {
     return () => changeAuthState();
   }, []);
 
-  if (loading) {
-    return (
-      <ThemeProvider theme={theme}>
+  return (
+    <Providers>
+      {loading ? (
+        <LoadingScreen />
+      ) : (
         <Box
           sx={{
             display: 'flex',
-            justifyContent: 'center',
-            alignItems: 'center',
-            height: '100vh',
+            flexDirection: 'column',
+            minHeight: '100vh',
             bgcolor: 'background.default',
+            color: 'text.primary',
           }}
         >
-          <CircularProgress />
-          <Typography variant="h6" sx={{ ml: 2, color: 'text.primary' }}>
-            Loading...
-          </Typography>
-        </Box>
-      </ThemeProvider>
-    );
-  }
-
-  return (
-    <BrowserRouter>
-      <Provider store={store}>
-        <ThemeProvider theme={theme}>
+          <CustomAppBar authState={user} />
           <Box
             sx={{
-              display: 'flex',
-              flexDirection: 'column',
-              minHeight: '100vh',
-              bgcolor: 'background.default',
-              color: 'text.primary',
+              overflowY: 'auto',
+              padding: 3,
             }}
           >
-            <CustomAppBar authState={user} />
-            <Box
-              sx={{
-                overflowY: 'auto',
-                padding: 3,
-              }}
-            >
-              <AppRoutes user={user} />
-            </Box>
+            <AppRoutes authState={user} />
           </Box>
-        </ThemeProvider>
-      </Provider>
-    </BrowserRouter>
+        </Box>
+      )}
+    </Providers>
   );
 }
