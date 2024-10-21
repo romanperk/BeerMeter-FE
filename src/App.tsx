@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { CustomAppBar } from './containers/AppBar/AppBar';
-import { Box } from '@mui/material';
+import { Box, useTheme, useMediaQuery } from '@mui/material';
 import AppRoutes from './Routes';
 import { onAuthStateChanged, User } from 'firebase/auth';
 import { auth } from './services/firebase';
@@ -10,6 +10,9 @@ import { LoadingScreen } from './components/LoadingState/LoadingScreen';
 export default function App() {
   const [user, setUser] = useState<User | null>(null);
   const [loading, setLoading] = useState(true);
+  const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
+  const appBarHeight = isMobile ? 56 : 64;
 
   useEffect(() => {
     const changeAuthState = onAuthStateChanged(auth, (user) => {
@@ -28,7 +31,7 @@ export default function App() {
           sx={{
             display: 'flex',
             flexDirection: 'column',
-            minHeight: '100vh',
+            minHeight: '100dvh',
             bgcolor: 'background.default',
             color: 'text.primary',
           }}
@@ -37,7 +40,7 @@ export default function App() {
           <Box
             sx={{
               overflowY: 'auto',
-              padding: 3,
+              mt: `${appBarHeight}px`,
             }}
           >
             <AppRoutes authState={user} />

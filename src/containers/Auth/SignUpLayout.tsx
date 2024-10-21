@@ -20,11 +20,11 @@ import { useFormContext } from 'react-hook-form';
 
 interface AuthPageProps {
   t: TFunction<'translation', undefined>;
-  handleEmailSignUp: (e: React.FormEvent<HTMLFormElement>) => Promise<void>;
+  handleEmailSignUp: (e: React.FormEvent) => Promise<void>;
   handleGoogleSignUp: () => Promise<void>;
   showPassword: boolean;
   handleClickShowPassword: () => void;
-  preventShow: (event: React.MouseEvent<HTMLButtonElement>) => void;
+  preventShow: (event: React.MouseEvent) => void;
 }
 
 export function SignUpLayout({

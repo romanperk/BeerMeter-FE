@@ -1,39 +1,37 @@
 import { Button, TextField, Typography, Container, Box, CssBaseline } from '@mui/material';
-import { TFunction } from 'i18next';
 import { FavTypeSelect } from '../../components/FavTypeSelect/FavTypeSelect';
 import { useNavigate } from 'react-router-dom';
 import { useUpdateUserMutation } from '../../redux/users/userRtk';
 import { useFetchUser } from '../../helpers/functions/fetchUser';
-import { useFormContext } from 'react-hook-form';
-import { SignUpFormData } from '../../pages/User/SignUp';
-import { useDispatch } from 'react-redux';
-import { login } from '../../redux/users/authSlice';
+import { useForm } from 'react-hook-form';
+import { useTranslation } from 'react-i18next';
 
-interface AuthPageProps {
-  t: TFunction<'translation', undefined>;
+export interface SetUpProfileFormProps {
+  firstName: string;
+  lastName: string;
+  favDrink: string;
 }
 
-export function SignUpTwoStep({ t }: AuthPageProps) {
-  const dispatch = useDispatch();
+export function SetUpProfile() {
   const navigate = useNavigate();
+  const { t } = useTranslation();
   const [updateUser] = useUpdateUserMutation();
   const { user, refetchUser } = useFetchUser();
   const uid = user?.uid || '';
-  const { register, handleSubmit } = useFormContext<SignUpFormData>();
 
-  const onSubmit = async (data: SignUpFormData) => {
+  const { handleSubmit, register } = useForm({
+    defaultValues: {
+      firstName: '',
+      lastName: '',
+      favDrink: '',
+    },
+  });
+
+  const onSubmit = async (data: SetUpProfileFormProps) => {
     await updateUser({
       uid,
-      firstName: data.firstName,
-      lastName: data.lastName,
-      favDrink: data.favDrink,
+      ...data,
     }).unwrap();
-    dispatch(
-      login({
-        uid: user?.uid,
-        email: user?.email,
-      })
-    );
     refetchUser();
     navigate('/');
   };
@@ -58,8 +56,8 @@ export function SignUpTwoStep({ t }: AuthPageProps) {
             label={t('userFirstName')}
             autoComplete="firstName"
             autoFocus
-            {...register('firstName', { required: 'First name is required' })}
             sx={{ mt: 2 }}
+            {...register('firstName')}
           />
           <TextField
             required
@@ -67,8 +65,8 @@ export function SignUpTwoStep({ t }: AuthPageProps) {
             id="lastName"
             label={t('userLastName')}
             autoComplete="lastName"
-            {...register('lastName', { required: 'Last name is required' })}
             sx={{ mt: 2, mb: 2 }}
+            {...register('lastName')}
           />
           <FavTypeSelect t={t} register={register} />
           <Button type="submit" fullWidth variant="contained" sx={{ mt: 3 }}>

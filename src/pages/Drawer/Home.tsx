@@ -3,7 +3,7 @@ import { Box, Typography, Button, Grid } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 
-const Home: React.FC = () => {
+const HomePage: React.FC = () => {
   const navigate = useNavigate();
   const { t } = useTranslation();
 
@@ -37,4 +37,4 @@ const Home: React.FC = () => {
   );
 };
 
-export default Home;
+export default HomePage;

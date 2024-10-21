@@ -1,12 +1,12 @@
 import AppBar from '@mui/material/AppBar';
 import Toolbar from '@mui/material/Toolbar';
 import Container from '@mui/material/Container';
-import { useColorScheme } from '@mui/material';
+import { Slide, useColorScheme } from '@mui/material';
 import SportsBarRoundedIcon from '@mui/icons-material/SportsBarRounded';
 import { signOut, User } from 'firebase/auth';
 import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { AppBarDrawer } from './AppBarDrawer';
 import { AppBarAppName } from './AppBarAppName';
 import { AppBarTheme } from './AppBarTheme';
@@ -33,6 +33,27 @@ export function CustomAppBar({ authState }: CustomAppBarProps) {
   const [langAnchorEl, setLangAnchorEl] = useState<null | HTMLElement>(null);
   const [anchorElUser, setAnchorElUser] = useState<null | HTMLElement>(null);
   const [drawerOpen, setDrawerOpen] = useState(false);
+  const [scrollY, setScrollY] = useState(0);
+  const [showAppBar, setShowAppBar] = useState(true);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      const currentScrollY = window.scrollY;
+
+      if (currentScrollY < 100) {
+        setShowAppBar(true);
+      } else if (currentScrollY > scrollY) {
+        setShowAppBar(false);
+      } else {
+        setShowAppBar(true);
+      }
+      setScrollY(currentScrollY);
+    };
+    window.addEventListener('scroll', handleScroll);
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+    };
+  }, [scrollY]);
 
   if (!mode) {
     return null;
@@ -78,33 +99,35 @@ export function CustomAppBar({ authState }: CustomAppBarProps) {
   };
 
   return (
-    <AppBar position="static">
-      <Container maxWidth={false}>
-        <Toolbar disableGutters>
-          <AppBarDrawer t={t} authState={authState} open={drawerOpen} toggleDrawer={toggleDrawer} />
-          <SportsBarRoundedIcon />
-          <AppBarAppName t={t} />
-          <AppBarTheme mode={mode} toggleTheme={toggleTheme} t={t} />
-          <AppBarLang
-            changeLanguage={changeLanguage}
-            anchorEl={langAnchorEl}
-            t={t}
-            handleOpen={handleOpenLangMenu}
-            language={language}
-            handleClose={() => setLangAnchorEl(null)}
-          />
-          <AppBarUserMenu
-            t={t}
-            authState={authState}
-            user={loadedUser}
-            anchorEl={anchorElUser}
-            handleOpen={handleOpenUserMenu}
-            handleLogout={handleLogout}
-            handleNavigateUser={handleNavigateUser}
-            handleClose={() => setAnchorElUser(null)}
-          />
-        </Toolbar>
-      </Container>
-    </AppBar>
+    <Slide appear={false} direction="down" in={showAppBar}>
+      <AppBar color="inherit">
+        <Container maxWidth={false}>
+          <Toolbar disableGutters>
+            <AppBarDrawer t={t} authState={authState} open={drawerOpen} toggleDrawer={toggleDrawer} />
+            <SportsBarRoundedIcon />
+            <AppBarAppName t={t} />
+            <AppBarTheme mode={mode} toggleTheme={toggleTheme} t={t} />
+            <AppBarLang
+              changeLanguage={changeLanguage}
+              anchorEl={langAnchorEl}
+              t={t}
+              handleOpen={handleOpenLangMenu}
+              language={language}
+              handleClose={() => setLangAnchorEl(null)}
+            />
+            <AppBarUserMenu
+              t={t}
+              authState={authState}
+              user={loadedUser}
+              anchorEl={anchorElUser}
+              handleOpen={handleOpenUserMenu}
+              handleLogout={handleLogout}
+              handleNavigateUser={handleNavigateUser}
+              handleClose={() => setAnchorElUser(null)}
+            />
+          </Toolbar>
+        </Container>
+      </AppBar>
+    </Slide>
   );
 }

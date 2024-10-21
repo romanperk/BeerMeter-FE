@@ -3,19 +3,34 @@ const pool = require('../database');
 const toCamelCase = require('../helpers/toCamelCase');
 const router = express.Router();
 
-// Create a new user
+// Create or check if a user already exists
 router.post('/createUser', async (req, res) => {
   const { email, uid } = req.body;
 
   try {
-    const result = await pool.query('INSERT INTO users (email, uid) VALUES ($1, $2) RETURNING *', [
+    const existingUser = await pool.query('SELECT * FROM users WHERE email = $1', [email]);
+
+    if (existingUser.rows.length > 0) {
+      return res.status(200).json({
+        message: 'User already exists',
+        user: toCamelCase(existingUser.rows[0]),
+        isNewUser: false,
+      });
+    }
+
+    const newUser = await pool.query('INSERT INTO users (email, uid) VALUES ($1, $2) RETURNING *', [
       email,
       uid,
     ]);
-    res.status(201).json(toCamelCase(result.rows[0]));
+
+    res.status(201).json({
+      message: 'New user created',
+      user: toCamelCase(newUser.rows[0]),
+      isNewUser: true,
+    });
   } catch (error) {
-    console.error('Error inserting user:', error);
-    res.status(500).json({ message: 'Error creating user' });
+    console.error('Error checking or creating user:', error);
+    res.status(500).json({ message: 'Error processing user' });
   }
 });
 

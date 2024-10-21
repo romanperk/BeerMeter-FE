@@ -16,35 +16,28 @@ import {
 import { Visibility, VisibilityOff } from '@mui/icons-material';
 import { TFunction } from 'i18next';
 import { useNavigate } from 'react-router-dom';
+import { useFormContext } from 'react-hook-form';
 
 interface AuthPageProps {
   t: TFunction<'translation', undefined>;
-  email: string;
-  setEmail: React.Dispatch<React.SetStateAction<string>>;
-  password: string;
-  setPassword: React.Dispatch<React.SetStateAction<string>>;
-  handleAuth: (e: React.FormEvent<HTMLFormElement>) => Promise<void>;
+  handleEmailSignIn: (e: React.FormEvent) => Promise<void>;
   handleGoogleSignIn: () => Promise<void>;
   showPassword: boolean;
   handleClickShowPassword: () => void;
-  handleMouseDownPassword: (event: React.MouseEvent<HTMLButtonElement>) => void;
-  handleMouseUpPassword: (event: React.MouseEvent<HTMLButtonElement>) => void;
+  preventShow: (event: React.MouseEvent) => void;
 }
 
 export function LoginLayout({
   t,
-  email,
-  setEmail,
-  password,
-  setPassword,
-  handleAuth,
+  handleEmailSignIn,
   handleGoogleSignIn,
   showPassword,
   handleClickShowPassword,
-  handleMouseDownPassword,
-  handleMouseUpPassword,
+  preventShow,
 }: AuthPageProps) {
   const navigate = useNavigate();
+  const { register } = useFormContext();
+
   return (
     <Container component="main" maxWidth="xs">
       <CssBaseline />
@@ -57,18 +50,16 @@ export function LoginLayout({
         }}
       >
         <Typography variant="h4">{t('authWelcomeBack')}</Typography>
-        <Box component="form" onSubmit={handleAuth} noValidate sx={{ mt: 1 }}>
+        <Box component="form" onSubmit={handleEmailSignIn} noValidate sx={{ mt: 1 }}>
           <TextField
             margin="normal"
             required
             fullWidth
             id="email"
             label={t('authEmailAddress')}
-            name="email"
             autoComplete="email"
             autoFocus
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
+            {...register('email', { required: 'Email is required' })}
           />
           <FormControl variant="outlined" fullWidth required>
             <InputLabel htmlFor="password">{t('authPassword')}</InputLabel>
@@ -76,16 +67,15 @@ export function LoginLayout({
               id="password"
               label={t('authPassword')}
               type={showPassword ? 'text' : 'password'}
-              value={password}
               autoComplete="current-password"
-              onChange={(e) => setPassword(e.target.value)}
+              {...register('password', { required: 'Password is required' })}
               endAdornment={
                 <InputAdornment position="end">
                   <IconButton
                     aria-label="toggle password visibility"
                     onClick={handleClickShowPassword}
-                    onMouseDown={handleMouseDownPassword}
-                    onMouseUp={handleMouseUpPassword}
+                    onMouseDown={preventShow}
+                    onMouseUp={preventShow}
                     edge="end"
                   >
                     {showPassword ? <VisibilityOff /> : <Visibility />}

@@ -1,21 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit';
 
-interface AuthState {
-  user: IUser | undefined;
-  loading: boolean;
-  error: boolean | null;
-  isLoggedIn: boolean;
-}
-
-export interface IUser {
-  uid: string | null;
-  firstName?: string | null;
-  lastName?: string | null;
-  email?: string | null;
-  createdAt?: string | null;
-  favDrink?: string | null;
-}
-
 const initialState: AuthState = {
   user: undefined,
   loading: true,
@@ -50,3 +34,25 @@ const authSlice = createSlice({
 
 export const { loginSuccess, loginFailure, logout, login } = authSlice.actions;
 export default authSlice.reducer;
+
+interface AuthState {
+  user: IUser | undefined;
+  loading: boolean;
+  error: boolean | null;
+  isLoggedIn: boolean;
+}
+
+export interface IUser {
+  uid: string | null;
+  firstName?: string | null;
+  lastName?: string | null;
+  email?: string | null;
+  createdAt?: string | null;
+  favDrink?: string | null;
+  isNewUser?: boolean;
+}
+
+export interface IEmailLayout {
+  email: string;
+  password: string;
+}
