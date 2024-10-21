@@ -6,6 +6,7 @@ import { onAuthStateChanged, User } from 'firebase/auth';
 import { auth } from './services/firebase';
 import { Providers } from './Providers';
 import { LoadingScreen } from './components/LoadingState/LoadingScreen';
+import { SpeedInsights } from '@vercel/speed-insights/react';
 
 export default function App() {
   const [user, setUser] = useState<User | null>(null);
@@ -44,6 +45,7 @@ export default function App() {
             }}
           >
             <AppRoutes authState={user} />
+            <SpeedInsights />
           </Box>
         </Box>
       )}

@@ -44,7 +44,7 @@ export function useHelpers() {
   const handleEmailSignIn = async () => {
     try {
       await signInWithEmailAndPassword(auth, email, password);
-      navigate(`/home`);
+      navigate(`/`);
       showSnackBarSuccess(t('authSnackBarSuccess'));
     } catch {
       showSnackBarError(t('authSnackBarError'));
@@ -82,7 +82,7 @@ export function useHelpers() {
         navigate('/setUp');
       } else {
         showSnackBarSuccess('Welcome back! Ready for another round? 🍺');
-        navigate(`/home`);
+        navigate(`/`);
       }
     } catch {
       showSnackBarError('Authentication failed. Please try again!');

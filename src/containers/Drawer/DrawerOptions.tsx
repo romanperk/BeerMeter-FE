@@ -17,7 +17,7 @@ export function DrawerOptions({ onClose, t }: DrawerListProps) {
   return (
     <Box sx={{ width: 250 }} role="presentation" onClick={onClose}>
       <List>
-        <DrawerListItem navDestination="/home" icon={<HomeIcon />} text={t('home')} />
+        <DrawerListItem navDestination="/" icon={<HomeIcon />} text={t('home')} />
         <DrawerListItem navDestination="/lists" icon={<FormatListBulletedIcon />} text={t('lists')} />
       </List>
       <Divider />

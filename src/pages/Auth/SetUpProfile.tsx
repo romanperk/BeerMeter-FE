@@ -33,7 +33,7 @@ export function SetUpProfile() {
       ...data,
     }).unwrap();
     refetchUser();
-    navigate('/home');
+    navigate('/');
   };
 
   return (

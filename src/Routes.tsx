@@ -23,15 +23,23 @@ interface AppRoutesProps {
 const AppRoutes = ({ authState }: AppRoutesProps) => {
   return (
     <Routes>
-      {/* Public Routes */}
+      {/* Public or Private Route based on authentication */}
       <Route
         path="/"
         element={
-          <PublicRoute isAuthenticated={authState}>
-            <LandingPage />
-          </PublicRoute>
+          authState ? (
+            <PrivateRoute isAuthenticated={authState}>
+              <HomePage />
+            </PrivateRoute>
+          ) : (
+            <PublicRoute isAuthenticated={authState}>
+              <LandingPage />
+            </PublicRoute>
+          )
         }
       />
+
+      {/* Public Routes */}
       <Route
         path="/login"
         element={
@@ -50,14 +58,6 @@ const AppRoutes = ({ authState }: AppRoutesProps) => {
       />
 
       {/* Private Routes */}
-      <Route
-        path="/home"
-        element={
-          <PrivateRoute isAuthenticated={authState}>
-            <HomePage />
-          </PrivateRoute>
-        }
-      />
       <Route
         path="/lists"
         element={
