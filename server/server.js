@@ -8,7 +8,7 @@ const userRoutes = require('./routes/userRoutes');
 require('dotenv').config({ path: '../.env' });
 
 const app = express();
-const frontendPath = path.join(__dirname, '..', 'dist');
+const frontendPath = path.join(__dirname, '../../dist');
 
 // Serve static files from the Vite build (dist folder)
 app.use(express.static(frontendPath));
