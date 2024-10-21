@@ -5,8 +5,17 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const cors = require('cors');
 const userRoutes = require('./routes/userRoutes');
+require('dotenv').config({ path: '../.env' });
 
 const app = express();
+
+// Serve static files from the Vite build (dist folder)
+app.use(express.static(path.join(__dirname, 'dist')));
+
+// All other GET requests not handled before will return index.html (SPA fallback)
+app.get('*', (req, res) => {
+  res.sendFile(path.join(__dirname, 'dist', 'index.html'));
+});
 
 // Middleware
 app.use(bodyParser.json());
@@ -17,7 +26,7 @@ app.use(cors());
 // Routes
 app.use('/api/users', userRoutes);
 
-const port = 5000;
+const port = process.env.PORT || 5000;
 app.listen(port, () => {
   console.log(`Server is running on port ${port}`);
 });

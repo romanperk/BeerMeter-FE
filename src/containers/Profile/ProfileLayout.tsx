@@ -20,7 +20,7 @@ export function ProfileLayout({ user, t, navigate, setOpen }: ProfileLayoutProps
         p: { xs: 2, sm: 3 },
         bgcolor: 'background.default',
         maxWidth: 600,
-        margin: 'auto',
+        m: 3,
         borderRadius: '16px',
       }}
     >

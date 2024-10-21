@@ -1,9 +1,10 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 import { IUser } from './authSlice';
+const base_url = import.meta.env.VITE_BASE_URL;
 
 export const userRtk = createApi({
   reducerPath: 'api',
-  baseQuery: fetchBaseQuery({ baseUrl: 'http://localhost:5000/api/users/' }),
+  baseQuery: fetchBaseQuery({ baseUrl: `${base_url}/api/users/` }),
   endpoints: (builder) => ({
     getUser: builder.query<IUser, string>({
       query: (uid) => `/getUser/${uid}`,

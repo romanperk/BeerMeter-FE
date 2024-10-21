@@ -8,7 +8,7 @@ const HomePage: React.FC = () => {
   const { t } = useTranslation();
 
   return (
-    <Box sx={{ textAlign: 'center', mt: 5 }}>
+    <Box sx={{ textAlign: 'center', m: 3 }}>
       <Typography variant="h3" component="h1" gutterBottom>
         {t('welcome1')}
       </Typography>

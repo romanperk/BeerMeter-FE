@@ -24,14 +24,14 @@ function Profile() {
     },
   });
 
-  const onSubmit = (data: any) => {
+  const onSubmit = async (data: any) => {
     const uid = user?.uid;
     if (!uid) {
       console.error('User UID is required');
       return;
     }
     try {
-      updateUser({
+      await updateUser({
         uid,
         ...data,
       }).unwrap();
