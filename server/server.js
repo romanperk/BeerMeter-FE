@@ -8,13 +8,14 @@ const userRoutes = require('./routes/userRoutes');
 require('dotenv').config({ path: '../.env' });
 
 const app = express();
+const frontendPath = path.join(__dirname, '..', 'dist');
 
 // Serve static files from the Vite build (dist folder)
-app.use(express.static(path.join(__dirname, 'dist')));
+app.use(express.static(frontendPath));
 
 // All other GET requests not handled before will return index.html (SPA fallback)
 app.get('*', (req, res) => {
-  res.sendFile(path.join(__dirname, 'dist', 'index.html'));
+  res.sendFile(path.join(frontendPath, 'index.html'));
 });
 
 // Middleware
