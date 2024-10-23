@@ -10,7 +10,7 @@ export function HeroSection({ downMd, navigate }: HeroSectionProps) {
   return (
     <Box
       sx={{
-        backgroundImage: 'url("https://c.wallhere.com/photos/79/7b/1920x1080_px_beer_drink-1300151.jpg!d")',
+        backgroundImage: 'url(landing_page.jpg)',
         backgroundSize: 'cover',
         backgroundPosition: 'center',
         height: { xs: '30vh', sm: '45vh' },

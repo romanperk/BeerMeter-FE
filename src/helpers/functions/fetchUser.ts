@@ -1,32 +1,42 @@
-import { getAuth, onAuthStateChanged } from 'firebase/auth';
 import { useEffect, useState } from 'react';
 import { useGetUserQuery } from '../../redux/users/userRtk';
-
-const auth = getAuth();
+import { supabase } from '../../services/supabase';
 
 export const useFetchUser = () => {
-  const [uid, setUid] = useState<string | null>(null);
+  const [userId, setUserId] = useState<string | null>(null);
 
   const {
     data: user,
     error,
     isLoading,
     refetch: refetchUser,
-  } = useGetUserQuery(uid || '', {
-    skip: !uid,
+  } = useGetUserQuery(userId || '', {
+    skip: !userId,
     refetchOnMountOrArgChange: true,
   });
 
   useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, (user) => {
-      if (user) {
-        setUid(user.uid);
+    const {
+      data: { subscription },
+    } = supabase.auth.onAuthStateChange((_event, session) => {
+      if (session) {
+        setUserId(session.user.id);
       } else {
-        setUid(null);
+        setUserId(null);
       }
     });
 
-    return () => unsubscribe();
+    const fetchUserSession = async () => {
+      const { data } = await supabase.auth.getUser();
+      if (data.user) {
+        setUserId(data.user.id);
+      }
+    };
+    fetchUserSession();
+
+    return () => {
+      subscription.unsubscribe();
+    };
   }, []);
 
   return { user, error, isLoading, refetchUser };

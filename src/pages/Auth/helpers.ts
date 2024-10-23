@@ -5,13 +5,7 @@ import { useCreateUserMutation } from '../../redux/users/userRtk';
 import { useShowSnackbar } from '../../helpers/functions/showSnackBar';
 import { useForm } from 'react-hook-form';
 import { IEmailLayout } from '../../redux/users/authSlice';
-import {
-  createUserWithEmailAndPassword,
-  GoogleAuthProvider,
-  signInWithEmailAndPassword,
-  signInWithPopup,
-} from 'firebase/auth';
-import { auth } from '../../services/firebase';
+import { supabase } from '../../services/supabase';
 
 export function useHelpers() {
   const { t } = useTranslation();
@@ -42,24 +36,30 @@ export function useHelpers() {
   };
 
   const handleEmailSignIn = async () => {
-    try {
-      await signInWithEmailAndPassword(auth, email, password);
-      navigate(`/`);
-      showSnackBarSuccess(t('authSnackBarSuccess'));
-    } catch {
-      showSnackBarError(t('authSnackBarError'));
+    const { error } = await supabase.auth.signInWithPassword({
+      email,
+      password,
+    });
+    if (error) {
+      showSnackBarError(error.message);
+      throw new Error();
     }
+    navigate(`/`);
+    showSnackBarSuccess(t('authSnackBarSuccess'));
   };
 
   const handleEmailSignUp = async (data: IEmailLayout) => {
     const { email, password } = data;
     try {
-      const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+      const userCredential = await supabase.auth.signUp({
+        email,
+        password,
+      });
       await createUser({
-        email: userCredential.user.email!,
-        uid: userCredential.user.uid,
+        email: userCredential.data.user?.email ?? '',
+        uid: userCredential.data.user?.id ?? '',
       }).unwrap();
-      navigate('/setUp');
+      navigate('/emailConfirmation');
       // snackBarSuccess
     } catch {
       // snackBarError
@@ -67,14 +67,14 @@ export function useHelpers() {
   };
 
   const handleGoogleSignIn = async () => {
-    const provider = new GoogleAuthProvider();
     try {
-      const userCredential = await signInWithPopup(auth, provider);
-      const user = userCredential.user;
-
+      await supabase.auth.signInWithOAuth({ provider: 'google' });
+      const {
+        data: { session },
+      } = await supabase.auth.getSession();
       const response = await createUser({
-        email: user.email!,
-        uid: user.uid,
+        email: session?.user.email ?? '',
+        uid: session?.user.id ?? '',
       }).unwrap();
 
       if (response.isNewUser) {

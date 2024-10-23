@@ -2,12 +2,12 @@ import { Box, Drawer, IconButton } from '@mui/material';
 import MenuIcon from '@mui/icons-material/Menu';
 import { DrawerOptions } from '../Drawer/DrawerOptions';
 import { TFunction } from 'i18next';
-import { User } from 'firebase/auth';
+import { Session } from '@supabase/supabase-js';
 
 interface AppBarDrawerProps {
   toggleDrawer: (newOpen: boolean) => () => void;
   open: boolean;
-  authState: User | null;
+  authState: Session | null;
   t: TFunction<'translation', undefined>;
 }
 

@@ -1,9 +1,9 @@
-import { User } from 'firebase/auth';
+import { Session } from '@supabase/supabase-js';
 import { Navigate } from 'react-router-dom';
 
 interface PublicRouteProps {
   children: JSX.Element;
-  isAuthenticated: User | null;
+  isAuthenticated: Session | null;
 }
 
 export const PublicRoute: React.FC<PublicRouteProps> = ({ children, isAuthenticated }) => {

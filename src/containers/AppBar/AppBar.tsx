@@ -3,7 +3,6 @@ import Toolbar from '@mui/material/Toolbar';
 import Container from '@mui/material/Container';
 import { Slide, useColorScheme } from '@mui/material';
 import SportsBarRoundedIcon from '@mui/icons-material/SportsBarRounded';
-import { signOut, User } from 'firebase/auth';
 import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { useEffect, useState } from 'react';
@@ -11,15 +10,16 @@ import { AppBarDrawer } from './AppBarDrawer';
 import { AppBarAppName } from './AppBarAppName';
 import { AppBarTheme } from './AppBarTheme';
 import { AppBarLang } from './AppBarLang';
-import { auth } from '../../services/firebase';
 import { logout } from '../../redux/users/authSlice';
 import { useDispatch } from 'react-redux';
 import { AppBarUserMenu } from './AppBarUserMenu';
 import { useFetchUser } from '../../helpers/functions/fetchUser';
 import { useShowSnackbar } from '../../helpers/functions/showSnackBar';
+import { Session } from '@supabase/supabase-js';
+import { supabase } from '../../services/supabase';
 
 interface CustomAppBarProps {
-  authState: User | null;
+  authState: Session | null;
 }
 
 export function CustomAppBar({ authState }: CustomAppBarProps) {
@@ -88,7 +88,7 @@ export function CustomAppBar({ authState }: CustomAppBarProps) {
 
   const handleLogout = async () => {
     try {
-      await signOut(auth);
+      await supabase.auth.signOut();
       dispatch(logout());
       navigate('/login');
       setAnchorElUser(null);

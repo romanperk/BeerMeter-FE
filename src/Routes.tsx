@@ -9,15 +9,17 @@ import { DrinkingBuddies } from './pages/Drawer/DrinkingBuddies';
 import { GeneralInfo } from './pages/Drawer/GeneralInfo';
 import Profile from './pages/Profile/Profile';
 import NotLoggedIn from './pages/NotFound/NotLoggedIn';
-import { User } from 'firebase/auth';
 import { SetUpProfile } from './pages/Auth/SetUpProfile';
 import { PublicRoute } from './containers/Routes/PublicRoute';
 import { PrivateRoute } from './containers/Routes/PrivateRoute';
 import LandingPage from './pages/LandingPage/LandingPage';
 import HomePage from './pages/Drawer/Home';
+import ListDetail from './pages/ListDetail/ListDetail';
+import { Session } from '@supabase/supabase-js';
+import EmailConfirmation from './pages/Auth/EmailConfirmation';
 
 interface AppRoutesProps {
-  authState: User | null;
+  authState: Session | null;
 }
 
 const AppRoutes = ({ authState }: AppRoutesProps) => {
@@ -56,6 +58,14 @@ const AppRoutes = ({ authState }: AppRoutesProps) => {
           </PublicRoute>
         }
       />
+      <Route
+        path="/emailConfirmation"
+        element={
+          <PublicRoute isAuthenticated={authState}>
+            <EmailConfirmation />
+          </PublicRoute>
+        }
+      />
 
       {/* Private Routes */}
       <Route
@@ -63,6 +73,14 @@ const AppRoutes = ({ authState }: AppRoutesProps) => {
         element={
           <PrivateRoute isAuthenticated={authState}>
             <Lists />
+          </PrivateRoute>
+        }
+      />
+      <Route
+        path="/lists/:id"
+        element={
+          <PrivateRoute isAuthenticated={authState}>
+            <ListDetail />
           </PrivateRoute>
         }
       />

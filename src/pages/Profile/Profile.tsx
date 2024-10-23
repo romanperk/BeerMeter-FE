@@ -7,6 +7,7 @@ import { useUpdateUserMutation } from '../../redux/users/userRtk';
 import { useFetchUser } from '../../helpers/functions/fetchUser';
 import { useForm } from 'react-hook-form';
 import { useShowSnackbar } from '../../helpers/functions/showSnackBar';
+import { SetUpProfileFormProps } from '../Auth/SetUpProfile';
 
 function Profile() {
   const navigate = useNavigate();
@@ -24,7 +25,7 @@ function Profile() {
     },
   });
 
-  const onSubmit = async (data: any) => {
+  const onSubmit = async (data: SetUpProfileFormProps) => {
     const uid = user?.uid;
     if (!uid) {
       console.error('User UID is required');

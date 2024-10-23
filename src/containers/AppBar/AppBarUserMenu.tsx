@@ -1,11 +1,11 @@
 import { Avatar, Box, IconButton, Menu, MenuItem, Tooltip, Typography } from '@mui/material';
 import { TFunction } from 'i18next';
 import { IUser } from '../../redux/users/authSlice';
-import { User } from 'firebase/auth';
+import { Session } from '@supabase/supabase-js';
 
 interface AppBarUserMenu {
   t: TFunction<'translation', undefined>;
-  authState: User | null;
+  authState: Session | null;
   anchorEl: HTMLElement | null;
   user: IUser | undefined;
   handleOpen: (event: React.MouseEvent<HTMLElement>) => void;
