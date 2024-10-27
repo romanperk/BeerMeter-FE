@@ -16,7 +16,7 @@ import { AppBarUserMenu } from './AppBarUserMenu';
 import { useFetchUser } from '../../helpers/functions/fetchUser';
 import { useShowSnackbar } from '../../helpers/functions/showSnackBar';
 import { Session } from '@supabase/supabase-js';
-import { supabase } from '../../services/supabase';
+import supabase from '../../services/supabase';
 
 interface CustomAppBarProps {
   authState: Session | null;

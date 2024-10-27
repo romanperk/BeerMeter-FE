@@ -5,7 +5,7 @@ import AppRoutes from './Routes';
 import { Providers } from './Providers';
 import { LoadingScreen } from './components/LoadingState/LoadingScreen';
 import { SpeedInsights } from '@vercel/speed-insights/react';
-import { supabase } from './services/supabase';
+import supabase from './services/supabase';
 import { Session } from '@supabase/supabase-js';
 
 export default function App() {

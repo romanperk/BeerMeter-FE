@@ -5,7 +5,7 @@ import { useCreateUserMutation } from '../../redux/users/userRtk';
 import { useShowSnackbar } from '../../helpers/functions/showSnackBar';
 import { useForm } from 'react-hook-form';
 import { IEmailLayout } from '../../redux/users/authSlice';
-import { supabase } from '../../services/supabase';
+import supabase from '../../services/supabase';
 
 export function useHelpers() {
   const { t } = useTranslation();

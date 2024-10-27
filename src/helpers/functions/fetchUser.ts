@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useGetUserQuery } from '../../redux/users/userRtk';
-import { supabase } from '../../services/supabase';
+import supabase from '../../services/supabase';
 
 export const useFetchUser = () => {
   const [userId, setUserId] = useState<string | null>(null);
