@@ -2,9 +2,10 @@ import { Button, TextField, Typography, Container, Box, CssBaseline } from '@mui
 import { FavTypeSelect } from '../../components/FavTypeSelect/FavTypeSelect';
 import { useNavigate } from 'react-router-dom';
 import { useUpdateUserMutation } from '../../redux/users/userRtk';
-import { useFetchUser } from '../../helpers/functions/fetchUser';
 import { useForm } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
+import { useSelector } from 'react-redux';
+import { getUserId } from '../../redux/users/userSelectors';
 
 export interface SetUpProfileFormProps {
   firstName: string;
@@ -16,8 +17,7 @@ export function SetUpProfile() {
   const navigate = useNavigate();
   const { t } = useTranslation();
   const [updateUser] = useUpdateUserMutation();
-  const { user, refetchUser } = useFetchUser();
-  const uid = user?.uid || '';
+  const userId = useSelector(getUserId)!;
 
   const { handleSubmit, register } = useForm({
     defaultValues: {
@@ -29,10 +29,9 @@ export function SetUpProfile() {
 
   const onSubmit = async (data: SetUpProfileFormProps) => {
     await updateUser({
-      uid,
+      userId,
       ...data,
     }).unwrap();
-    refetchUser();
     navigate('/');
   };
 

@@ -1,13 +1,13 @@
 import { createSlice } from '@reduxjs/toolkit';
 
-const initialState: AuthState = {
+const initialState: UserState = {
   user: undefined,
   loading: true,
   error: null,
   isLoggedIn: false,
 };
 
-const authSlice = createSlice({
+const userSlice = createSlice({
   name: 'auth',
   initialState,
   reducers: {
@@ -21,7 +21,7 @@ const authSlice = createSlice({
     },
     login: (state, action) => {
       state.user = {
-        uid: action.payload.uid || null,
+        userId: action.payload.userId || null,
         email: action.payload.email || null,
       };
       state.isLoggedIn = true;
@@ -32,10 +32,10 @@ const authSlice = createSlice({
   },
 });
 
-export const { loginSuccess, loginFailure, logout, login } = authSlice.actions;
-export default authSlice.reducer;
+export const { loginSuccess, loginFailure, logout, login } = userSlice.actions;
+export default userSlice.reducer;
 
-interface AuthState {
+interface UserState {
   user: IUser | undefined;
   loading: boolean;
   error: boolean | null;
@@ -43,7 +43,7 @@ interface AuthState {
 }
 
 export interface IUser {
-  uid: string | null;
+  userId: string | null;
   firstName?: string | null;
   lastName?: string | null;
   email?: string | null;

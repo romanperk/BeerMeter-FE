@@ -6,9 +6,12 @@ import { Providers } from './Providers';
 import { LoadingScreen } from './components/LoadingState/LoadingScreen';
 import { SpeedInsights } from '@vercel/speed-insights/react';
 import supabase from './services/supabase';
+import { useDispatch } from 'react-redux';
+import { login, logout } from './redux/users/userSlice';
 import { Session } from '@supabase/supabase-js';
 
 export default function App() {
+  const dispatch = useDispatch();
   const [session, setSession] = useState<Session | null>(null);
   const [loading, setLoading] = useState(true);
   const theme = useTheme();
@@ -16,15 +19,35 @@ export default function App() {
   const appBarHeight = isMobile ? 56 : 64;
 
   useEffect(() => {
-    supabase.auth.getSession().then(({ data: { session } }) => {
+    const handleAuthChange = async (newSession: Session | null) => {
+      setSession(newSession);
       setLoading(false);
-      setSession(session);
-    });
+
+      if (newSession) {
+        dispatch(login({ userId: newSession.user.id, email: newSession.user.email }));
+
+        const { data: existingUser } = await supabase
+          .from('users')
+          .select('user_id')
+          .eq('user_id', newSession.user.id)
+          .single();
+
+        if (!existingUser) {
+          const { error: insertError } = await supabase
+            .from('users')
+            .insert({ user_id: newSession.user.id, email: newSession.user.email });
+
+          if (insertError) console.error('Error inserting user:', insertError);
+        }
+      } else {
+        dispatch(logout());
+      }
+    };
 
     const {
       data: { subscription },
     } = supabase.auth.onAuthStateChange((_event, session) => {
-      setSession(session);
+      handleAuthChange(session);
     });
 
     return () => subscription.unsubscribe();

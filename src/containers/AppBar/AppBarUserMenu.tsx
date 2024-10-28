@@ -1,6 +1,6 @@
 import { Avatar, Box, IconButton, Menu, MenuItem, Tooltip, Typography } from '@mui/material';
 import { TFunction } from 'i18next';
-import { IUser } from '../../redux/users/authSlice';
+import { IUser } from '../../redux/users/userSlice';
 import { Session } from '@supabase/supabase-js';
 
 interface AppBarUserMenu {

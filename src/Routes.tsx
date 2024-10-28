@@ -16,7 +16,6 @@ import LandingPage from './pages/LandingPage/LandingPage';
 import HomePage from './pages/Drawer/Home';
 import ListDetail from './pages/ListDetail/ListDetail';
 import { Session } from '@supabase/supabase-js';
-import EmailConfirmation from './pages/Auth/EmailConfirmation';
 
 interface AppRoutesProps {
   authState: Session | null;
@@ -55,14 +54,6 @@ const AppRoutes = ({ authState }: AppRoutesProps) => {
         element={
           <PublicRoute isAuthenticated={authState}>
             <SignUp />
-          </PublicRoute>
-        }
-      />
-      <Route
-        path="/emailConfirmation"
-        element={
-          <PublicRoute isAuthenticated={authState}>
-            <EmailConfirmation />
           </PublicRoute>
         }
       />

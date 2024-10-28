@@ -10,13 +10,15 @@ import { AppBarDrawer } from './AppBarDrawer';
 import { AppBarAppName } from './AppBarAppName';
 import { AppBarTheme } from './AppBarTheme';
 import { AppBarLang } from './AppBarLang';
-import { logout } from '../../redux/users/authSlice';
+import { logout } from '../../redux/users/userSlice';
 import { useDispatch } from 'react-redux';
 import { AppBarUserMenu } from './AppBarUserMenu';
-import { useFetchUser } from '../../helpers/functions/fetchUser';
 import { useShowSnackbar } from '../../helpers/functions/showSnackBar';
 import { Session } from '@supabase/supabase-js';
 import supabase from '../../services/supabase';
+import { useSelector } from 'react-redux';
+import { getUserId } from '../../redux/users/userSelectors';
+import { useGetUserQuery } from '../../redux/users/userRtk';
 
 interface CustomAppBarProps {
   authState: Session | null;
@@ -25,8 +27,8 @@ interface CustomAppBarProps {
 export function CustomAppBar({ authState }: CustomAppBarProps) {
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const userId = useSelector(getUserId);
   const { showSnackBarSuccess } = useShowSnackbar();
-  const { user: loadedUser } = useFetchUser();
   const { t, i18n } = useTranslation();
   const { mode, setMode } = useColorScheme();
   const [language, setLanguage] = useState(i18n.language);
@@ -35,6 +37,10 @@ export function CustomAppBar({ authState }: CustomAppBarProps) {
   const [drawerOpen, setDrawerOpen] = useState(false);
   const [scrollY, setScrollY] = useState(0);
   const [showAppBar, setShowAppBar] = useState(true);
+  const { data: user } = useGetUserQuery(userId || '', {
+    skip: !userId,
+    refetchOnMountOrArgChange: true,
+  });
 
   useEffect(() => {
     const handleScroll = () => {
@@ -118,7 +124,7 @@ export function CustomAppBar({ authState }: CustomAppBarProps) {
             <AppBarUserMenu
               t={t}
               authState={authState}
-              user={loadedUser}
+              user={user}
               anchorEl={anchorElUser}
               handleOpen={handleOpenUserMenu}
               handleLogout={handleLogout}
