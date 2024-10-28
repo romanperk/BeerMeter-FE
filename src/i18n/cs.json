@@ -55,5 +55,17 @@
   "userSelectUndefined": "Nepiju",
   "userSelectBeer": "Pivo",
   "userSelectDrinks": "Drinky",
-  "userSelectShots": "Panáky"
+  "userSelectShots": "Panáky",
+  "placeName": "Název navštevovaného místa",
+  "placeSetUp": "Nastav informace o místě",
+  "placeSelectUndefined": "Vyber typ místa",
+  "placeSelectPub": "Hospoda",
+  "placeSelectRestaurant": "Restaurace",
+  "placeSelectBar": "Bar",
+  "placeSelectClub": "Klub",
+  "addNewListBtn": "Nový seznam",
+  "placeCancelChangesBtn": "Zrušit",
+  "placeSaveChangesBtn": "Přidat",
+  "searchListField": "Hledat",
+  "myLists": "Seznamy"
 }

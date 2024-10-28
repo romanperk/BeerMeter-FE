@@ -1,10 +1,40 @@
-import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
+import {
+  BaseQueryFn,
+  createApi,
+  FetchArgs,
+  fetchBaseQuery,
+  FetchBaseQueryError,
+} from '@reduxjs/toolkit/query/react';
 import { IUser } from './userSlice';
+import supabase from '../../services/supabase';
 const base_url = import.meta.env.VITE_BASE_URL;
+
+const baseQueryWithAuth: BaseQueryFn<string | FetchArgs, unknown, FetchBaseQueryError> = async (
+  args: string | FetchArgs,
+  api,
+  extraOptions
+) => {
+  const {
+    data: { session },
+  } = await supabase.auth.getSession();
+  const token = session ? session.access_token : null;
+
+  const baseQuery = fetchBaseQuery({
+    baseUrl: `${base_url}/api/users/`,
+    prepareHeaders: (headers) => {
+      if (token) {
+        headers.set('Authorization', `Bearer ${token}`);
+      }
+      return headers;
+    },
+  });
+
+  return baseQuery(args, api, extraOptions);
+};
 
 export const userRtk = createApi({
   reducerPath: 'users',
-  baseQuery: fetchBaseQuery({ baseUrl: `${base_url}/api/users/` }),
+  baseQuery: baseQueryWithAuth,
   endpoints: (builder) => ({
     getUser: builder.query<IUser, string>({
       query: (userId) => `/getUser/${userId}`,

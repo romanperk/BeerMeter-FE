@@ -55,5 +55,17 @@
   "userSelectUndefined": "I don't drink",
   "userSelectBeer": "Beer",
   "userSelectDrinks": "Drinks",
-  "userSelectShots": "Shots"
+  "userSelectShots": "Shots",
+  "placeName": "Name of visited place",
+  "placeSetUp": "Set your place info",
+  "placeSelectUndefined": "Select type of place",
+  "placeSelectPub": "Pub",
+  "placeSelectRestaurant": "Restaurant",
+  "placeSelectBar": "Bar",
+  "placeSelectClub": "Club",
+  "addNewListBtn": "Add new list",
+  "placeCancelChangesBtn": "Cancel",
+  "placeSaveChangesBtn": "Add",
+  "searchListField": "Search",
+  "myLists": "My lists"
 }

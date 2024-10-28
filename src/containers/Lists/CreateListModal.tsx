@@ -19,7 +19,7 @@ export function CreateListModal({ t, open, handleClose, handleSubmit, register }
         <form onSubmit={handleSubmit}>
           <Stack spacing={2} direction="column">
             <Typography variant="h5" component="h2" color="text.primary" sx={{ pb: 1 }}>
-              {t('placeSetName')}
+              {t('placeSetUp')}
             </Typography>
 
             <TextField fullWidth label={t('placeName')} variant="outlined" required {...register('place')} />
@@ -36,7 +36,7 @@ export function CreateListModal({ t, open, handleClose, handleSubmit, register }
                   color: 'text.primary',
                 }}
               >
-                {t('placeCancelChangesButton')}
+                {t('placeCancelChangesBtn')}
               </Button>
               <Button
                 type="submit"
@@ -47,7 +47,7 @@ export function CreateListModal({ t, open, handleClose, handleSubmit, register }
                   borderRadius: 2,
                 }}
               >
-                {t('placeSaveChangesButton')}
+                {t('placeSaveChangesBtn')}
               </Button>
             </Stack>
           </Stack>

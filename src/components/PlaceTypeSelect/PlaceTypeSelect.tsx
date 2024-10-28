@@ -10,10 +10,10 @@ interface PlaceTypeSelectProps {
 export function PlaceTypeSelect({ t, register }: PlaceTypeSelectProps) {
   return (
     <FormControl fullWidth>
-      <InputLabel id="select-place-type">{t('placeName')}</InputLabel>
+      <InputLabel id="select-place-type">{t('placeSelectUndefined')}</InputLabel>
       <Select
         id="select-favorite-drink"
-        label={t('placeName')}
+        label={t('placeSelectUndefined')}
         {...register('type')}
         labelId="select-place-type"
         fullWidth

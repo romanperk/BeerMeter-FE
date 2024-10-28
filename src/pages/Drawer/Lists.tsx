@@ -26,11 +26,10 @@ export function Lists() {
     data: lists,
     isLoading,
     refetch: refetchLists,
-  } = useGetListsQuery({
+  } = useGetListsQuery(userId, {
+    skip: !userId,
     refetchOnMountOrArgChange: true,
   });
-
-  console.log(userId?.toString());
 
   const { register, watch, handleSubmit } = useForm({
     defaultValues: {
@@ -86,6 +85,7 @@ export function Lists() {
       {!isLoading && (
         <>
           <ListsLayout
+            t={t}
             navigate={navigate}
             downSm={downSm}
             register={register}

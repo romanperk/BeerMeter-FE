@@ -5,8 +5,10 @@ import { Add, ArrowUpward, ArrowDownward } from '@mui/icons-material';
 import { NavigateFunction } from 'react-router-dom';
 import { UseFormRegister } from 'react-hook-form';
 import { IList } from '../../redux/lists/listsSlice';
+import { TFunction } from 'i18next';
 
 interface ListsLayoutProps {
+  t: TFunction<'translation', undefined>;
   navigate: NavigateFunction;
   downSm: boolean;
   register: UseFormRegister<{
@@ -21,6 +23,7 @@ interface ListsLayoutProps {
 }
 
 export function ListsLayout({
+  t,
   navigate,
   downSm,
   register,
@@ -32,12 +35,12 @@ export function ListsLayout({
   return (
     <Box sx={{ m: 3 }}>
       <Box display={downSm ? '' : 'flex'} justifyContent="space-between" alignItems="center" pb={3}>
-        {!downSm && <Typography variant="h4">My lists</Typography>}
+        {!downSm && <Typography variant="h4">{t('myLists')}</Typography>}
         <Box display="flex" alignItems="center" gap={2}>
           <TextField
             fullWidth={downSm}
             size="small"
-            label="Search"
+            label={t('searchListField')}
             variant="outlined"
             {...register('searchQuery')}
           />
@@ -50,7 +53,7 @@ export function ListsLayout({
             </IconButton>
           ) : (
             <Button startIcon={<Add />} variant="contained" onClick={() => setOpen(true)}>
-              Add new list
+              {t('addNewListBtn')}
             </Button>
           )}
         </Box>
