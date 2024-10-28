@@ -15,7 +15,6 @@ const ListDetail = () => {
     }
   );
 
-  console.log(id, userId);
   return (
     <div>
       <Typography variant="h3">List detail for id: {list?.listId}</Typography>
