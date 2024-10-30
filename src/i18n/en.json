@@ -11,7 +11,7 @@
   "lists": "Lists",
   "history": "History",
   "favPlaces": "Favorite places",
-  "drBuddies": "Drinking buddies",
+  "drBuddies": "Drink buddies",
   "genInfo": "General info",
   "welcome1": "Welcome to BeerMeter!",
   "welcome2": "Discover and share your favorite beers and drinks.",
@@ -58,7 +58,8 @@
   "userSelectShots": "Shots",
   "placeName": "Name of visited place",
   "placeSetUp": "Set your place info",
-  "placeSelectUndefined": "Select type of place",
+  "placeSelect": "Select type of place",
+  "placeSelectUndefined": "Other",
   "placeSelectPub": "Pub",
   "placeSelectRestaurant": "Restaurant",
   "placeSelectBar": "Bar",
@@ -67,5 +68,11 @@
   "placeCancelChangesBtn": "Cancel",
   "placeSaveChangesBtn": "Add",
   "searchListField": "Search",
-  "myLists": "My lists"
+  "myLists": "My lists",
+  "backToListsBtn": "Back to lists",
+  "editListBtn": "Edit list",
+  "placeTypeText": "Type of place",
+  "dayOfVisitText": "Day of visit",
+  "spendingDetails": "Spending details",
+  "totalSpent": "Total spent"
 }

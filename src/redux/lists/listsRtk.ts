@@ -53,7 +53,7 @@ export const listsRtk = createApi({
     }),
     updateList: builder.mutation<IList, { listId: string; place: string; type: string }>({
       query: (updatedList) => ({
-        url: `/updateListInfo/${updatedList.listId}`,
+        url: `/updateList/${updatedList.listId}`,
         method: 'PUT',
         body: {
           place: updatedList.place,

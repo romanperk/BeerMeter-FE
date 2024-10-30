@@ -58,7 +58,8 @@
   "userSelectShots": "Panáky",
   "placeName": "Název navštevovaného místa",
   "placeSetUp": "Nastav informace o místě",
-  "placeSelectUndefined": "Vyber typ místa",
+  "placeSelect": "Vyber typ místa",
+  "placeSelectUndefined": "Jiné",
   "placeSelectPub": "Hospoda",
   "placeSelectRestaurant": "Restaurace",
   "placeSelectBar": "Bar",
@@ -67,5 +68,11 @@
   "placeCancelChangesBtn": "Zrušit",
   "placeSaveChangesBtn": "Přidat",
   "searchListField": "Hledat",
-  "myLists": "Seznamy"
+  "myLists": "Seznamy",
+  "backToListsBtn": "Zpět na přehled",
+  "editListBtn": "Upravit list",
+  "placeTypeText": "Typ místa",
+  "dayOfVisitText": "Den návštěvy",
+  "spendingDetails": "Detail útraty",
+  "totalSpent": "Celková útrata"
 }

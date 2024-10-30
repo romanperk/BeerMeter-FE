@@ -1,22 +1,16 @@
 import { Provider } from 'react-redux';
 import { BrowserRouter } from 'react-router-dom';
 import store from './redux/store';
-import { createTheme, ThemeProvider } from '@mui/material';
 import { SnackbarProvider } from './helpers/providers/SnackbarProvider';
-
-const theme = createTheme({
-  colorSchemes: {
-    dark: true,
-  },
-});
+import { ThemeContextProvider } from './helpers/providers/ThemeContext';
 
 export function Providers({ children }: { children: React.ReactNode }) {
   return (
     <BrowserRouter>
       <Provider store={store}>
-        <ThemeProvider theme={theme}>
+        <ThemeContextProvider>
           <SnackbarProvider>{children}</SnackbarProvider>
-        </ThemeProvider>
+        </ThemeContextProvider>
       </Provider>
     </BrowserRouter>
   );

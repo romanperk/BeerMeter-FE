@@ -29,7 +29,7 @@ export function AppBarUserMenu({
       <Tooltip title={t('openSettings')}>
         <IconButton onClick={handleOpen} sx={{ p: 0 }}>
           {authState ? (
-            <Avatar sx={{ bgcolor: '#2196f3' }}>{user?.firstName?.charAt(0) || ''}</Avatar>
+            <Avatar sx={{ bgcolor: 'primary.main' }}>{user?.firstName?.charAt(0) || ''}</Avatar>
           ) : (
             <Avatar />
           )}

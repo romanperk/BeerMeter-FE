@@ -1,7 +1,7 @@
 import AppBar from '@mui/material/AppBar';
 import Toolbar from '@mui/material/Toolbar';
 import Container from '@mui/material/Container';
-import { Slide, useColorScheme } from '@mui/material';
+import { Slide } from '@mui/material';
 import SportsBarRoundedIcon from '@mui/icons-material/SportsBarRounded';
 import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
@@ -19,6 +19,7 @@ import supabase from '../../services/supabase';
 import { useSelector } from 'react-redux';
 import { getUserId } from '../../redux/users/userSelectors';
 import { useGetUserQuery } from '../../redux/users/userRtk';
+import { useThemeContext } from '../../helpers/providers/ThemeContext';
 
 interface CustomAppBarProps {
   authState: Session | null;
@@ -30,7 +31,7 @@ export function CustomAppBar({ authState }: CustomAppBarProps) {
   const userId = useSelector(getUserId);
   const { showSnackBarSuccess } = useShowSnackbar();
   const { t, i18n } = useTranslation();
-  const { mode, setMode } = useColorScheme();
+  const { toggleTheme, mode } = useThemeContext();
   const [language, setLanguage] = useState(i18n.language);
   const [langAnchorEl, setLangAnchorEl] = useState<null | HTMLElement>(null);
   const [anchorElUser, setAnchorElUser] = useState<null | HTMLElement>(null);
@@ -61,16 +62,8 @@ export function CustomAppBar({ authState }: CustomAppBarProps) {
     };
   }, [scrollY]);
 
-  if (!mode) {
-    return null;
-  }
-
   const toggleDrawer = (newOpen: boolean) => () => {
     setDrawerOpen(newOpen);
-  };
-
-  const toggleTheme = () => {
-    setMode(mode === 'light' ? 'dark' : 'light');
   };
 
   const changeLanguage = (lang: string) => {
@@ -112,7 +105,7 @@ export function CustomAppBar({ authState }: CustomAppBarProps) {
             <AppBarDrawer t={t} authState={authState} open={drawerOpen} toggleDrawer={toggleDrawer} />
             <SportsBarRoundedIcon />
             <AppBarAppName t={t} />
-            <AppBarTheme mode={mode} toggleTheme={toggleTheme} t={t} />
+            <AppBarTheme mode={mode!} toggleTheme={toggleTheme} t={t} />
             <AppBarLang
               changeLanguage={changeLanguage}
               anchorEl={langAnchorEl}

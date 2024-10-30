@@ -36,6 +36,9 @@ export const userRtk = createApi({
   reducerPath: 'users',
   baseQuery: baseQueryWithAuth,
   endpoints: (builder) => ({
+    getAllUsers: builder.query<IUser[], void>({
+      query: () => `/`,
+    }),
     getUser: builder.query<IUser, string>({
       query: (userId) => `/getUser/${userId}`,
     }),
@@ -63,4 +66,4 @@ export const userRtk = createApi({
   }),
 });
 
-export const { useGetUserQuery, useCreateUserMutation, useUpdateUserMutation } = userRtk;
+export const { useGetAllUsersQuery, useGetUserQuery, useCreateUserMutation, useUpdateUserMutation } = userRtk;
