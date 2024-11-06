@@ -47,6 +47,7 @@ export function SignUpLayout({
           display: 'flex',
           flexDirection: 'column',
           alignItems: 'center',
+          padding: 3,
         }}
       >
         <Typography variant="h4">{t('authSignUp')}</Typography>

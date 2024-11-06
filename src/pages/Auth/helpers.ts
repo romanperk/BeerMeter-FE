@@ -34,45 +34,33 @@ export function useHelpers() {
   };
 
   const handleEmailSignIn = async () => {
-    try {
-      const { error } = await supabase.auth.signInWithPassword({
-        email,
-        password,
-      });
-      if (error) {
-        showSnackBarError(error.message);
-        throw new Error();
-      }
-    } catch (error) {
-      showSnackBarError(error as string);
+    const { error } = await supabase.auth.signInWithPassword({
+      email,
+      password,
+    });
+    if (error) {
+      showSnackBarError(error.message);
+      throw new Error();
     }
   };
 
   const handleEmailSignUp = async (data: IEmailLayout) => {
     const { email, password } = data;
-    try {
-      const { error } = await supabase.auth.signUp({
-        email,
-        password,
-      });
-      if (error) {
-        showSnackBarError(error.message);
-        throw new Error();
-      }
-    } catch (error) {
-      showSnackBarError(error as string);
+    const { error } = await supabase.auth.signUp({
+      email,
+      password,
+    });
+    if (error) {
+      showSnackBarError(error.message);
+      throw new Error();
     }
   };
 
   const handleGoogleSignIn = async () => {
-    try {
-      const { error } = await supabase.auth.signInWithOAuth({ provider: 'google' });
-      if (error) {
-        showSnackBarError(error.message);
-        throw new Error();
-      }
-    } catch (error) {
-      showSnackBarError(error as string);
+    const { error } = await supabase.auth.signInWithOAuth({ provider: 'google' });
+    if (error) {
+      showSnackBarError(error.message);
+      throw new Error();
     }
   };
 

@@ -4,7 +4,7 @@ import { NavigateFunction } from 'react-router-dom';
 export function LandingEnding({ navigate }: { navigate: NavigateFunction }) {
   return (
     <>
-      <Box sx={{ textAlign: 'center', p: 4, backgroundColor: 'background.default' }}>
+      <Box sx={{ textAlign: 'center', p: 4 }}>
         <Typography variant="h5" gutterBottom>
           Ready to Get Started?
         </Typography>
@@ -16,7 +16,7 @@ export function LandingEnding({ navigate }: { navigate: NavigateFunction }) {
         </Button>
       </Box>
 
-      <Box sx={{ textAlign: 'center', p: 3, backgroundColor: 'background.default', color: 'text.primary' }}>
+      <Box sx={{ textAlign: 'center', p: 3, color: 'text.primary' }}>
         <Typography variant="body2">© {new Date().getFullYear()} BeerMeter. All rights reserved.</Typography>
         <Typography variant="caption">
           Drink responsibly and always track your spending with BeerMeter!

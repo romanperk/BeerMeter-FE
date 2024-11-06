@@ -24,7 +24,7 @@ const features = [
 
 export function HowItWorks({ downMd }: { downMd: boolean }) {
   return (
-    <Container sx={{ py: 8 }}>
+    <Container sx={{ py: 4 }}>
       <Typography variant="h4" textAlign="center" sx={{ mb: 6 }}>
         Simple. Fun. Effective.
       </Typography>
@@ -37,7 +37,7 @@ export function HowItWorks({ downMd }: { downMd: boolean }) {
       >
         {features.map(({ id, icon, title, description }) => (
           <Grid2 key={id} size={{ xs: 11, sm: 6, md: 4 }}>
-            <Card sx={{ textAlign: 'center', p: 3, bgcolor: 'background.default' }}>
+            <Card variant="outlined" sx={{ textAlign: 'center', p: 3, bgcolor: 'background.default' }}>
               {icon}
               <Typography variant={downMd ? undefined : 'h6'}>{title}</Typography>
               <Typography variant={downMd ? 'body2' : 'body1'} color="textSecondary">

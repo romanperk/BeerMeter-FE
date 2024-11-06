@@ -36,7 +36,7 @@ export function UserRefs() {
       >
         {testimonials.map((testimonial, index) => (
           <Grid2 size={{ xs: 11, sm: 6, md: 4 }} key={index}>
-            <Card sx={{ textAlign: 'center', p: 4, bgcolor: 'background.default' }}>
+            <Card variant="outlined" sx={{ textAlign: 'center', p: 4, bgcolor: 'background.default' }}>
               <Avatar
                 src={testimonial.avatar}
                 alt={testimonial.name}
