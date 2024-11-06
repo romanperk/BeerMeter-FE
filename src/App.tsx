@@ -65,6 +65,11 @@ export default function App() {
             minHeight: '100dvh',
             bgcolor: 'background.default',
             color: 'text.primary',
+            backgroundImage: (theme) =>
+              theme.palette.mode === 'dark'
+                ? 'radial-gradient(#00796b, #000000)'
+                : 'radial-gradient(#b2dfdb, #f8f8f8)',
+            backgroundSize: '150% 1500%',
           }}
         >
           <CustomAppBar authState={session} />

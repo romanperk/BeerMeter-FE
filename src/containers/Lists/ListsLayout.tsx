@@ -63,11 +63,10 @@ export function ListsLayout({
         {places?.map((item, index) => (
           <Grid key={index} size={2}>
             <Paper
-              elevation={3}
+              elevation={6}
               onClick={() => navigate(`/lists/${item.listId}`)}
               sx={{
                 padding: 2,
-                bgcolor: 'background.default',
                 textAlign: 'center',
                 borderRadius: 1,
                 cursor: 'pointer',

@@ -1,6 +1,6 @@
 import React, { createContext, useContext, useMemo, useState } from 'react';
 import { ThemeProvider, createTheme, PaletteMode } from '@mui/material';
-import { amber, deepOrange, deepPurple } from '@mui/material/colors';
+import { indigo, teal } from '@mui/material/colors';
 
 interface ThemeContextProps {
   toggleTheme: () => void;
@@ -28,10 +28,10 @@ export const ThemeContextProvider: React.FC<{ children: React.ReactNode }> = ({ 
         palette: {
           mode,
           primary: {
-            main: mode === 'light' ? deepOrange[500] : amber[500],
+            main: mode === 'light' ? teal[500] : teal[300],
           },
           secondary: {
-            main: mode === 'light' ? deepPurple[600] : deepPurple[500],
+            main: mode === 'light' ? indigo[600] : indigo[200],
           },
           background: {
             default: mode === 'light' ? '#f5f5f5' : '#121212',

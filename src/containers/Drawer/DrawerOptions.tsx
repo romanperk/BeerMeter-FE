@@ -15,7 +15,14 @@ interface DrawerListProps {
 
 export function DrawerOptions({ onClose, t }: DrawerListProps) {
   return (
-    <Box sx={{ width: 250 }} role="presentation" onClick={onClose}>
+    <Box
+      sx={{
+        width: 250,
+        backgroundColor: 'background.default',
+        height: '100%',
+      }}
+      onClick={onClose}
+    >
       <List>
         <DrawerListItem navDestination="/" icon={<HomeIcon />} text={t('home')} />
         <DrawerListItem navDestination="/lists" icon={<FormatListBulletedIcon />} text={t('lists')} />

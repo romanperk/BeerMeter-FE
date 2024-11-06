@@ -15,10 +15,9 @@ interface ProfileLayoutProps {
 export function ProfileLayout({ user, t, navigate, setOpen }: ProfileLayoutProps) {
   return (
     <Paper
-      elevation={3}
+      variant="outlined"
       sx={{
         p: { xs: 2, sm: 3 },
-        bgcolor: 'background.default',
         maxWidth: 600,
         m: 3,
         borderRadius: '16px',

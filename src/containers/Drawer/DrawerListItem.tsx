@@ -11,7 +11,16 @@ export function DrawerListItem({ navDestination, icon, text }: CustomListItemPro
   const navigate = useNavigate();
   return (
     <ListItem disablePadding>
-      <ListItemButton onClick={() => navigate(navDestination)}>
+      <ListItemButton
+        onClick={() => navigate(navDestination)}
+        sx={{
+          '&:hover': {
+            color: 'primary.main',
+            fontWeight: 'bold',
+            backgroundColor: 'transparent',
+          },
+        }}
+      >
         <ListItemIcon>{icon}</ListItemIcon>
         <ListItemText primary={text} />
       </ListItemButton>

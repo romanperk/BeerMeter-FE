@@ -99,7 +99,13 @@ export function CustomAppBar({ authState }: CustomAppBarProps) {
 
   return (
     <Slide appear={false} direction="down" in={showAppBar}>
-      <AppBar color="inherit">
+      <AppBar
+        color="transparent"
+        sx={{
+          backdropFilter: scrollY ? 'blur(10px)' : 'none',
+          WebkitBackdropFilter: scrollY ? 'blur(10px)' : 'none',
+        }}
+      >
         <Container maxWidth={false}>
           <Toolbar disableGutters>
             <AppBarDrawer t={t} authState={authState} open={drawerOpen} toggleDrawer={toggleDrawer} />
