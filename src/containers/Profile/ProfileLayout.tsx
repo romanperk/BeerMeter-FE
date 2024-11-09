@@ -64,7 +64,7 @@ export function ProfileLayout({ user, t, navigate, setOpen }: ProfileLayoutProps
         <Button variant="contained" size="medium" onClick={() => navigate('/drinkingBuddies')}>
           {t('userFriendsButton')}
         </Button>
-        <Button variant="outlined" size="medium" onClick={() => setOpen(true)}>
+        <Button variant="outlined" color="secondary" size="medium" onClick={() => setOpen(true)}>
           {t('userEditProfile')}
         </Button>
       </Stack>
