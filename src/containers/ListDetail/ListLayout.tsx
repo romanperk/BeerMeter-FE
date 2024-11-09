@@ -84,7 +84,7 @@ export function ListLayout({ list, t, navigate, setOpen }: ListLayoutProps) {
         <Button variant="contained" startIcon={<ArrowBack />} onClick={() => navigate('/lists')}>
           {t('backToListsBtn')}
         </Button>
-        <Button variant="outlined" color="secondary" size="medium" onClick={() => setOpen(true)}>
+        <Button variant="outlined" size="medium" onClick={() => setOpen(true)}>
           {t('editListBtn')}
         </Button>
       </Box>

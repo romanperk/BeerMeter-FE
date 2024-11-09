@@ -28,7 +28,7 @@ const HomePage: React.FC = () => {
           </Button>
         </Grid>
         <Grid item>
-          <Button variant="outlined" color="secondary" size="large" onClick={() => navigate('/profile')}>
+          <Button variant="outlined" size="large" onClick={() => navigate('/profile')}>
             {t('welManageAccountButton')}
           </Button>
         </Grid>

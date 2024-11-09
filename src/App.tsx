@@ -69,7 +69,7 @@ export default function App() {
               theme.palette.mode === 'dark'
                 ? 'radial-gradient(#ff8f00, #000000)'
                 : 'radial-gradient(#ffc107, #f8f8f8)',
-            backgroundSize: (theme) => (theme.palette.mode === 'dark' ? '500% 1500%' : '500% 1000%'),
+            backgroundSize: (theme) => (theme.palette.mode === 'dark' ? '1000% 1500%' : '500% 1000%'),
           }}
         >
           <CustomAppBar authState={session} />

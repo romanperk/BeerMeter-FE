@@ -5,18 +5,16 @@ const colors = {
   light: {
     primaryMain: '#B8860B',
     secondaryMain: '#8B4513',
-    backgroundDefault: '#fcf6d4',
+    backgroundDefault: '#fffcec',
     backgroundPaper: '#FFF8E1',
     textPrimary: '#000000',
-    textSecondary: '#A0522D',
   },
   dark: {
-    primaryMain: '#8B4513',
-    secondaryMain: '#C28E0E',
+    primaryMain: '#e47f3e',
+    secondaryMain: '#FFD59E',
     backgroundDefault: '#17120c',
     backgroundPaper: '#1D1A17',
     textPrimary: '#ffffff',
-    textSecondary: '#FFD59E',
   },
 };
 
@@ -54,20 +52,6 @@ export const ThemeContextProvider: React.FC<{ children: React.ReactNode }> = ({ 
           background: {
             default: mode === 'light' ? colors.light.backgroundDefault : colors.dark.backgroundDefault,
             paper: mode === 'light' ? colors.light.backgroundPaper : colors.dark.backgroundPaper,
-          },
-          text: {
-            secondary: mode === 'light' ? colors.light.textSecondary : colors.dark.textSecondary,
-          },
-        },
-        components: {
-          MuiTextField: {
-            styleOverrides: {
-              root: {
-                '& .MuiInputLabel-root': {
-                  color: mode === 'light' ? colors.light.textPrimary : colors.dark.textPrimary,
-                },
-              },
-            },
           },
         },
       }),
