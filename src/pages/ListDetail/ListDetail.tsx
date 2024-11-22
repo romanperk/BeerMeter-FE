@@ -54,6 +54,7 @@ const ListDetail = () => {
 
   const createListFormMethods = useForm({
     defaultValues: {
+      searchQuery: '',
       place: '',
       type: '',
     },

@@ -10,6 +10,7 @@ interface CreateListModalProps {
   handleClose: () => void;
   handleSubmit: (e: React.FormEvent) => void;
   register: UseFormRegister<{
+    searchQuery: string;
     place: string;
     type: string;
   }>;
