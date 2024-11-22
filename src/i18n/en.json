@@ -74,5 +74,19 @@
   "placeTypeText": "Type of place",
   "dayOfVisitText": "Day of visit",
   "spendingDetails": "Spending details",
-  "totalSpent": "Total spent"
+  "totalSpent": "Total spent",
+  "itemsAllItems": "All items",
+  "itemsBeer": "Beers",
+  "itemsDrinks": "Drinks",
+  "itemsShots": "Shots",
+  "itemsFood": "Food",
+  "itemName": "Name",
+  "itemType": "Type",
+  "itemSize": "Size",
+  "itemPrice": "Price",
+  "itemAmount": "Quantity",
+  "itemIncreaseAmount": "Increase quantity",
+  "itemDecreaseAmount": "Decrease quantity",
+  "itemEdit": "Edit",
+  "itemDelete": "Delete"
 }

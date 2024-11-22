@@ -12,6 +12,8 @@ import { SetUpListFormProps } from '../Drawer/Lists';
 import { Box } from '@mui/system';
 import { Typography } from '@mui/material';
 import { ReportProblem } from '@mui/icons-material';
+import { useGetItemsQuery } from '../../redux/items/itemsRtk';
+// import { CreateItemModal } from '../../containers/ListDetail/CreateItemModal';
 
 const ListDetail = () => {
   const navigate = useNavigate();
@@ -20,7 +22,7 @@ const ListDetail = () => {
   const [updateList] = useUpdateListMutation();
   const {
     data: list,
-    isLoading,
+    isLoading: isListLoading,
     error,
     refetch: refetchList,
   } = useGetListQuery(
@@ -30,6 +32,11 @@ const ListDetail = () => {
       refetchOnMountOrArgChange: true,
     }
   );
+  const { data: items, isLoading: isItemsLoading } = useGetItemsQuery(id || '', {
+    skip: !id,
+    refetchOnMountOrArgChange: true,
+  });
+  console.log(items);
   const { showSnackBarSuccess, showSnackBarError } = useShowSnackbar();
   const { t } = useTranslation();
   const [open, setOpen] = useState(false);
@@ -73,9 +80,10 @@ const ListDetail = () => {
 
   return (
     <>
-      {!isLoading && (
+      {!isListLoading && !isItemsLoading && (
         <>
-          <ListLayout list={list} t={t} setOpen={() => setOpen(true)} navigate={navigate} />
+          <ListLayout list={list} items={items} t={t} setOpen={() => setOpen(true)} navigate={navigate} />
+          {/* <CreateItemModal /> */}
           <CreateListModal
             t={t}
             open={open}

@@ -74,5 +74,19 @@
   "placeTypeText": "Typ místa",
   "dayOfVisitText": "Den návštěvy",
   "spendingDetails": "Detail útraty",
-  "totalSpent": "Celková útrata"
+  "totalSpent": "Celková útrata",
+  "itemsAllItems": "Všechny položky",
+  "itemsBeer": "Piva",
+  "itemsDrinks": "Drinky",
+  "itemsShots": "Panáky",
+  "itemsFood": "Jídlo",
+  "itemName": "Název",
+  "itemType": "Typ",
+  "itemSize": "Velikost",
+  "itemAmount": "Počet",
+  "itemPrice": "Cena",
+  "itemIncreaseAmount": "Zvýšit počet",
+  "itemDecreaseAmount": "Snížit počet",
+  "itemEdit": "Upravit",
+  "itemDelete": "Smazat"
 }
