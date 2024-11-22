@@ -4,7 +4,10 @@ import { UseFormRegister } from 'react-hook-form';
 
 interface PlaceTypeSelectProps {
   t: TFunction<'translation', undefined>;
-  register: UseFormRegister<{ searchQuery: string; place: string; type: string }>;
+  register: UseFormRegister<{
+    place: string;
+    type: string;
+  }>;
 }
 
 export function PlaceTypeSelect({ t, register }: PlaceTypeSelectProps) {

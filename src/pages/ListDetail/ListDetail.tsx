@@ -4,7 +4,7 @@ import { getUserId } from '../../redux/users/userSelectors';
 import { useGetListQuery, useUpdateListMutation } from '../../redux/lists/listsRtk';
 import { useShowSnackbar } from '../../helpers/functions/showSnackBar';
 import { useTranslation } from 'react-i18next';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { ListLayout } from '../../containers/ListDetail/ListLayout';
 import { CreateListModal } from '../../containers/Lists/CreateListModal';
@@ -12,14 +12,15 @@ import { SetUpListFormProps } from '../Drawer/Lists';
 import { Box } from '@mui/system';
 import { Typography } from '@mui/material';
 import { ReportProblem } from '@mui/icons-material';
-import { useGetItemsQuery } from '../../redux/items/itemsRtk';
-// import { CreateItemModal } from '../../containers/ListDetail/CreateItemModal';
+import { useCreateItemMutation, useGetItemsQuery } from '../../redux/items/itemsRtk';
+import { CreateItemModal } from '../../containers/ListDetail/CreateItemModal';
 
 const ListDetail = () => {
   const navigate = useNavigate();
   const { id } = useParams<{ id: string }>();
   const userId = useSelector(getUserId)!;
   const [updateList] = useUpdateListMutation();
+  const [createItem] = useCreateItemMutation();
   const {
     data: list,
     isLoading: isListLoading,
@@ -36,22 +37,49 @@ const ListDetail = () => {
     skip: !id,
     refetchOnMountOrArgChange: true,
   });
-  console.log(items);
   const { showSnackBarSuccess, showSnackBarError } = useShowSnackbar();
   const { t } = useTranslation();
   const [open, setOpen] = useState(false);
+  const [createModalOpen, setCreateModalOpen] = useState(false);
 
-  const { register, handleSubmit } = useForm({
+  const createItemFormMethods = useForm({
     defaultValues: {
-      searchQuery: '',
+      type: '',
+      name: '',
+      size: 0,
+      amount: 1,
+      price: '',
+    },
+  });
+
+  const createListFormMethods = useForm({
+    defaultValues: {
       place: '',
       type: '',
     },
   });
 
+  const handleCreateItem = async (data: any) => {
+    if (!id) {
+      showSnackBarError('ListId not defined');
+      return;
+    }
+    try {
+      await createItem({
+        listId: id,
+        ...data,
+      }).unwrap();
+      setCreateModalOpen(false);
+      showSnackBarSuccess('Item created');
+      refetchList();
+    } catch {
+      showSnackBarError('List not updated');
+    }
+  };
+
   const onSubmit = async (data: SetUpListFormProps) => {
     if (!id) {
-      console.error('User ID is undefined, cannot update user');
+      showSnackBarError('ListId not defined');
       return;
     }
     try {
@@ -60,12 +88,19 @@ const ListDetail = () => {
         ...data,
       }).unwrap();
       setOpen(false);
-      showSnackBarSuccess('User updated');
+      showSnackBarSuccess('List updated');
       refetchList();
     } catch {
-      showSnackBarError('User not updated');
+      showSnackBarError('List not updated');
     }
   };
+
+  useEffect(() => {
+    if (!open || !createModalOpen) {
+      createItemFormMethods.reset();
+      createListFormMethods.reset();
+    }
+  }, [open, createModalOpen, createItemFormMethods.reset, createListFormMethods.reset]);
 
   if (error) {
     return (
@@ -82,14 +117,28 @@ const ListDetail = () => {
     <>
       {!isListLoading && !isItemsLoading && (
         <>
-          <ListLayout list={list} items={items} t={t} setOpen={() => setOpen(true)} navigate={navigate} />
-          {/* <CreateItemModal /> */}
+          <ListLayout
+            setCreateModalOpen={() => setCreateModalOpen(true)}
+            list={list}
+            items={items}
+            t={t}
+            setOpen={() => setOpen(true)}
+            navigate={navigate}
+          />
+          <CreateItemModal
+            register={createItemFormMethods.register}
+            handleSubmit={createItemFormMethods.handleSubmit(handleCreateItem)}
+            handleClose={() => setCreateModalOpen(false)}
+            t={t}
+            open={createModalOpen}
+            watch={createItemFormMethods.watch}
+          />
           <CreateListModal
             t={t}
             open={open}
             handleClose={() => setOpen(false)}
-            handleSubmit={handleSubmit(onSubmit)}
-            register={register}
+            handleSubmit={createListFormMethods.handleSubmit(onSubmit)}
+            register={createListFormMethods.register}
           />
         </>
       )}

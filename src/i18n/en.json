@@ -88,5 +88,11 @@
   "itemIncreaseAmount": "Increase quantity",
   "itemDecreaseAmount": "Decrease quantity",
   "itemEdit": "Edit",
-  "itemDelete": "Delete"
+  "itemDelete": "Delete",
+  "itemSelectTypeBeer": "Beer",
+  "itemSelectTypeDrink": "Drink",
+  "itemSelectTypeShot": "Shot",
+  "itemSelectTypeFood": "Food",
+  "itemSelectTypeNonAlco": "Nonalco",
+  "itemCreateHeader": "Add item"
 }

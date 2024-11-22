@@ -1,8 +1,20 @@
-import { Box, Button, Modal, Stack, TextField, Typography } from '@mui/material';
+import {
+  Box,
+  Button,
+  FormControl,
+  InputLabel,
+  Modal,
+  OutlinedInput,
+  Stack,
+  TextField,
+  Typography,
+} from '@mui/material';
 import { TFunction } from 'i18next';
 import { modalStyle } from '../../styles/modalStyle';
-import { UseFormRegister } from 'react-hook-form';
-import { ItemTypeSelect } from '../../components/ItemTypeSelect/ItemTypeSelect';
+import { UseFormRegister, UseFormWatch } from 'react-hook-form';
+import { ItemTypeSelect } from '../../components/SelectComponents/ItemTypeSelect';
+import { isItemBeverage } from './helpers/isItemBeverage';
+import { ItemSizeSelect } from '../../components/SelectComponents/ItemSizeSelect';
 
 interface CreateItemModalProps {
   t: TFunction<'translation', undefined>;
@@ -10,15 +22,31 @@ interface CreateItemModalProps {
   handleClose: () => void;
   handleSubmit: (e: React.FormEvent) => void;
   register: UseFormRegister<{
-    name: string;
     type: string;
-    size: string;
+    name: string;
+    size: number;
+    amount: number;
+    price: string;
+  }>;
+  watch: UseFormWatch<{
+    type: string;
+    name: string;
+    size: number;
     amount: number;
     price: string;
   }>;
 }
 
-export function CreateItemModal({ t, open, handleClose, handleSubmit, register }: CreateItemModalProps) {
+export function CreateItemModal({
+  t,
+  open,
+  handleClose,
+  handleSubmit,
+  register,
+  watch,
+}: CreateItemModalProps) {
+  const isBeer = isItemBeverage(watch('type'));
+
   return (
     <Modal open={open} onClose={handleClose}>
       <Box sx={modalStyle}>
@@ -30,15 +58,21 @@ export function CreateItemModal({ t, open, handleClose, handleSubmit, register }
 
             <TextField fullWidth label={t('itemName')} variant="outlined" required {...register('name')} />
             <ItemTypeSelect t={t} register={register} />
-            <TextField fullWidth label={t('itemSize')} variant="outlined" required {...register('size')} />
-            <TextField
-              fullWidth
-              label={t('itemAmount')}
-              variant="outlined"
-              required
-              {...register('amount')}
-            />
-            <TextField fullWidth label={t('itemPrice')} variant="outlined" required {...register('price')} />
+            {isBeer && <ItemSizeSelect t={t} register={register} />}
+            <FormControl>
+              <InputLabel>{t('itemAmount')}</InputLabel>
+              <OutlinedInput
+                fullWidth
+                required
+                type="number"
+                label={t('itemAmount')}
+                {...register('amount')}
+              />
+            </FormControl>
+            <FormControl variant="outlined">
+              <InputLabel>{t('itemPrice')}</InputLabel>
+              <OutlinedInput fullWidth required type="number" label={t('itemPrice')} {...register('price')} />
+            </FormControl>
 
             <Stack spacing={2} direction="row" sx={{ pt: 1 }}>
               <Button

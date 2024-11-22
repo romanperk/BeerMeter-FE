@@ -44,10 +44,10 @@ export const itemsRtk = createApi({
     createItem: builder.mutation<
       IItem,
       {
-        listId: number;
+        listId: string;
         name: string;
         type: string;
-        size: number;
+        size?: number;
         amount: number;
         price: number;
       }
@@ -56,6 +56,12 @@ export const itemsRtk = createApi({
         url: '/createItem',
         method: 'POST',
         body: newItem,
+      }),
+    }),
+    increaseItemAmount: builder.mutation({
+      query: (itemId) => ({
+        url: `/increase/${itemId}`,
+        method: 'PUT',
       }),
     }),
     updateItem: builder.mutation<IItem, { listId: string; place: string; type: string }>({
@@ -71,4 +77,9 @@ export const itemsRtk = createApi({
   }),
 });
 
-export const { useGetItemsQuery, useCreateItemMutation, useUpdateItemMutation } = itemsRtk;
+export const {
+  useGetItemsQuery,
+  useIncreaseItemAmountMutation,
+  useCreateItemMutation,
+  useUpdateItemMutation,
+} = itemsRtk;

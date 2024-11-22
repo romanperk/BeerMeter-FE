@@ -5,9 +5,9 @@ import { UseFormRegister } from 'react-hook-form';
 interface ItemTypeSelectProps {
   t: TFunction<'translation', undefined>;
   register: UseFormRegister<{
-    name: string;
     type: string;
-    size: string;
+    name: string;
+    size: number;
     amount: number;
     price: string;
   }>;

@@ -10,18 +10,16 @@ import {
   Tabs,
   Tab,
   MenuItem,
-  Tooltip,
-  IconButton,
-  Toolbar,
   Menu,
 } from '@mui/material';
-import { Home, Today, ArrowBack, FilterList, Add } from '@mui/icons-material';
+import { Home, Today, ArrowBack } from '@mui/icons-material';
 import { TFunction } from 'i18next';
 import { NavigateFunction } from 'react-router-dom';
 import { formatDate } from '../../helpers/functions/formatDate';
 import { IList } from '../../redux/lists/listsSlice';
 import { IItem } from '../../redux/items/itemsSlice';
 import { ListItemsTable } from './ListItemsTable';
+import { useIncreaseItemAmountMutation } from '../../redux/items/itemsRtk';
 
 interface ListLayoutProps {
   list: IList;
@@ -29,20 +27,17 @@ interface ListLayoutProps {
   t: TFunction<'translation', undefined>;
   navigate: NavigateFunction;
   setOpen: React.Dispatch<React.SetStateAction<boolean>>;
+  setCreateModalOpen: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-export function ListLayout({ list, items, t, navigate, setOpen }: ListLayoutProps) {
+export function ListLayout({ list, items, t, navigate, setOpen, setCreateModalOpen }: ListLayoutProps) {
   const [tabIndex, setTabIndex] = useState(0);
   const [filter, setFilter] = useState<string>('All');
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
-  const [anchorElEdit, setAnchorElEdit] = useState<null | HTMLElement>(null);
+  const [increaseAmount] = useIncreaseItemAmountMutation();
 
   const openSelectMenu = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorEl(event.currentTarget);
-  };
-
-  const openEditMenu = (event: React.MouseEvent<HTMLElement>) => {
-    setAnchorElEdit(event.currentTarget);
   };
 
   const handleMenuItemClick = (value: string) => {
@@ -54,16 +49,24 @@ export function ListLayout({ list, items, t, navigate, setOpen }: ListLayoutProp
     setAnchorEl(null);
   };
 
-  const closeEditMenu = () => {
-    setAnchorElEdit(null);
-  };
-
   const handleTabChange = (_event: React.SyntheticEvent, newIndex: number) => {
     setTabIndex(newIndex);
   };
 
   const handleFilterChange = (value: string) => {
     setFilter(value);
+  };
+
+  const handleIcreaseItemAmount = async (itemId: string) => {
+    if (!itemId) {
+      console.error('ItemId not defined');
+      return;
+    }
+    try {
+      await increaseAmount(itemId).unwrap();
+    } catch {
+      console.error('error');
+    }
   };
 
   const filteredSpendings = filter === 'All' ? items : items.filter((item) => item.type === filter);
@@ -99,40 +102,13 @@ export function ListLayout({ list, items, t, navigate, setOpen }: ListLayoutProp
       </Box>
 
       <Box sx={{ display: { xs: 'none', md: 'flex' }, gap: 3, justifyContent: 'center' }}>
-        <Paper elevation={3} sx={{ p: 3, width: '100%', maxWidth: 500 }}>
-          <Toolbar
-            sx={[
-              {
-                pl: { sm: 2 },
-                pr: { xs: 1, sm: 1 },
-              },
-            ]}
-          >
-            <Typography variant="h6" sx={{ flex: '1 1 100%' }} mb={2} component="div">
-              {t('spendingDetails')}
-            </Typography>
-            <Tooltip title="Add item">
-              <IconButton onClick={openSelectMenu} sx={{ mb: 1 }}>
-                <Add />
-              </IconButton>
-            </Tooltip>
-            <Tooltip title="Filter list">
-              <IconButton onClick={openSelectMenu} sx={{ mb: 1 }}>
-                <FilterList />
-              </IconButton>
-            </Tooltip>
-          </Toolbar>
-          <Menu anchorEl={anchorEl} open={Boolean(anchorEl)} onClose={closeMenu}>
-            <MenuItem onClick={() => handleMenuItemClick('All')}>{t('itemsAllItems')}</MenuItem>{' '}
-            <MenuItem onClick={() => handleMenuItemClick('Beer')}>{t('itemsBeer')}</MenuItem>{' '}
-            <MenuItem onClick={() => handleMenuItemClick('Drink')}>{t('itemsDrinks')}</MenuItem>{' '}
-            <MenuItem onClick={() => handleMenuItemClick('Food')}>{t('itemsShots')}</MenuItem>
-            <MenuItem onClick={() => handleMenuItemClick('Food')}>{t('itemsFood')}</MenuItem>
-          </Menu>
-          <Divider sx={{ mb: 2 }} />
-          <ListItemsTable t={t} items={filteredSpendings} openEditMenu={openEditMenu} />
-        </Paper>
-
+        <ListItemsTable
+          t={t}
+          items={filteredSpendings}
+          openSelectMenu={openSelectMenu}
+          openCreateModal={() => setCreateModalOpen(true)}
+          handleIcreaseItemAmount={handleIcreaseItemAmount}
+        />
         <Paper elevation={3} sx={{ p: 3, width: '100%', maxWidth: 250, textAlign: 'center' }}>
           <Typography variant="h6" mb={2}>
             {t('totalSpent')}
@@ -151,38 +127,13 @@ export function ListLayout({ list, items, t, navigate, setOpen }: ListLayoutProp
         </Tabs>
 
         {tabIndex === 0 && (
-          <Paper elevation={3} sx={{ p: 3, mt: 2 }}>
-            <Toolbar
-              sx={[
-                {
-                  pl: { sm: 2 },
-                  pr: { xs: 1, sm: 1 },
-                },
-              ]}
-            >
-              <Typography variant="h6" sx={{ flex: '1 1 100%' }} mb={2} component="div">
-                {t('spendingDetails')}
-              </Typography>
-              <Tooltip title="Add item">
-                <IconButton color="primary" sx={{ mb: 1 }}>
-                  <Add />
-                </IconButton>
-              </Tooltip>
-              <Tooltip title="Filter list">
-                <IconButton onClick={openSelectMenu} sx={{ mb: 1 }}>
-                  <FilterList />
-                </IconButton>
-              </Tooltip>
-            </Toolbar>
-            <Menu anchorEl={anchorEl} open={Boolean(anchorEl)} onClose={closeMenu}>
-              <MenuItem onClick={() => handleMenuItemClick('All')}>{t('itemsAllItems')}</MenuItem>{' '}
-              <MenuItem onClick={() => handleMenuItemClick('Beer')}>{t('itemsBeer')}</MenuItem>{' '}
-              <MenuItem onClick={() => handleMenuItemClick('Drink')}>{t('itemsDrinks')}</MenuItem>{' '}
-              <MenuItem onClick={() => handleMenuItemClick('Food')}>{t('itemsShots')}</MenuItem>
-              <MenuItem onClick={() => handleMenuItemClick('Food')}>{t('itemsFood')}</MenuItem>
-            </Menu>
-            <ListItemsTable t={t} items={filteredSpendings} openEditMenu={openEditMenu} />
-          </Paper>
+          <ListItemsTable
+            t={t}
+            items={filteredSpendings}
+            openSelectMenu={openSelectMenu}
+            openCreateModal={() => setCreateModalOpen(true)}
+            handleIcreaseItemAmount={handleIcreaseItemAmount}
+          />
         )}
 
         {tabIndex === 1 && (
@@ -197,11 +148,13 @@ export function ListLayout({ list, items, t, navigate, setOpen }: ListLayoutProp
           </Paper>
         )}
       </Box>
-      <Menu id="basic-menu" anchorEl={anchorElEdit} open={Boolean(anchorElEdit)} onClose={closeEditMenu}>
-        <MenuItem onClick={closeEditMenu}>{t('itemIncreaseAmount')}</MenuItem>
-        <MenuItem onClick={closeEditMenu}>{t('itemDecreaseAmount')}</MenuItem>
-        <MenuItem onClick={closeEditMenu}>{t('itemEdit')}</MenuItem>
-        <MenuItem onClick={closeEditMenu}>{t('itemDelete')}</MenuItem>
+      <Menu anchorEl={anchorEl} open={Boolean(anchorEl)} onClose={closeMenu}>
+        <MenuItem onClick={() => handleMenuItemClick('All')}>{t('itemsAllItems')}</MenuItem>
+        <MenuItem onClick={() => handleMenuItemClick('Beer')}>{t('itemsBeer')}</MenuItem>
+        <MenuItem onClick={() => handleMenuItemClick('Drink')}>{t('itemsDrinks')}</MenuItem>
+        <MenuItem onClick={() => handleMenuItemClick('Shot')}>{t('itemsShots')}</MenuItem>
+        <MenuItem onClick={() => handleMenuItemClick('Food')}>{t('itemsFood')}</MenuItem>
+        <MenuItem onClick={() => handleMenuItemClick('NonAlco')}>{t('itemsNonAlco')}</MenuItem>
       </Menu>
     </Container>
   );

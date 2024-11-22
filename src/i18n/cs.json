@@ -88,5 +88,11 @@
   "itemIncreaseAmount": "Zvýšit počet",
   "itemDecreaseAmount": "Snížit počet",
   "itemEdit": "Upravit",
-  "itemDelete": "Smazat"
+  "itemDelete": "Smazat",
+  "itemSelectTypeBeer": "Pivo",
+  "itemSelectTypeDrink": "Drink",
+  "itemSelectTypeShot": "Panák",
+  "itemSelectTypeFood": "Jídlo",
+  "itemSelectTypeNonAlco": "Nealko",
+  "itemCreateHeader": "Přidat položku"
 }

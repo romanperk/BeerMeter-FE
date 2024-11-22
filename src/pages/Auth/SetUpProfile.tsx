@@ -1,5 +1,5 @@
 import { Button, TextField, Typography, Container, Box, CssBaseline } from '@mui/material';
-import { FavTypeSelect } from '../../components/FavTypeSelect/FavTypeSelect';
+import { FavTypeSelect } from '../../components/SelectComponents/FavTypeSelect';
 import { useNavigate } from 'react-router-dom';
 import { useUpdateUserMutation } from '../../redux/users/userRtk';
 import { useForm } from 'react-hook-form';

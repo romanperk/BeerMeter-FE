@@ -2,7 +2,7 @@ import { Box, Button, Modal, Stack, TextField, Typography } from '@mui/material'
 import { TFunction } from 'i18next';
 import { modalStyle } from '../../styles/modalStyle';
 import { UseFormRegister } from 'react-hook-form';
-import { FavTypeSelect } from '../../components/FavTypeSelect/FavTypeSelect';
+import { FavTypeSelect } from '../../components/SelectComponents/FavTypeSelect';
 
 interface EditProfileModalProps {
   t: TFunction<'translation', undefined>;

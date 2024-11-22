@@ -2,14 +2,17 @@ import { Box, Button, Modal, Stack, TextField, Typography } from '@mui/material'
 import { TFunction } from 'i18next';
 import { modalStyle } from '../../styles/modalStyle';
 import { UseFormRegister } from 'react-hook-form';
-import { PlaceTypeSelect } from '../../components/PlaceTypeSelect/PlaceTypeSelect';
+import { PlaceTypeSelect } from '../../components/SelectComponents/PlaceTypeSelect';
 
 interface CreateListModalProps {
   t: TFunction<'translation', undefined>;
   open: boolean;
   handleClose: () => void;
   handleSubmit: (e: React.FormEvent) => void;
-  register: UseFormRegister<{ searchQuery: string; place: string; type: string }>;
+  register: UseFormRegister<{
+    place: string;
+    type: string;
+  }>;
 }
 
 export function CreateListModal({ t, open, handleClose, handleSubmit, register }: CreateListModalProps) {
