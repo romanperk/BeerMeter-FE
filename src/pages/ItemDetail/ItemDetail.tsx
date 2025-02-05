@@ -44,24 +44,24 @@ const ItemDetail = () => {
               {t('backToListBtn')}
             </Button>
           </Box>
-          <Typography variant="h6" fontWeight={600}>
+          <Typography variant="h4" fontWeight={600} mb={2}>
             {item.name}
           </Typography>
-          <Typography variant="body2" color="text.secondary">
+          <Typography variant="h6" color="text.secondary">
             {t('itemSize')}: {item.size}
           </Typography>
-          <Typography variant="body2" color="text.secondary">
+          <Typography variant="h6" color="text.secondary">
             {t('itemType')}: {item.type}
           </Typography>
-          <Typography variant="body2" color="text.secondary">
+          <Typography variant="h6" color="text.secondary">
             {t('itemAmount')}: {item.amount}
           </Typography>
-          <Typography variant="body2" color="text.secondary">
+          <Typography variant="h6" color="text.secondary">
             {t('itemPrice')}: {item.price} Kč
           </Typography>
 
           <Box sx={{ display: 'flex', justifyContent: 'flex-end', gap: 1, mt: 1 }}>
-            <IconButton color="primary" onClick={() => setEditOpen(true)}>
+            <IconButton onClick={() => setEditOpen(true)}>
               <Edit />
             </IconButton>
             <IconButton color="error" onClick={() => setDeleteOpen(true)}>
