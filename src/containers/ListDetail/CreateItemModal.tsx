@@ -3,14 +3,13 @@ import {
   Button,
   FormControl,
   InputLabel,
-  Modal,
+  Dialog,
   OutlinedInput,
   Stack,
   TextField,
   Typography,
 } from '@mui/material';
 import { TFunction } from 'i18next';
-import { modalStyle } from '../../styles/modalStyle';
 import { UseFormRegister, UseFormWatch } from 'react-hook-form';
 import { ItemTypeSelect } from '../../components/SelectComponents/ItemTypeSelect';
 import { isItemBeverage } from './helpers/isItemBeverage';
@@ -48,8 +47,8 @@ export function CreateItemModal({
   const isBeer = isItemBeverage(watch('type'));
 
   return (
-    <Modal open={open} onClose={handleClose}>
-      <Box sx={modalStyle}>
+    <Dialog open={open} onClose={handleClose}>
+      <Box>
         <form onSubmit={handleSubmit}>
           <Stack spacing={2} direction="column">
             <Typography variant="h5" component="h2" color="text.primary" sx={{ pb: 1 }}>
@@ -102,6 +101,6 @@ export function CreateItemModal({
           </Stack>
         </form>
       </Box>
-    </Modal>
+    </Dialog>
   );
 }

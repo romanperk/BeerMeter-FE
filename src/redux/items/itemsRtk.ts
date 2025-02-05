@@ -36,6 +36,11 @@ export const itemsRtk = createApi({
   reducerPath: 'items',
   baseQuery: baseQueryWithAuth,
   endpoints: (builder) => ({
+    getItem: builder.query({
+      query: (itemId) => {
+        return `/getItem/${itemId}`;
+      },
+    }),
     getItems: builder.query({
       query: (listId) => {
         return `/getItems/${listId}`;
@@ -64,14 +69,23 @@ export const itemsRtk = createApi({
         method: 'PUT',
       }),
     }),
-    updateItem: builder.mutation<IItem, { listId: string; place: string; type: string }>({
-      query: (updatedList) => ({
-        url: `/updateList/${updatedList.listId}`,
+    updateItem: builder.mutation<IItem, { amount?: number; name?: string; itemId: string; size?: string; type?: string, price?: string }>({
+      query: (updatedItem) => ({
+        url: `/updateItem/${updatedItem.itemId}`,
         method: 'PUT',
         body: {
-          place: updatedList.place,
-          type: updatedList.type,
+          name: updatedItem.name,
+          size: updatedItem.size,
+          type: updatedItem.type,
+          amount: updatedItem.amount,
+          price: updatedItem.price,
         },
+      }),
+    }),
+    deleteItem: builder.mutation({
+      query: (itemId) => ({
+        url: `/deleteItem/${itemId}`,
+        method: 'DELETE',
       }),
     }),
   }),
@@ -79,7 +93,9 @@ export const itemsRtk = createApi({
 
 export const {
   useGetItemsQuery,
+  useGetItemQuery,
   useIncreaseItemAmountMutation,
   useCreateItemMutation,
   useUpdateItemMutation,
+  useDeleteItemMutation
 } = itemsRtk;

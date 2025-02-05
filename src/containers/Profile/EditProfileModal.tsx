@@ -1,6 +1,5 @@
-import { Box, Button, Modal, Stack, TextField, Typography } from '@mui/material';
+import { Box, Button, Dialog, Stack, TextField, Typography } from '@mui/material';
 import { TFunction } from 'i18next';
-import { modalStyle } from '../../styles/modalStyle';
 import { UseFormRegister } from 'react-hook-form';
 import { FavTypeSelect } from '../../components/SelectComponents/FavTypeSelect';
 
@@ -18,8 +17,8 @@ interface EditProfileModalProps {
 
 export function EditProfileModal({ t, open, handleClose, handleSubmit, register }: EditProfileModalProps) {
   return (
-    <Modal open={open} onClose={handleClose}>
-      <Box sx={modalStyle}>
+    <Dialog open={open} onClose={handleClose}>
+      <Box>
         <form onSubmit={handleSubmit}>
           <Stack spacing={2} direction="column">
             <Typography variant="h5" component="h2" color="text.primary" sx={{ pb: 1 }}>
@@ -70,6 +69,6 @@ export function EditProfileModal({ t, open, handleClose, handleSubmit, register 
           </Stack>
         </form>
       </Box>
-    </Modal>
+    </Dialog>
   );
 }

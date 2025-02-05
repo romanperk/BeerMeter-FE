@@ -61,7 +61,13 @@ export const listsRtk = createApi({
         },
       }),
     }),
+    deleteList: builder.mutation({
+      query: (listId) => ({
+        url: `/deleteList/${listId}`,
+        method: 'DELETE',
+      }),
+    }),
   }),
 });
 
-export const { useGetListsQuery, useGetListQuery, useCreateListMutation, useUpdateListMutation } = listsRtk;
+export const { useGetListsQuery, useGetListQuery, useCreateListMutation, useUpdateListMutation, useDeleteListMutation } = listsRtk;

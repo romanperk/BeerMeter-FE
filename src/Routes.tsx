@@ -16,6 +16,7 @@ import LandingPage from './pages/LandingPage/LandingPage';
 import HomePage from './pages/Drawer/Home';
 import ListDetail from './pages/ListDetail/ListDetail';
 import { Session } from '@supabase/supabase-js';
+import ItemDetail from './pages/ItemDetail/ItemDetail';
 
 interface AppRoutesProps {
   authState: Session | null;
@@ -72,6 +73,14 @@ const AppRoutes = ({ authState }: AppRoutesProps) => {
         element={
           <PrivateRoute isAuthenticated={authState}>
             <ListDetail />
+          </PrivateRoute>
+        }
+      />
+      <Route
+        path="/lists/:listId/item/:itemId"
+        element={
+          <PrivateRoute isAuthenticated={authState}>
+            <ItemDetail />
           </PrivateRoute>
         }
       />

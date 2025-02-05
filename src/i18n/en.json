@@ -94,5 +94,13 @@
   "itemSelectTypeShot": "Shot",
   "itemSelectTypeFood": "Food",
   "itemSelectTypeNonAlco": "Nonalco",
-  "itemCreateHeader": "Add item"
+  "itemCreateHeader": "Add item",
+  "modalCancel": "Cancel",
+  "modalSubmit": "Submit",
+  "deleteList": "Delete list",
+  "deleteListText": "Are you sure you want to delete this list?",
+  "deleteItem": "Delete item",
+  "deleteItemText": "Are you sure you want to delete this item?",
+  "editItem": "Edit item",
+  "backToListBtn": "Back to list"
 }

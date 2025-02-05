@@ -1,9 +1,7 @@
-import { Box, Modal, Stack, Typography } from '@mui/material';
-import { TFunction } from 'i18next';
-import { modalStyle } from '../../styles/modalStyle';
+import { Box, Button, Dialog, Stack, Typography } from '@mui/material';
+import { useTranslation } from 'react-i18next';
 
 interface CustomModalProps {
-  t: TFunction<'translation', undefined>;
   open: boolean;
   title: string;
   children: React.ReactNode;
@@ -11,19 +9,26 @@ interface CustomModalProps {
   handleSubmit: (e: React.FormEvent) => void;
 }
 
-export function CustomModal({ children, t, open, title, handleClose, handleSubmit }: CustomModalProps) {
+export function CustomModal({ children, open, title, handleClose, handleSubmit }: CustomModalProps) {
+  const { t } = useTranslation();
   return (
-    <Modal open={open} onClose={handleClose}>
-      <Box sx={modalStyle}>
-        <form onSubmit={handleSubmit}>
-          <Stack spacing={2} direction="column">
-            <Typography variant="h5" component="h2" color="text.primary" sx={{ pb: 1 }}>
-              {t(`${title}`)}
-            </Typography>
-            {children}
+    <Dialog open={open} onClose={handleClose}>
+      <form onSubmit={handleSubmit}>
+        <Box>
+          <Typography variant="h5" component="h2" color="text.primary" sx={{ pb: 1 }}>
+            {t(`${title}`)}
+          </Typography>
+          {children}
+          <Stack direction="row" spacing={2} sx={{ mt: 2 }}>
+            <Button fullWidth variant="outlined" color="primary" onClick={handleClose}>
+              {t('modalCancel')}
+            </Button>
+            <Button fullWidth variant="contained" color="primary" type="submit">
+              {t('modalSubmit')}
+            </Button>
           </Stack>
-        </form>
-      </Box>
-    </Modal>
+        </Box>
+      </form>
+    </Dialog>
   );
 }

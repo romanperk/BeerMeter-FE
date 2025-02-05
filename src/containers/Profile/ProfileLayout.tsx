@@ -1,4 +1,4 @@
-import { Typography, Avatar, Button, Stack, Paper } from '@mui/material';
+import { Typography, Avatar, Button, Box, Stack } from '@mui/material';
 import { Email, Liquor, Today } from '@mui/icons-material';
 import { IUser } from '../../redux/users/userSlice';
 import { TFunction } from 'i18next';
@@ -14,31 +14,17 @@ interface ProfileLayoutProps {
 
 export function ProfileLayout({ user, t, navigate, setOpen }: ProfileLayoutProps) {
   return (
-    <Paper
-      variant="outlined"
-      sx={{
-        p: { xs: 2, sm: 3 },
-        maxWidth: 600,
-        m: 3,
-        borderRadius: '16px',
-      }}
-    >
-      <Stack direction="row" spacing={2} alignItems="center">
+    <Box sx={{ display: 'flex', alignItems: 'center', flexDirection: 'column', m: 4 }}>
         <Avatar sx={{ bgcolor: 'primary.main', color: 'white', width: 56, height: 56 }}>
           {user?.firstName?.charAt(0) || ''}
         </Avatar>
-        <Typography variant="h4" component="h1">
-          {t('userMyProfile')}
-        </Typography>
-      </Stack>
-
-      <Typography variant="h6" sx={{ mt: 2 }}>
+        <Typography variant="h4" component="h1" mb={3} mt={1}>
         {user?.firstName} {user?.lastName}
-      </Typography>
+        </Typography>
 
       <Stack direction="row" spacing={1} alignItems="center">
         <Liquor />
-        <Typography variant="body2" sx={{ mt: 2 }}>
+        <Typography variant="body2">
           {t('userFavDrink')}: {user?.favDrink === '' && <strong> {t('userSelectUndefined')}</strong>}
           {user?.favDrink === 'Beer' && <strong> {t('userSelectBeer')}</strong>}
           {user?.favDrink === 'Drinks' && <strong> {t('userSelectDrinks')}</strong>}
@@ -46,28 +32,28 @@ export function ProfileLayout({ user, t, navigate, setOpen }: ProfileLayoutProps
         </Typography>
       </Stack>
 
-      <Stack direction="row" spacing={1} alignItems="center">
+      <Stack direction="row" spacing={1} alignItems="center" mt={1}>
         <Email />
-        <Typography variant="body2" sx={{ mt: 1 }}>
+        <Typography variant="body2">
           Email: <strong>{user?.email}</strong>
         </Typography>
       </Stack>
 
-      <Stack direction="row" spacing={1} alignItems="center">
+      <Stack direction="row" spacing={1} alignItems="center" mt={1}>
         <Today />
-        <Typography variant="body2" sx={{ mt: 1 }}>
+        <Typography variant="body2">
           {t('userMemberSince')} <strong>{formatDate(user?.createdAt || '')}</strong>
         </Typography>
       </Stack>
 
-      <Stack direction={{ xs: 'column', sm: 'row' }} spacing={2} sx={{ mt: 3 }}>
-        <Button variant="contained" size="medium" onClick={() => navigate('/drinkingBuddies')}>
+      <Stack direction='row' spacing={2} sx={{ mt: 3 }}>
+        <Button variant="contained" size="large" onClick={() => navigate('/drinkingBuddies')}>
           {t('userFriendsButton')}
         </Button>
-        <Button variant="outlined" size="medium" onClick={() => setOpen(true)}>
+        <Button variant="outlined" size="large" onClick={() => setOpen(true)}>
           {t('userEditProfile')}
         </Button>
       </Stack>
-    </Paper>
+    </Box>
   );
 }

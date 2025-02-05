@@ -14,6 +14,7 @@ import { Typography } from '@mui/material';
 import { ReportProblem } from '@mui/icons-material';
 import { useCreateItemMutation, useGetItemsQuery } from '../../redux/items/itemsRtk';
 import { CreateItemModal } from '../../containers/ListDetail/CreateItemModal';
+import DeleteListModal from '../../containers/Lists/DeleteListModal';
 
 const ListDetail = () => {
   const navigate = useNavigate();
@@ -33,7 +34,11 @@ const ListDetail = () => {
       refetchOnMountOrArgChange: true,
     }
   );
-  const { data: items, isLoading: isItemsLoading } = useGetItemsQuery(id || '', {
+  const {
+    data: items,
+    isLoading: isItemsLoading,
+    refetch: refetchItems,
+  } = useGetItemsQuery(id || '', {
     skip: !id,
     refetchOnMountOrArgChange: true,
   });
@@ -41,6 +46,7 @@ const ListDetail = () => {
   const { t } = useTranslation();
   const [open, setOpen] = useState(false);
   const [createModalOpen, setCreateModalOpen] = useState(false);
+  const [deleteOpen, setDeleteOpen] = useState(false);
 
   const createItemFormMethods = useForm({
     defaultValues: {
@@ -71,8 +77,8 @@ const ListDetail = () => {
         ...data,
       }).unwrap();
       setCreateModalOpen(false);
+      refetchItems();
       showSnackBarSuccess('Item created');
-      refetchList();
     } catch {
       showSnackBarError('List not updated');
     }
@@ -89,8 +95,8 @@ const ListDetail = () => {
         ...data,
       }).unwrap();
       setOpen(false);
-      showSnackBarSuccess('List updated');
       refetchList();
+      showSnackBarSuccess('List updated');
     } catch {
       showSnackBarError('List not updated');
     }
@@ -124,6 +130,7 @@ const ListDetail = () => {
             items={items}
             t={t}
             setOpen={() => setOpen(true)}
+            openDeleteModal={() => setDeleteOpen(true)}
             navigate={navigate}
           />
           <CreateItemModal
@@ -141,6 +148,7 @@ const ListDetail = () => {
             handleSubmit={createListFormMethods.handleSubmit(onSubmit)}
             register={createListFormMethods.register}
           />
+          <DeleteListModal t={t} open={deleteOpen} list={list} handleClose={() => setDeleteOpen(false)} />
         </>
       )}
     </>

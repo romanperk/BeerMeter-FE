@@ -94,5 +94,13 @@
   "itemSelectTypeShot": "Panák",
   "itemSelectTypeFood": "Jídlo",
   "itemSelectTypeNonAlco": "Nealko",
-  "itemCreateHeader": "Přidat položku"
+  "itemCreateHeader": "Přidat položku",
+  "modalCancel": "Zrušit",
+  "modalSubmit": "Potvrdit",
+  "deleteList": "Smazat seznam",
+  "deleteListText": "Opravdu chceš smazat tento seznam?",
+  "deleteItem": "Smazat položku",
+  "deleteItemText": "Opravdu chceš smazat tuto položku?",
+  "editItem": "Upravit položku",
+  "backToListBtn": "Zpět na seznam"
 }
