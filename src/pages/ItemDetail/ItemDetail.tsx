@@ -73,7 +73,6 @@ const ItemDetail = () => {
       <EditItemModal
         open={editOpen}
         item={item}
-        t={t}
         handleClose={() => setEditOpen(false)}
         refetch={refetchItem}
       />

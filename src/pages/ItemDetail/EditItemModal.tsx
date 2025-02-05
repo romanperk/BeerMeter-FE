@@ -4,17 +4,15 @@ import { Stack, TextField } from '@mui/material';
 import { useUpdateItemMutation } from '../../redux/items/itemsRtk';
 import { CustomModal } from '../../components/CustomModal/CustomModal';
 import { IItem } from '../../redux/items/itemsSlice';
-import { TFunction } from 'i18next';
 
 interface EditItemModalProps {
   open: boolean;
   item: IItem;
   handleClose: () => void;
   refetch: () => void;
-  t: TFunction<'translation', undefined>;
 }
 
-const EditItemModal: React.FC<EditItemModalProps> = ({ open, item, handleClose, refetch, t }) => {
+const EditItemModal: React.FC<EditItemModalProps> = ({ open, item, handleClose, refetch }) => {
   const { control, handleSubmit } = useForm({
     defaultValues: {
       name: item.name,
