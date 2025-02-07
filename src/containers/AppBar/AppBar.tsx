@@ -89,7 +89,7 @@ export function CustomAppBar({ authState }: CustomAppBarProps) {
     try {
       await supabase.auth.signOut();
       dispatch(logout());
-      navigate('/login');
+      navigate('/');
       setAnchorElUser(null);
       showSnackBarSuccess(t('authLogOutSuccess'));
     } catch (error: any) {

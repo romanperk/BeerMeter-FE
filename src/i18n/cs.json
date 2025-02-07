@@ -102,5 +102,9 @@
   "deleteItem": "Smazat položku",
   "deleteItemText": "Opravdu chceš smazat tuto položku?",
   "editItem": "Upravit položku",
-  "backToListBtn": "Zpět na seznam"
+  "backToListBtn": "Zpět na seznam",
+  "suggestEdit": "Navrhnout úpravu",
+  "suggestEditText": "Vážím si vaší zpětné vazby! Pomozte mi vylepšit PivkoMetr tím, že se podělíte o své návrhy, nahlásíte chyby nebo požádáte o nové funkce.",
+  "suggestEditBtn": "Podělit se o zpětnou vazbu",
+  "suggestEditHeader": "Navrhnout vylepšení"
 }

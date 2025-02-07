@@ -6,7 +6,7 @@ import NotFoundPage from './pages/NotFound/NotFound';
 import { History } from './pages/Drawer/History';
 import { FavoritePlaces } from './pages/Drawer/FavoritePlaces';
 import { DrinkingBuddies } from './pages/Drawer/DrinkingBuddies';
-import { GeneralInfo } from './pages/Drawer/GeneralInfo';
+import { SuggestEdit } from './pages/Drawer/SuggestEdit';
 import Profile from './pages/Profile/Profile';
 import NotLoggedIn from './pages/NotFound/NotLoggedIn';
 import { SetUpProfile } from './pages/Auth/SetUpProfile';
@@ -117,10 +117,10 @@ const AppRoutes = ({ authState }: AppRoutesProps) => {
         }
       />
       <Route
-        path="/generalInfo"
+        path="/suggestEdit"
         element={
           <PrivateRoute isAuthenticated={authState}>
-            <GeneralInfo />
+            <SuggestEdit />
           </PrivateRoute>
         }
       />

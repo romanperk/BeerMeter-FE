@@ -102,5 +102,9 @@
   "deleteItem": "Delete item",
   "deleteItemText": "Are you sure you want to delete this item?",
   "editItem": "Edit item",
-  "backToListBtn": "Back to list"
+  "backToListBtn": "Back to list",
+  "suggestEdit": "Suggest an edit",
+  "suggestEditText": "I value your feedback! Help me make BeerMeter better by sharing your suggestions, reporting bugs, or requesting new features.",
+  "suggestEditBtn": "Share your feedback",
+  "suggestEditHeader": "Suggest an improvement"
 }
